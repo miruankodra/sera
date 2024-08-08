@@ -1,0 +1,43 @@
+@if (type() === 'text') {
+  <div
+    class="{{ width() }} {{ height() }} flex flex-row items-center justify-start {{ bgColor() }} border-[1px] {{ borderColor() }} rounded-full p-2 pl-4">
+    @if (icon() && icon() !== '') {
+      <img [src]="icon()" alt="input icon" class="size-full"/>
+    }
+    <input type="text" [placeholder]="placeholder()"
+           class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           (input)="onInputChange($event)">
+  </div>
+} @else if (type() === 'password') {
+  <div
+    class="{{ width() }} {{ height() }} flex flex-row items-center justify-start {{ bgColor() }} border-[1px] {{ borderColor() }} rounded-full p-2 pl-4">
+    @if (icon() && icon() !== '') {
+      <img [src]="icon()" alt="input icon" class="size-full"/>
+    }
+    <input type="password" [placeholder]="placeholder()"
+           class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           (input)="onInputChange($event)">
+  </div>
+} @else if (type() === 'number') {
+  <div
+    class="{{ width() }} {{ height() }} flex flex-row items-center justify-start {{ bgColor() }} border-[1px] {{ borderColor() }} rounded-full p-2 pl-4">
+    @if (icon() && icon() !== '') {
+      <img [src]="icon()" alt="input icon" class="size-full"/>
+    }
+    <input type="number" [placeholder]="placeholder()"
+           class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           (input)="onInputChange($event)">
+  </div>
+} @else {
+  <div
+    class="{{ width() }} {{ height() }} flex flex-row items-center justify-start {{ bgColor() }} border-[1px] {{ borderColor() }} rounded-full p-2 pl-4">
+    @if (icon() && icon() !== '') {
+      <img [src]="icon()" alt="input icon" class="size-full"/>
+    }
+    <input type="text" [placeholder]="placeholder()"
+           class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           (input)="onInputChange($event)">
+  </div>
+}
+
+
