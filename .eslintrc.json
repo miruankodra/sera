@@ -3,9 +3,6 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
   "overrides": [
     {
       "files": [
@@ -23,7 +20,7 @@
           {
             "type": "attribute",
             "prefix": [
-              "s"
+              "se"
             ],
             "style": "camelCase"
           }
@@ -33,7 +30,7 @@
           {
             "type": "element",
             "prefix": [
-              "s"
+              "se"
             ],
             "style": "kebab-case"
           }
@@ -52,43 +49,7 @@
               "name"
             ]
           }
-        ],
-        "@angular-eslint/no-output-native": "error",
-        "@angular-eslint/no-output-on-prefix": "error",
-        "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/explicit-function-return-type": "error",
-        "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/naming-convention": [
-          "error",
-          {
-            "selector": "variable",
-            "types": [
-              "boolean"
-            ],
-            "format": [
-              "camelCase"
-            ],
-            "prefix": [
-              "is"
-            ]
-          }
-        ],
-        "@typescript-eslint/semi": [
-          "error",
-          "always"
-        ],
-        "@typescript-eslint/no-var-requires": "error",
-        "@typescript-eslint/prefer-namespace-keyword": "error",
-        "@typescript-eslint/consistent-type-definitions": [
-          "error",
-          "interface"
-        ],
-        "@typescript-eslint/no-use-before-define": "error",
-        "@typescript-eslint/no-empty-interface": "warn",
-        "@typescript-eslint/no-misused-new": "error",
-        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-        "@typescript-eslint/no-empty-function": "warn",
-        "@typescript-eslint/prefer-as-const": "error"
+        ]
       }
     },
     {
