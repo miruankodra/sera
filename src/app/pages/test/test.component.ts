@@ -5,6 +5,9 @@ import {SeButtonComponent} from "../../components/shared/se-button/se-button.com
 import {SeSwitchComponent} from "../../components/shared/se-switch/se-switch.component";
 import {SeBadgeComponent} from "../../components/shared/se-badge/se-badge.component";
 import {SeAccordionComponent} from "../../components/shared/se-accordion/se-accordion.component";
+import {SeItemComponent} from "../../components/shared/se-item/se-item.component";
+import {SeCardComponent} from "../../components/shared/se-card/se-card.component";
+
 
 @Component({
   selector: 'se-test',
@@ -16,6 +19,8 @@ import {SeAccordionComponent} from "../../components/shared/se-accordion/se-acco
     SeSwitchComponent,
     SeBadgeComponent,
     SeAccordionComponent
+    SeItemComponent
+    SeCardComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
