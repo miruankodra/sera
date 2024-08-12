@@ -3,11 +3,27 @@
   <div class="w-full">
     <se-input type="text" bgColor="bg-white bg-opacity-10 backdrop-blur-2xl mb-12" borderColor="border-none"
               placeholder="Email" (onInput)="getInputValue($event)"/>
-    <se-button text="text-white text-[24px] font-medium" (onClick)="buttonClicked()">Get Started</se-button>
+    <se-button text="text-white text-[22px] font-medium" (onClick)="buttonClicked()">Get Started</se-button>
   </div>
   <se-switch label="Custom Toggle" (onToggle)="switchToggled($event)"/>
   <se-badge>
     <se-title color="text-se-green" size="text-[16px] mr-1">12</se-title>
     places
   </se-badge>
+
+  <div class="w-full">
+    <se-accordion background="bg-white bg-opacity-20">
+      <ng-container header>
+        <se-title color="text-white" size="text-[22px]" weight="font-bold" font="non-italic">Test Accordion Title
+        </se-title>
+      </ng-container>
+      <ng-container body>
+        <div class="w-full h-full flex flex-row items-center justify-between">
+          <se-title color="text-white" size="text-[22px]" weight="font-bold" font="non-italic">Test Accordion Body
+          </se-title>
+          <img src="../../../favicon.ico" alt="Chevron" class="w-[24px] transition ease-in-out duration-300 delay-75"/>
+        </div>
+      </ng-container>
+    </se-accordion>
+  </div>
 </div>
