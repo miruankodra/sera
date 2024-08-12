@@ -4,7 +4,7 @@ import {SeInputComponent} from "../../components/shared/se-input/se-input.compon
 import {SeButtonComponent} from "../../components/shared/se-button/se-button.component";
 import {SeSwitchComponent} from "../../components/shared/se-switch/se-switch.component";
 import {SeBadgeComponent} from "../../components/shared/se-badge/se-badge.component";
-
+import {SeAccordionComponent} from "../../components/shared/se-accordion/se-accordion.component";
 import {SeItemComponent} from "../../components/shared/se-item/se-item.component";
 import {SeCardComponent} from "../../components/shared/se-card/se-card.component";
 
@@ -18,6 +18,7 @@ import {SeCardComponent} from "../../components/shared/se-card/se-card.component
     SeButtonComponent,
     SeSwitchComponent,
     SeBadgeComponent,
+    SeAccordionComponent
     SeItemComponent
     SeCardComponent
   ],

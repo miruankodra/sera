@@ -1,0 +1,15 @@
+<div
+  class="relative w-full min-h-[74px] h-auto {{ isToggled ? 'rounded-[40px] pb-5' : 'rounded-full' }}  {{ background() }} {{ border() }} flex flex-col items-center justify-start"
+  (click)="toggleAccordion()">
+  <div
+    class="w-full h-[74px] flex flex-row items-center justify-between {{ isToggled ? 'border-b-[1px] border-white border-opacity-20' : 'border-none' }}  px-5">
+    <ng-content select="[header]"></ng-content>
+    <img src="assets/images/icons/chevron.svg" alt="Chevron"
+         class="w-[24px] transition ease-in-out duration-300 delay-75 {{chevronColor() === 'white' ? 'invert brightness-200' : ''}} {{ isToggled ? 'rotate-180' : '' }}"/>
+  </div>
+  @if (isToggled) {
+    <div class="w-full px-5 pt-5">
+      <ng-content select="[body]"></ng-content>
+    </div>
+  }
+</div>
