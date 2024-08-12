@@ -18,8 +18,8 @@ import {SeCardComponent} from "../../components/shared/se-card/se-card.component
     SeButtonComponent,
     SeSwitchComponent,
     SeBadgeComponent,
-    SeAccordionComponent
-    SeItemComponent
+    SeAccordionComponent,
+    SeItemComponent,
     SeCardComponent
   ],
   templateUrl: './test.component.html',
