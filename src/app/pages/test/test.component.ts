@@ -7,6 +7,8 @@ import {SeBadgeComponent} from "../../components/shared/se-badge/se-badge.compon
 import {SeAccordionComponent} from "../../components/shared/se-accordion/se-accordion.component";
 import {SeItemComponent} from "../../components/shared/se-item/se-item.component";
 import {SeCardComponent} from "../../components/shared/se-card/se-card.component";
+import {SeSelectComponent} from "../../components/shared/se-select/se-select.component";
+import {SelectOptionsDto} from "../../models/select-options-dto";
 
 
 @Component({
@@ -20,12 +22,23 @@ import {SeCardComponent} from "../../components/shared/se-card/se-card.component
     SeBadgeComponent,
     SeAccordionComponent,
     SeItemComponent,
-    SeCardComponent
+    SeCardComponent,
+    SeSelectComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
+
+  selectOptions: SelectOptionsDto[] = [
+    {value: 'Option 1', key: 'Option 1'},
+    {value: 'Option 2', key: 'Option 2'},
+    {value: 'Option 3', key: 'Option 3'},
+    {value: 'Option 3', key: 'Option 3'},
+    {value: 'Option 3', key: 'Option 3'},
+    {value: 'Option 3', key: 'Option 3'},
+    {value: 'Option 3', key: 'Option 3'},
+  ];
 
   getInputValue(e: string): void {
     console.log('Input value:', e);
@@ -37,5 +50,9 @@ export class TestComponent {
 
   switchToggled(e: boolean): void {
     console.log('Switch Toggled: ' + e);
+  }
+
+  selectOption(value: string): void {
+    console.log('Select option: ' + value);
   }
 }
