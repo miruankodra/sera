@@ -1,12 +1,14 @@
 import {Component, Input, input, output, OutputEmitterRef} from '@angular/core';
 import {SelectOptionsDto} from "../../../models/select-options-dto";
 import {SeTitleComponent} from "../se-title/se-title.component";
+import {SeItemComponent} from "../se-item/se-item.component";
 
 @Component({
   selector: 'se-select',
   standalone: true,
   imports: [
-    SeTitleComponent
+    SeTitleComponent,
+    SeItemComponent
   ],
   templateUrl: './se-select.component.html',
   styleUrl: './se-select.component.scss'
@@ -17,6 +19,7 @@ export class SeSelectComponent {
   title = input<string>('Select');
   titleColor = input<string>('text-black')
   optionColor = input<string>('text-white')
+  linesColor = input<string>('border-white')
 
   // options = input.required<SelectOptionsDto[]>();
 
