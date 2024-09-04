@@ -12,10 +12,6 @@
       @for (option of options; track option.key; let i = $index) {
         <div class="w-full {{ i !== options.length - 1 ?  'mb-5' : 'mb-0'}}"
              (click)="selectOption(option.value)">
-          <!--          <se-title [color]="optionColor()" size="text-[18px]" weight="font-semibold mb-3">{{ option.key }}</se-title>-->
-          <!--          @if (i !== options.length - 1) {-->
-          <!--            <div class="w-full h-[2px] bg-white"></div>-->
-          <!--          }-->
           <se-item width="w-full" [line]="i !== options.length - 1" [lineColor]="linesColor()">
             <se-title [color]="optionColor()" size="text-[18px]" weight="font-semibold mb-3">{{ option.key }}</se-title>
           </se-item>
