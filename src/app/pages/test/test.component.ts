@@ -10,6 +10,7 @@ import {SeCardComponent} from "../../components/shared/se-card/se-card.component
 import {SeSelectComponent} from "../../components/shared/se-select/se-select.component";
 import {SelectOptionsDto} from "../../models/select-options-dto";
 import {SeControlCardComponent} from "../../components/se-control-card/se-control-card.component";
+import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 
 
 @Component({
@@ -25,7 +26,8 @@ import {SeControlCardComponent} from "../../components/se-control-card/se-contro
     SeItemComponent,
     SeCardComponent,
     SeSelectComponent,
-    SeControlCardComponent
+    SeControlCardComponent,
+    SeGreenhouseCardComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
