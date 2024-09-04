@@ -2,10 +2,11 @@
 
   <input #checkbox type="checkbox" class="sr-only peer">
   <div
-    class="transition-colors duration-300 ease-in  relative w-[60px] h-[30px] rounded-full peer-checked:bg-se-jungle bg-gray-400 flex items-center"
+    class="transition-colors duration-300 ease-in  relative w-[40px] h-[20px] rounded-full peer-checked:bg-se-jungle bg-gray-400 flex items-center"
     (click)="toggleSwitch(checkbox)">
     <div
-      class="transition-transform ease-linear duration-150 delay-300 size-[35px] rounded-full bg-white transform {{ checkbox.checked ? 'translate-x-[30px]' : 'translate-x-[0px]' }} shadow-md shadow-gray-800"></div>
+      class="transition-transform ease-linear duration-150 delay-300 size-[25px] rounded-full bg-white transform shadow-md shadow-gray-800"
+      [ngClass]="{'translate-x-[15px]': checkbox.checked, 'translate-x-[0px]': !checkbox.checked}"></div>
   </div>
 
   @if (label() && label() !== '') {
