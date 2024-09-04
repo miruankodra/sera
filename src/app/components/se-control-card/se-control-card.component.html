@@ -1,0 +1,22 @@
+<se-card width="w-1/2" height="aspect-square p-5 py-2 transition-color"
+         [bgColor]=" isToggled ? 'bg-se-green' : 'bg-white' "
+         [border]=" isToggled ? 'border-none' : 'border-2 border-gray' ">
+  <div class="w-full h-1/2 flex flex-row items-center justify-between">
+    <div
+      class="w-[44px] aspect-square rounded-full flex items-center justify-center bg-white bg-opacity-35 p-3 {{ isToggled ? 'border-none' : 'border-2 border-gray' }}">
+      @if (isToggled) {
+        <img src="assets/images/icons/{{onIcon()}}" alt="{{title()}}" class="w-full h-full object-cover text-white"/>
+      } @else {
+        <img src="assets/images/icons/{{offIcon()}}" alt="{{title()}}" class="w-full h-full object-cover text-white"/>
+      }
+    </div>
+    <se-switch [initState]="initState()" (onToggle)="toggleSwitch($event)"/>
+  </div>
+  <div class="w-full h-1/2 flex flex-col items-start justify-start gap-1">
+    <se-title size="text-[24px]" weight="font-bold" [color]=" isToggled ? 'text-white' : 'text-black'">{{ title() }}
+    </se-title>
+    <se-title size="text-[16px]" weight="font-light"
+              [color]=" isToggled ? 'text-se-dimWhite' : 'text-gray'">{{ subtitle() }}
+    </se-title>
+  </div>
+</se-card>

@@ -5,7 +5,7 @@
               placeholder="Email" (onInput)="getInputValue($event)"/>
     <se-button text="text-white text-[22px] font-medium" (onClick)="buttonClicked()">Get Started</se-button>
   </div>
-  <se-switch label="Custom Toggle" (onToggle)="switchToggled($event)"/>
+  <se-switch [initState]="true" label="Custom Toggle" (onToggle)="switchToggled($event)"/>
   <se-badge>
     <se-title color="text-se-green" size="text-[16px] mr-1">12</se-title>
     places
@@ -40,5 +40,10 @@
   <div class="w-full">
     <se-select background="bg-white" [options]="selectOptions" (onSelect)="selectOption($event)"/>
   </div>
-
+</div>
+<div class="w-full flex flex-col items-center justify-start gap-10 p-5 h-full">
+  <div class="w-full">
+    <se-control-card title="Lighting" subtitle="12 Watt" [initState]="false" onIcon="bulb.svg"
+                     offIcon="bulb-outline.svg" (onToggle)="controlCardToggled($event)"/>
+  </div>
 </div>

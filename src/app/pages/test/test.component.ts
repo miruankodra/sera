@@ -9,6 +9,7 @@ import {SeItemComponent} from "../../components/shared/se-item/se-item.component
 import {SeCardComponent} from "../../components/shared/se-card/se-card.component";
 import {SeSelectComponent} from "../../components/shared/se-select/se-select.component";
 import {SelectOptionsDto} from "../../models/select-options-dto";
+import {SeControlCardComponent} from "../../components/se-control-card/se-control-card.component";
 
 
 @Component({
@@ -23,7 +24,8 @@ import {SelectOptionsDto} from "../../models/select-options-dto";
     SeAccordionComponent,
     SeItemComponent,
     SeCardComponent,
-    SeSelectComponent
+    SeSelectComponent,
+    SeControlCardComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
@@ -54,5 +56,9 @@ export class TestComponent {
 
   selectOption(value: string): void {
     console.log('Select option: ' + value);
+  }
+
+  controlCardToggled(e: boolean): void {
+    console.log('Control Card Toggled: ' + e);
   }
 }
