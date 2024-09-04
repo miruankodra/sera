@@ -7,14 +7,14 @@
          class="w-[24px] transition ease-in-out duration-300 delay-75 {{ isToggled ? 'rotate-180' : '' }}"/>
   </div>
   @if (isToggled) {
-    <div class="w-[95%] px-5 py-10 mt-[-20px] rounded-3xl {{ background() }} bg-opacity-10 backdrop-blur-3xl">
+    <div
+      class="w-[95%] max-h-[400px] scroll-auto overflow-auto px-5 py-10 mt-[-20px] rounded-3xl {{ background() }} bg-opacity-10 backdrop-blur-3xl">
       @for (option of options; track option.key; let i = $index) {
-        <div class="w-full flex z-10 flex-col items-start {{ i !== options.length - 1 ?  'mb-5' : 'mb-0'}}"
+        <div class="w-full {{ i !== options.length - 1 ?  'mb-5' : 'mb-0'}}"
              (click)="selectOption(option.value)">
-          <se-title [color]="optionColor()" size="text-[18px]" weight="font-semibold mb-3">{{ option.key }}</se-title>
-          @if (i !== options.length - 1) {
-            <div class="w-full h-[2px] bg-white"></div>
-          }
+          <se-item width="w-full" [line]="i !== options.length - 1" [lineColor]="linesColor()">
+            <se-title [color]="optionColor()" size="text-[18px]" weight="font-semibold mb-3">{{ option.key }}</se-title>
+          </se-item>
         </div>
       }
     </div>
