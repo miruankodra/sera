@@ -12,6 +12,9 @@ import {SelectOptionsDto} from "../../models/select-options-dto";
 import {SeControlCardComponent} from "../../components/se-control-card/se-control-card.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-item.component";
+import {SeBackButtonComponent} from "../../components/shared/se-back-button/se-back-button.component";
+import {SeEllipsisMenuComponent} from "../../components/shared/se-ellipsis-menu/se-ellipsis-menu.component";
+import {SeGreenhouseHeaderComponent} from "../../components/se-greenhouse-header/se-greenhouse-header.component";
 
 
 @Component({
@@ -29,7 +32,10 @@ import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-
     SeSelectComponent,
     SeControlCardComponent,
     SeGreenhouseCardComponent,
-    SeStatItemComponent
+    SeStatItemComponent,
+    SeBackButtonComponent,
+    SeEllipsisMenuComponent,
+    SeGreenhouseHeaderComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
