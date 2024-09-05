@@ -1,13 +1,15 @@
 import {Component, input} from '@angular/core';
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
+import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
 
 @Component({
   selector: 'se-greenhouse-card',
   standalone: true,
   imports: [
     SeTitleComponent,
-    SeBadgeComponent
+    SeBadgeComponent,
+    SeLocationLabelComponent
   ],
   templateUrl: './se-greenhouse-card.component.html',
   styleUrl: './se-greenhouse-card.component.scss'

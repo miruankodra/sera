@@ -15,6 +15,7 @@ import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-
 import {SeBackButtonComponent} from "../../components/shared/se-back-button/se-back-button.component";
 import {SeEllipsisMenuComponent} from "../../components/shared/se-ellipsis-menu/se-ellipsis-menu.component";
 import {SeGreenhouseHeaderComponent} from "../../components/se-greenhouse-header/se-greenhouse-header.component";
+import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-greenhouse-info.component";
 
 
 @Component({
@@ -35,7 +36,8 @@ import {SeGreenhouseHeaderComponent} from "../../components/se-greenhouse-header
     SeStatItemComponent,
     SeBackButtonComponent,
     SeEllipsisMenuComponent,
-    SeGreenhouseHeaderComponent
+    SeGreenhouseHeaderComponent,
+    SeGreenhouseInfoComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
