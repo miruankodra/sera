@@ -12,6 +12,8 @@ import {SelectOptionsDto} from "../../models/select-options-dto";
 import {SeControlCardComponent} from "../../components/se-control-card/se-control-card.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-item.component";
+import {SeStatisticsCardComponent} from "../../components/se-statistics-card/se-statistics-card.component";
+import {GhStatisticsDto} from "../../models/gh-statistics-dto";
 
 
 @Component({
@@ -29,7 +31,8 @@ import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-
     SeSelectComponent,
     SeControlCardComponent,
     SeGreenhouseCardComponent,
-    SeStatItemComponent
+    SeStatItemComponent,
+    SeStatisticsCardComponent
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
@@ -44,6 +47,12 @@ export class TestComponent {
     {value: 'Option 3', key: 'Option 3'},
     {value: 'Option 3', key: 'Option 3'},
     {value: 'Option 3', key: 'Option 3'},
+  ];
+
+  stats: GhStatisticsDto[] = [
+    {icon: 'bulb-outline.svg', title: 'Lighting', value: '12 Watt'},
+    {icon: 'bulb-outline.svg', title: 'Wind', value: '5 m/s'},
+    {icon: 'bulb-outline.svg', title: 'Humidity', value: '30%'},
   ];
 
   getInputValue(e: string): void {
