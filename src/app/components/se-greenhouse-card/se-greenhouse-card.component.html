@@ -4,12 +4,9 @@
   <div class="flex flex-row items-center justify-between">
     <div class="flex flex-col items-start">
       <se-title size="text-[22px] tracking-wide" weight="font-normal" color="text-black">{{ name() }}</se-title>
-      <se-title size="text-[15px]" weight="font-medium" color="text-gray-400">
-        <img src="assets/images/icons/location.svg" alt="Plant" class="w-[20px] h-[20px]"/>
-        {{ location() }}
-      </se-title>
+      <se-location-label [location]="location()"/>
     </div>
-    <se-badge background="bg-se-jungle bg-opacity-10" text="text-se-jungle text-[16px] font-semibold">
+    <se-badge>
       {{ plants() }}
       <se-title color="text-se-jungle" weight="font-light" size="text-[16px] ml-2">Plants</se-title>
     </se-badge>

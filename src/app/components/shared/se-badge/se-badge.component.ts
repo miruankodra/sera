@@ -8,7 +8,7 @@ import {Component, input} from '@angular/core';
   styleUrl: './se-badge.component.scss'
 })
 export class SeBadgeComponent {
-  background = input('bg-white bg-opacity-50');
+  background = input('bg-se-jungle bg-opacity-10');
   border = input('border-none');
-  text = input('text-se-green text-[16px] font-medium');
+  text = input('text-se-jungle text-[16px] font-semibold');
 }
