@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {CoreHttpOptions} from "../../models/core/core-http-options";
 import {CapacitorHttp, HttpHeaders, HttpResponse} from "@capacitor/core";
-import {environment} from "../../../environment/environment";
+import {environment} from "../../../environments/environment";
 import {StorageService} from "../storage.service";
 import {StoragePaths} from "../../models/constants/storage-paths";
 
