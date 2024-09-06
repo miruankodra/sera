@@ -12,16 +12,28 @@ export class SeInputComponent {
   width = input<string>('w-full');
   height = input<string>('h-[54px]');
   bgColor = input<string>('bg-white opacity-10 backdrop-blur-2xl');
-  borderColor = input<string>('border-black');
+  border = input<string>('border-black');
+  radius = input<string>('rounded-full')
   fontStyle = input<string>('text-[24px] text-white font-medium');
   icon = input<string>();
   placeholder = input<string>('');
+
+  isPasswordVisible: boolean = false;
 
   onInput: OutputEmitterRef<string> = output<string>();
 
   onInputChange(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
     this.onInput.emit(inputValue);
+  }
+
+  togglePasswordVisibility(input: HTMLInputElement): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+    if (this.isPasswordVisible) {
+      input.type = 'text';
+    } else {
+      input.type = 'password';
+    }
   }
 
 }

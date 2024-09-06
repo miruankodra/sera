@@ -1,0 +1,5 @@
+export const environment = {
+  production: false,
+  APP_NAME: 'FlorAtomic',
+
+}
