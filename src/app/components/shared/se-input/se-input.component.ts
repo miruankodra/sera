@@ -1,11 +1,17 @@
-import {Component, input, output, OutputEmitterRef} from '@angular/core';
+import {Component, forwardRef, input, output, OutputEmitterRef} from '@angular/core';
+import {NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
   selector: 'se-input',
   standalone: true,
   imports: [],
   templateUrl: './se-input.component.html',
-  styleUrl: './se-input.component.scss'
+  styleUrl: './se-input.component.scss',
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SeInputComponent),
+    multi: true
+  }]
 })
 export class SeInputComponent {
   type = input<string>('text');
@@ -22,9 +28,33 @@ export class SeInputComponent {
 
   onInput: OutputEmitterRef<string> = output<string>();
 
+  value: string = ''
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onChange = (value: string) => {
+  }
+  onTouched = () => {
+  }
+
+  writeValue(value: string): void {
+    this.value = value;
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  // setDisabledState?(isDisabled: boolean): void {}
+
   onInputChange(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
     this.onInput.emit(inputValue);
+    this.value = inputValue;
+    this.onChange(inputValue);
+    this.onTouched();
   }
 
   togglePasswordVisibility(input: HTMLInputElement): void {

@@ -4,7 +4,11 @@ import {environment} from "../../../../environments/environment";
 import {SeInputComponent} from "../../../components/shared/se-input/se-input.component";
 import {SeButtonComponent} from "../../../components/shared/se-button/se-button.component";
 import {HttpService} from "../../../services/http.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {LoginValidationErrors} from "../../../models/errors/validation/login-validation-errors";
+import {ToastService} from "../../../services/toast.service";
+import {HttpPaths} from "../../../models/constants/http-paths";
+import {LoginDto} from "../../../models/login-dto";
 
 @Component({
   selector: 'se-login',
@@ -12,7 +16,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   imports: [
     SeTitleComponent,
     SeInputComponent,
-    SeButtonComponent
+    SeButtonComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -21,6 +26,7 @@ export class LoginComponent {
 
   appName = environment.APP_NAME
   private _httpService: HttpService = inject(HttpService);
+  private _toastService: ToastService = inject(ToastService)
   private formBuilder = inject(FormBuilder);
   loginForm: FormGroup;
 
@@ -31,7 +37,11 @@ export class LoginComponent {
     });
   }
 
+  async login(): Promise<void> {
+    await this._httpService.post<LoginDto>(HttpPaths.LOGIN_ERR, this.loginForm.value).then((response: LoginDto) => {
+      console.log(response.message)
+    })
+  }
 
-  // async login(): Promise
-
+  protected readonly LoginValidationErrors = LoginValidationErrors;
 }

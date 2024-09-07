@@ -6,6 +6,7 @@
     }
     <input type="text" [placeholder]="placeholder()"
            class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           [value]="value"
            (input)="onInputChange($event)">
   </div>
 } @else if (type() === 'password') {
@@ -16,6 +17,7 @@
     }
     <input #passwordInput type="password" [placeholder]="placeholder()"
            class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           [value]="value"
            (input)="onInputChange($event)">
     <img src="assets/images/icons/{{ isPasswordVisible ? 'hidden.svg' : 'visible.svg' }}" alt="Show password"
          class="w-[30px] mr-2" (click)="togglePasswordVisibility(passwordInput)">
@@ -28,6 +30,7 @@
     }
     <input type="number" [placeholder]="placeholder()"
            class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           [value]="value"
            (input)="onInputChange($event)">
   </div>
 } @else {
@@ -38,6 +41,7 @@
     }
     <input type="text" [placeholder]="placeholder()"
            class="h-full flex-1 outline-none border-none {{fontStyle()}} bg-transparent"
+           [value]="value"
            (input)="onInputChange($event)">
   </div>
 }
