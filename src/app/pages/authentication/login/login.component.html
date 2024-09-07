@@ -7,11 +7,24 @@
     <se-title size="text-[16px]" color="text-se-dimWhite" weight="font-normal">in {{ appName }}</se-title>
 
     <div class="w-full mt-10">
-      <se-input type="text" fontStyle="text-[18px] text-white font-medium" bgColor="bg-se-jungle bg-opacity-20 mb-5"
-                radius="rounded-[10px]" placeholder="Email"/>
-      <se-input type="password" fontStyle="text-[18px] text-white font-medium"
-                bgColor="bg-se-jungle bg-opacity-20 mb-12" radius="rounded-[10px]" placeholder="Password"/>
-      <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]">Login</se-button>
+        <form [formGroup]="loginForm">
+            <se-input type="text"
+                      fontStyle="text-[18px] text-white font-medium"
+                      bgColor="bg-se-jungle bg-opacity-20 mb-5"
+                      radius="rounded-[10px]"
+                      [border]="this.loginForm.controls['email'].dirty && this.loginForm.controls['email'].invalid ? 'border-2 border-red-600' : ''"
+                      placeholder="Email"
+                      formControlName="email"/>
+
+            <se-input type="password"
+                      fontStyle="text-[18px] text-white font-medium"
+                      bgColor="bg-se-jungle bg-opacity-20 mb-12"
+                      radius="rounded-[10px]" placeholder="Password"
+                      [border]="this.loginForm.controls['password'].dirty && this.loginForm.controls['password'].invalid ? 'border-2 border-red-600' : ''"
+                      formControlName="password"/>
+        </form>
+        <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]" (onClick)="login()">Login
+        </se-button>
     </div>
   </div>
 </div>
