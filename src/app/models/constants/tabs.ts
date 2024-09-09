@@ -1,6 +1,7 @@
 import {RoutePaths} from "./route-paths";
+import {TabDto} from "../tab-dto";
 
-export const Tabs = [
+export const Tabs: TabDto[] = [
   {
     iconActive: 'assets/images/icons/home.svg',
     iconInactive: 'assets/images/icons/home-outline.svg',
