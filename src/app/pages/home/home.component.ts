@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {SeWelcomeHeaderComponent} from "../../components/se-welcome-header/se-welcome-header.component";
 import {SeDateComponent} from "../../components/se-date/se-date.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'se-home',
@@ -16,6 +17,8 @@ import {GreenhouseDto} from "../../models/greenhouse-dto";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
+  private _toastService = inject(ToastService);
   greenhouseCards: GreenhouseDto[] = [
     {
       id: 0,
@@ -56,8 +59,6 @@ export class HomeComponent {
 
 
   goToGreenhouse(greenhouse: GreenhouseDto): void {
-    setTimeout(() => {
-      console.log('Open Greenhouse with id: ' + greenhouse.id);
-    }, 1000);
+    this._toastService.fireToast(`Greenhouse with id: ${greenhouse.id} clicked!`)
   }
 }
