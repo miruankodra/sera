@@ -2,6 +2,7 @@ import {Component, input} from '@angular/core';
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
 import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
+import {GreenhouseDto} from "../../models/greenhouse-dto";
 
 @Component({
   selector: 'se-greenhouse-card',
@@ -15,12 +16,10 @@ import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-
   styleUrl: './se-greenhouse-card.component.scss'
 })
 export class SeGreenhouseCardComponent {
-  image = input<string>('greenhouse-cover.jpg');
-  name = input<string>('The Greenhouse I');
-  location = input<string>('Tirane, Albania');
-  plants = input<number>(0)
+
+  greenhouseInfo = input.required<GreenhouseDto>();
 
   goToGreenhouse(ghid: number): void {
-    console.log('Open Greenhouse: ' + this.name() + ' whith id: ' + ghid);
+    console.log('Open Greenhouse with id: ' + ghid);
   }
 }
