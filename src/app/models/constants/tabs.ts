@@ -9,16 +9,16 @@ export const Tabs: TabDto[] = [
     path: RoutePaths.home
   },
   {
-    iconActive: 'assets/images/icons/clipboard.svg',
-    iconInactive: 'assets/images/icons/clipboard-outline.svg',
-    label: 'Raporte',
-    path: RoutePaths.reports
-  },
-  {
     iconActive: 'assets/images/icons/calendar.svg',
     iconInactive: 'assets/images/icons/calendar-outline.svg',
     label: 'Kalendari',
     path: RoutePaths.calendar
+  },
+  {
+    iconActive: 'assets/images/icons/clipboard.svg',
+    iconInactive: 'assets/images/icons/clipboard-outline.svg',
+    label: 'Raporte',
+    path: RoutePaths.reports
   },
   {
     iconActive: 'assets/images/icons/person.svg',

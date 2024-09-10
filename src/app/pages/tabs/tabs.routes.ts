@@ -23,6 +23,11 @@ export const TabsRoutes: Routes = [
         path: RoutePaths.profile,
         loadComponent: () => import('../profile/profile.component').then(m => m.ProfileComponent)
       },
+      {
+        path: '',
+        redirectTo: RoutePaths.home,
+        pathMatch: 'full'
+      }
     ]
   }
 ];
