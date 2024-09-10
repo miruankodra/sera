@@ -1,4 +1,4 @@
-package com.example.app;
+package al.oneAcre.sera;
 
 import com.getcapacitor.BridgeActivity;
 
