@@ -1,10 +1,10 @@
 <div class="relative w-screen h-screen overflow-auto">
   <router-outlet></router-outlet>
-  <div class="fixed h-[74px] inset-x-0 bottom-0 bar-shadow z-50 flex flex-row items-center justify-around">
+  <div class="fixed h-[64px] inset-x-0 bottom-0 bar-shadow z-50 flex flex-row items-center justify-around">
     @for (tab of Tabs; track tab.label) {
       <div class="h-full flex flex-col items-center justify-center" (click)="goToTab(tab)">
         <img [src]=" tab.label === (activeTab$ | async) ? tab.iconActive : tab.iconInactive " [alt]="tab.label"
-             class="h-[36px]">
+             class="h-[32px]">
       </div>
     }
   </div>
