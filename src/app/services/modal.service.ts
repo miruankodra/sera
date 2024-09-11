@@ -19,7 +19,7 @@ export class ModalService {
   modal?: HTMLElement;
   modalStyle = Styles.modal;
 
-  onClose: OutputEmitterRef<ModelOnCloseDto> = output<ModelOnCloseDto>();
+  onClose: OutputEmitterRef<ModelOnCloseDto | undefined> = output<ModelOnCloseDto | undefined>();
 
 
   constructor(
@@ -58,10 +58,14 @@ export class ModalService {
     });
   }
 
-  public close(data: ModelOnCloseDto) {
+  public close(data?: ModelOnCloseDto | undefined) {
     if (this.modal) {
-      document.body.removeChild(this.modal);
-      this.modal = undefined;
+      const modal = this.modal;
+      this.modal.classList.add('translate-y-full', 'opacity-0');
+      this.modal.addEventListener('transitionend', () => {
+        document.body.removeChild(modal);
+        this.modal = undefined;
+      }, {once: true});
     }
     this.onClose.emit(data);
   }

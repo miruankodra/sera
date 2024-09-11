@@ -9,5 +9,6 @@
       <se-location-label [location]="location()"/>
     </div>
   </div>
-  <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover" [bgImage]="cover()"></se-card>
+  <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover" [bgImage]="cover()"
+           (click)="back()"></se-card>
 </div>
