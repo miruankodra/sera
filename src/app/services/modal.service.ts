@@ -51,6 +51,11 @@ export class ModalService {
     this.modal.style.zIndex = '9999';
     this.modal.appendChild(element);
     document.body.appendChild(this.modal);
+
+    requestAnimationFrame(() => {
+      this.modal?.classList.remove('translate-y-full', 'opacity-0');
+      this.modal?.classList.add('translate-y-0', 'opacity-100');
+    });
   }
 
   public close(data: ModelOnCloseDto) {
