@@ -50,7 +50,7 @@ export class TestComponent {
   ];
 
   stats: GhStatisticsDto[] = [
-    {icon: 'bulb-outline.svg', title: 'Lighting', value: '12 Watt'},
+    {icon: 'bulb-outline.svg', title: 'Lighting', value: '13 Watt'},
     {icon: 'bulb-outline.svg', title: 'Wind', value: '5 m/s'},
     {icon: 'bulb-outline.svg', title: 'Humidity', value: '30%'},
   ];
