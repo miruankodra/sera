@@ -12,4 +12,5 @@ export class SeCardComponent {
   height = input('h-28');
   bgColor = input('bg-se-green');
   border = input('border-none')
+  bgImage = input('')
 }

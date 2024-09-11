@@ -1,0 +1,14 @@
+<div class="w-full h-[120px] flex flex-row items-center justify-between">
+  <div class="h-full flex flex-col items-start justify-between">
+    <se-badge>
+      {{ plants() }}
+      <se-title color="text-se-jungle" weight="font-light" size="text-[16px] ml-2">Plants</se-title>
+    </se-badge>
+    <div class="flex flex-col items-start justify-start">
+      <se-title size="text-[24px]" weight="font-semibold" color="text-black">{{ name() }}</se-title>
+      <se-location-label [location]="location()"/>
+    </div>
+  </div>
+  <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover" [bgImage]="cover()"
+           (click)="back()"></se-card>
+</div>

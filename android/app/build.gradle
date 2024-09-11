@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "al.1Acre.sera"
+    namespace "al.oneAcre.sera"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "al.1Acre.sera"
+        applicationId "al.oneAcre.sera"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

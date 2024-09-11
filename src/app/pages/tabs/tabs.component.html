@@ -1,1 +1,11 @@
-<p>tabs works!</p>
+<div class="relative w-screen h-screen overflow-auto">
+  <router-outlet></router-outlet>
+  <div class="bg-white fixed h-[64px] inset-x-0 bottom-0 bar-shadow z-50 flex flex-row items-center justify-around">
+    @for (tab of Tabs; track tab.label) {
+      <div class="h-full flex flex-col items-center justify-center" (click)="goToTab(tab)">
+        <img [src]=" tab.label === (activeTab$ | async) ? tab.iconActive : tab.iconInactive " [alt]="tab.label"
+             class="h-[32px]">
+      </div>
+    }
+  </div>
+</div>
