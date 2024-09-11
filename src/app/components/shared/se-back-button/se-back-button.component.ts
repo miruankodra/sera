@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, output, OutputEmitterRef} from '@angular/core';
 
 @Component({
   selector: 'se-back-button',
@@ -8,5 +8,9 @@ import {Component} from '@angular/core';
   styleUrl: './se-back-button.component.scss'
 })
 export class SeBackButtonComponent {
+  onClick: OutputEmitterRef<void> = output();
 
+  buttonClicked(): void {
+    this.onClick.emit();
+  }
 }

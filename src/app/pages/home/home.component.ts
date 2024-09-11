@@ -3,9 +3,8 @@ import {SeWelcomeHeaderComponent} from "../../components/se-welcome-header/se-we
 import {SeDateComponent} from "../../components/se-date/se-date.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
-import {ToastService} from "../../services/toast.service";
 import {ModalService} from "../../services/modal.service";
-import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-greenhouse-info.component";
+import {GreenhouseComponent} from "../greenhouse/greenhouse.component";
 
 @Component({
   selector: 'se-home',
@@ -20,7 +19,6 @@ import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-
 })
 export class HomeComponent {
 
-  private _toastService = inject(ToastService);
   private _modalService = inject(ModalService);
   greenhouseCards: GreenhouseDto[] = [
     {
@@ -62,7 +60,7 @@ export class HomeComponent {
 
 
   goToGreenhouse(greenhouse: GreenhouseDto): void {
-    this._toastService.fireToast(`Greenhouse with id: ${greenhouse.id} clicked!`)
-    this._modalService.show(SeGreenhouseInfoComponent);
+    console.log(greenhouse)
+    this._modalService.show(GreenhouseComponent);
   }
 }

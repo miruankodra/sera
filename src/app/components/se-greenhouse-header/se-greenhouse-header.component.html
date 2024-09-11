@@ -1,4 +1,9 @@
-<div class="relative w-full h-[70px] flex flex-row items-center justify-between">
-  <se-back-button/>
-  <se-ellipsis-menu/>
+<div
+  class="relative w-full h-[70px] flex flex-row items-center mb-8 {{ showBackButton() && showMenuButton() ? 'justify-between' : showBackButton() && !showMenuButton() ? 'justify-start' : !showBackButton() && showMenuButton() ? 'justify-end' : '' }}">
+  @if (showBackButton()) {
+    <se-back-button (onClick)="goBack()"/>
+  }
+  @if (showMenuButton()) {
+    <se-ellipsis-menu/>
+  }
 </div>
