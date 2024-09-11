@@ -1,0 +1,7 @@
+<se-card width="w-full" height="min-h-[140px] h-auto" bgColor="bg-white" border="box-shadow">
+  <div class="h-full w-full flex flex-wrap justify-around items-center gap-2 px-2">
+    @for (stat of statistics(); track stat.title) {
+      <se-stat-item width="w-[100px]" [title]="stat.title" [value]="stat.value" [image]="stat.icon"/>
+    }
+  </div>
+</se-card>

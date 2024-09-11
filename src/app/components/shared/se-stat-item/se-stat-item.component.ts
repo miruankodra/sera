@@ -14,4 +14,5 @@ export class SeStatItemComponent {
   image = input('bulb.svg');
   title = input<string>('Title');
   value = input<string>('value');
+  width = input<string>('w-full');
 }

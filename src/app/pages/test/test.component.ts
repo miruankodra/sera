@@ -12,10 +12,15 @@ import {SelectOptionsDto} from "../../models/select-options-dto";
 import {SeControlCardComponent} from "../../components/se-control-card/se-control-card.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {SeStatItemComponent} from "../../components/shared/se-stat-item/se-stat-item.component";
+
+import {SeStatisticsCardComponent} from "../../components/se-statistics-card/se-statistics-card.component";
+import {GhStatisticsDto} from "../../models/gh-statistics-dto";
+
 import {SeBackButtonComponent} from "../../components/shared/se-back-button/se-back-button.component";
 import {SeEllipsisMenuComponent} from "../../components/shared/se-ellipsis-menu/se-ellipsis-menu.component";
 import {SeGreenhouseHeaderComponent} from "../../components/se-greenhouse-header/se-greenhouse-header.component";
 import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-greenhouse-info.component";
+
 
 
 @Component({
@@ -34,10 +39,14 @@ import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-
     SeControlCardComponent,
     SeGreenhouseCardComponent,
     SeStatItemComponent,
+
+    SeStatisticsCardComponent
+
     SeBackButtonComponent,
     SeEllipsisMenuComponent,
     SeGreenhouseHeaderComponent,
     SeGreenhouseInfoComponent
+
   ],
   templateUrl: './test.component.html',
   styleUrl: './test.component.scss'
@@ -52,6 +61,12 @@ export class TestComponent {
     {value: 'Option 3', key: 'Option 3'},
     {value: 'Option 3', key: 'Option 3'},
     {value: 'Option 3', key: 'Option 3'},
+  ];
+
+  stats: GhStatisticsDto[] = [
+    {icon: 'bulb-outline.svg', title: 'Lighting', value: '13 Watt'},
+    {icon: 'bulb-outline.svg', title: 'Wind', value: '5 m/s'},
+    {icon: 'bulb-outline.svg', title: 'Humidity', value: '30%'},
   ];
 
   getInputValue(e: string): void {
