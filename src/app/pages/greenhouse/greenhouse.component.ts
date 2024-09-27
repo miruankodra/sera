@@ -4,6 +4,9 @@ import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-
 import {NgClass} from "@angular/common";
 import {SeStatisticsCardComponent} from "../../components/se-statistics-card/se-statistics-card.component";
 import {GhStatisticsDto} from "../../models/gh-statistics-dto";
+import { SeTabPanelComponent } from '../../components/se-tab-panel/se-tab-panel.component';
+import { SePanelTabComponent } from "../../components/se-panel-tab/se-panel-tab.component";
+import { SeControlCardComponent } from "../../components/se-control-card/se-control-card.component";
 
 @Component({
   selector: 'se-greenhouse',
@@ -12,8 +15,11 @@ import {GhStatisticsDto} from "../../models/gh-statistics-dto";
     SeGreenhouseHeaderComponent,
     SeGreenhouseInfoComponent,
     NgClass,
-    SeStatisticsCardComponent
-  ],
+    SeStatisticsCardComponent,
+    SeTabPanelComponent,
+    SePanelTabComponent,
+    SeControlCardComponent
+],
   templateUrl: './greenhouse.component.html',
   styleUrl: './greenhouse.component.scss'
 })
