@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, ElementRef, inject, ViewChild} from '@angular/core';
 import {SeWelcomeHeaderComponent} from "../../components/se-welcome-header/se-welcome-header.component";
 import {SeDateComponent} from "../../components/se-date/se-date.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
@@ -18,6 +18,8 @@ import {GreenhouseComponent} from "../greenhouse/greenhouse.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+
+  @ViewChild('header') header!: ElementRef;
 
   private _modalService = inject(ModalService);
   greenhouseCards: GreenhouseDto[] = [
@@ -62,5 +64,15 @@ export class HomeComponent {
   goToGreenhouse(greenhouse: GreenhouseDto): void {
     console.log(greenhouse)
     this._modalService.show(GreenhouseComponent);
+  }
+
+  fadeIOHeader(event: any): void {
+    console.log(event.target.scrollTop);
+    const el = event.target;
+    const scrollTop = el.scrollTop;
+    const fadeHeight = 100;
+    const opacity = Math.max(0, 1 - scrollTop / fadeHeight);
+    this.header.nativeElement.style.opacity = opacity.toString();
+    this.header.nativeElement.style.transform = `translateY(-${scrollTop}px)`;
   }
 }

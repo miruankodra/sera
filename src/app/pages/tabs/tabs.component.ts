@@ -6,13 +6,15 @@ import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {NavigationService} from "../../services/navigation.service";
 import {TabDto} from "../../models/tab-dto";
+import { AnimateOnClickDirective } from '../../directives/animateOnClick.directive';
 
 @Component({
   selector: 'se-tabs',
   standalone: true,
   imports: [
     RouterOutlet,
-    AsyncPipe
+    AsyncPipe,
+    AnimateOnClickDirective
   ],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss'
