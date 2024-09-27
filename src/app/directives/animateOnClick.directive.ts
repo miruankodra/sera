@@ -26,6 +26,10 @@ export class AnimateOnClickDirective {
         animationClass = 'animate-bounce';
         break;
 
+      case 'rotate':
+        this.rotateEffect(el);
+        break;
+
       case 'ripple':
         this.rippleEffect(el, event);
         break;
@@ -66,6 +70,19 @@ export class AnimateOnClickDirective {
     setTimeout(() => {
       this.render.removeClass(rippleEl, 'animate-ripple');
     }, 600);
+  }
+
+  private rotateEffect(el: HTMLElement): void {
+    el.classList.toggle('rotate-90');
+    // const isRotated = el.classList.contains('rotate-90');
+
+    // if (isRotated) {
+    //   el.classList.remove('rotate-90');
+    //   el.classList.add('rotate-0');
+    // } else {
+    //   el.classList.remove('rotate-0');
+    //   el.classList.add('rotate-90');
+    // }
   }
 
 }

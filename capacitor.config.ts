@@ -2,7 +2,7 @@ import type {CapacitorConfig} from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'al.oneAcre.sera',
-  appName: 'Serandor',
+  appName: 'Sera',
   webDir: 'dist/sera-fe/browser',
   plugins: {
     CapacitorHttp: {
