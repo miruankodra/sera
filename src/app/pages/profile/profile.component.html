@@ -1,1 +1,20 @@
-<p>profile works!</p>
+<div class="relative w-full h-screen flex flex-col items-center overflow-scroll px-5 pt-36 pb-[80px] snap-mandatory snap-y">
+    <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[300px] bg-se-green z-0"></div>
+    <div class="relative w-full flex flex-col items-center justify-center z-50">
+      <div class="absolute z-10 size-[100px] bg-white opacity-45 rounded-full blur-3xl"></div>
+      <img src="https://ui-avatars.com/api/?name=Miruan+Kodra&background=C4FE33&color=0B3931" alt="username" class="size-[128px] rounded-full bg-cover bg-center z-50"/>
+      <se-title color="text-black" size="text-[24px]" weight="font-semibold">Miruan Kodra</se-title>
+      <se-title color="text-gray-300" size="text-[16px]" weight="font-medium">Admin</se-title>
+    </div>
+    <div class="w-full px-5 mt-10">
+        <se-item lineColor="border-gray-100">
+            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Terms & Conditions</se-title>
+        </se-item>
+        <se-item lineColor="border-gray-100">
+            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Privacy Policy</se-title>
+        </se-item>
+        <se-item [line]="false">
+            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Rate This App</se-title>
+        </se-item>
+    </div>
+</div>
