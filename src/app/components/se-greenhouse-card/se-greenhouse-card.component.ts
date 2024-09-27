@@ -3,6 +3,7 @@ import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
 import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
+import { AnimateOnClickDirective } from '../../directives/animateOnClick.directive';
 
 @Component({
   selector: 'se-greenhouse-card',
@@ -10,7 +11,8 @@ import {GreenhouseDto} from "../../models/greenhouse-dto";
   imports: [
     SeTitleComponent,
     SeBadgeComponent,
-    SeLocationLabelComponent
+    SeLocationLabelComponent,
+    AnimateOnClickDirective
   ],
   templateUrl: './se-greenhouse-card.component.html',
   styleUrl: './se-greenhouse-card.component.scss'

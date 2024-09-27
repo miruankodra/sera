@@ -22,7 +22,6 @@ import {SeGreenhouseHeaderComponent} from "../../components/se-greenhouse-header
 import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-greenhouse-info.component";
 
 
-
 @Component({
   selector: 'se-test',
   standalone: true,
@@ -40,7 +39,7 @@ import {SeGreenhouseInfoComponent} from "../../components/se-greenhouse-info/se-
     SeGreenhouseCardComponent,
     SeStatItemComponent,
 
-    SeStatisticsCardComponent
+    SeStatisticsCardComponent,
 
     SeBackButtonComponent,
     SeEllipsisMenuComponent,
