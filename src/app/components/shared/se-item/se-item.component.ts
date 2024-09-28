@@ -1,9 +1,10 @@
 import {Component, input} from '@angular/core';
+import { AnimateOnClickDirective } from '../../../directives/animateOnClick.directive';
 
 @Component({
   selector: 'se-item',
   standalone: true,
-  imports: [],
+  imports: [AnimateOnClickDirective],
   templateUrl: './se-item.component.html',
   styleUrl: './se-item.component.scss'
 })

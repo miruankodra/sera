@@ -4,6 +4,6 @@
     <se-back-button (onClick)="goBack()"/>
   }
   @if (showMenuButton()) {
-    <se-ellipsis-menu/>
+    <se-ellipsis-menu [menuItems]="menuItems"/>
   }
 </div>
