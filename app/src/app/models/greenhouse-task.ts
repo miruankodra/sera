@@ -29,9 +29,13 @@ export interface TaskForm {
   recurringIntervalDays: number | null;
 }
 
+const padTwo = (n: number): string => String(n).padStart(2, '0');
+const toLocalDateString = (d: Date): string =>
+  `${d.getFullYear()}-${padTwo(d.getMonth() + 1)}-${padTwo(d.getDate())}`;
+
 export const emptyTaskForm = (date: Date): TaskForm => ({
   title: '',
-  date: date.toISOString().split('T')[0],
+  date: toLocalDateString(date),
   time: '08:00',
   type: 'reminder',
   note: '',
