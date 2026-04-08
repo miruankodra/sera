@@ -1,0 +1,76 @@
+<div class="w-full">
+  <p class="text-base font-bold text-se-green mb-3">{{ formattedDate() }}</p>
+
+  @if (sortedTasks().length === 0) {
+    <div class="flex flex-col items-center justify-center py-10 text-gray-300">
+      <p class="text-sm">No tasks for this day</p>
+    </div>
+  } @else {
+    <div class="flex flex-col gap-3">
+      @for (task of sortedTasks(); track task.id) {
+        <div class="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
+          <div class="flex items-start justify-between gap-2">
+            <!-- Left: time + content -->
+            <div class="flex gap-3 flex-1 min-w-0">
+              <span class="text-xs font-semibold text-gray-400 mt-0.5 whitespace-nowrap">{{ task.time }}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <p class="font-semibold text-se-green text-sm">{{ task.title }}</p>
+                  <!-- Type badge -->
+                  @if (task.type === 'reminder') {
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200">
+                      Reminder
+                    </span>
+                  } @else {
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200">
+                      System Command
+                    </span>
+                  }
+                </div>
+
+                <!-- Reminder details -->
+                @if (task.type === 'reminder') {
+                  @if (task.note) {
+                    <p class="text-xs text-gray-500 mt-1">{{ task.note }}</p>
+                  }
+                  <div class="flex items-center gap-1 mt-1">
+                    <lucide-icon [img]="task.notificationEnabled ? BellIcon : BellOffIcon" [size]="11"
+                                 class="{{ task.notificationEnabled ? 'text-blue-400' : 'text-gray-300' }}"/>
+                    <span class="text-[10px] text-gray-400">
+                      {{ task.notificationEnabled ? 'Notification on' : 'Notification off' }}
+                    </span>
+                  </div>
+                }
+
+                <!-- System command details -->
+                @if (task.type === 'system_command') {
+                  <div class="flex items-center gap-1 mt-1">
+                    <lucide-icon [img]="ZapIcon" [size]="11" class="text-emerald-500"/>
+                    <span class="text-xs text-gray-600">
+                      {{ task.device }} — {{ task.action }}
+                      @if (task.duration) {
+                        ({{ task.duration }} min)
+                      }
+                    </span>
+                  </div>
+                }
+
+                <!-- Zone tag -->
+                @if (task.zone) {
+                  <span class="inline-block mt-1.5 text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                    {{ task.zone }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <!-- Right: ellipsis menu -->
+            <se-ellipsis-menu
+              [menuItems]="cardMenuItems"
+              (onMenuItemClick)="onMenuAction($event, task)"/>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
