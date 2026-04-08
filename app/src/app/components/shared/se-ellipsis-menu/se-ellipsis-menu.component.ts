@@ -23,6 +23,7 @@ export class SeEllipsisMenuComponent {
   }
 
   menuItemClicked(menuId: string) {
+    this.isToggled = false;
     this.onMenuItemClick.emit(menuId);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, computed, input, output, signal} from '@angular/core';
+import {Component, computed, effect, input, output, signal} from '@angular/core';
 import {LucideAngularModule, ChevronLeft, ChevronRight} from 'lucide-angular';
 import {GreenhouseTask} from '../../../models/greenhouse-task';
 
@@ -23,6 +23,15 @@ export class SeCalendarGridComponent {
 
   readonly viewMonth = signal(new Date().getMonth());
   readonly viewYear = signal(new Date().getFullYear());
+
+  constructor() {
+    // Keep displayed month in sync with selectedDate (e.g. when parent navigates to a different date)
+    effect(() => {
+      const d = this.selectedDate();
+      this.viewMonth.set(d.getMonth());
+      this.viewYear.set(d.getFullYear());
+    });
+  }
 
   readonly monthName = computed(() =>
     new Date(this.viewYear(), this.viewMonth()).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
