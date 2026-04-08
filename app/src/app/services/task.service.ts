@@ -1,4 +1,4 @@
-import {computed, Injectable, inject, signal} from '@angular/core';
+import {Injectable, inject, signal} from '@angular/core';
 import {StorageService} from './storage.service';
 import {StoragePaths} from '../models/constants/storage-paths';
 import {GreenhouseTask} from '../models/greenhouse-task';
@@ -35,19 +35,24 @@ export class TaskService {
   private readonly _tasks = signal<GreenhouseTask[]>([]);
   readonly tasks = this._tasks.asReadonly();
 
-  readonly tasksForToday = computed(() => {
-    const today = new Date();
-    return this._tasks().filter(t => this.isSameDay(new Date(t.date), today));
-  });
+  // Plain getter so new Date() is evaluated on each call, not frozen at first computation
+  get tasksForToday(): GreenhouseTask[] {
+    return this.tasksForDay(new Date());
+  }
 
   tasksForDay(date: Date): GreenhouseTask[] {
     return this._tasks().filter(t => this.isSameDay(new Date(t.date), date));
   }
 
   async loadTasks(): Promise<void> {
-    const stored = await this.storage.get<GreenhouseTask[]>(StoragePaths.TASKS);
-    if (stored) {
-      this._tasks.set(stored);
+    try {
+      const stored = await this.storage.get<GreenhouseTask[]>(StoragePaths.TASKS);
+      if (stored) {
+        // Revive date strings to Date objects after JSON deserialization
+        this._tasks.set(stored.map(t => ({...t, date: new Date(t.date)})));
+      }
+    } catch {
+      // Storage unavailable or corrupted; start with empty task list
     }
   }
 
