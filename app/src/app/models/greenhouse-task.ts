@@ -30,7 +30,7 @@ export interface TaskForm {
 }
 
 const padTwo = (n: number): string => String(n).padStart(2, '0');
-const toLocalDateString = (d: Date): string =>
+export const toLocalDateString = (d: Date): string =>
   `${d.getFullYear()}-${padTwo(d.getMonth() + 1)}-${padTwo(d.getDate())}`;
 
 export const emptyTaskForm = (date: Date): TaskForm => ({

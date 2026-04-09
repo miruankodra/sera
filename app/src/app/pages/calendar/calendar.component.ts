@@ -4,7 +4,7 @@ import {LucideAngularModule, Plus, X} from 'lucide-angular';
 import {Capacitor} from '@capacitor/core';
 import {LocalNotifications} from '@capacitor/local-notifications';
 import {TaskService} from '../../services/task.service';
-import {GreenhouseTask, TaskForm, emptyTaskForm} from '../../models/greenhouse-task';
+import {GreenhouseTask, TaskForm, emptyTaskForm, toLocalDateString} from '../../models/greenhouse-task';
 import {SeCalendarGridComponent} from '../../components/calendar/se-calendar-grid/se-calendar-grid.component';
 import {SeTodayStripComponent} from '../../components/calendar/se-today-strip/se-today-strip.component';
 import {SeTaskListComponent} from '../../components/calendar/se-task-list/se-task-list.component';
@@ -28,7 +28,8 @@ export class CalendarComponent implements OnInit {
   readonly PlusIcon = Plus;
   readonly XIcon = X;
 
-  readonly taskService = inject(TaskService);
+  private readonly taskService = inject(TaskService);
+  readonly greenhouses = this.taskService.greenhouses;
 
   readonly today = new Date();
   readonly selectedDate = signal<Date>(new Date());
@@ -74,7 +75,7 @@ export class CalendarComponent implements OnInit {
     const d = new Date(task.date);
     this.form.set({
       title: task.title,
-      date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
+      date: toLocalDateString(d),
       time: task.time,
       type: task.type,
       note: task.note ?? '',
@@ -126,6 +127,8 @@ export class CalendarComponent implements OnInit {
 
     if (isEditing) {
       await this.taskService.update(task);
+      // Cancel previous notification; re-scheduling happens below if still enabled.
+      // Note: cancelNotification is a no-op on web — notification management is native-only.
       await this.cancelNotification(task.id);
     } else {
       await this.taskService.add(task);
