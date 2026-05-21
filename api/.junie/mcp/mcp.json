@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/usr/bin/php",
+            "args": [
+                "/home/miruan/WebstormProjects/sera/api/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

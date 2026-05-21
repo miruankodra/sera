@@ -1,14 +1,14 @@
 <div class="w-full h-[120px] flex flex-row items-center justify-between">
   <div class="h-full flex flex-col items-start justify-between">
     <se-badge>
-      {{ plants() }}
+      {{ greenhouse().plants }}
       <se-title color="text-se-jungle" weight="font-light" size="text-[16px] ml-2">Plants</se-title>
     </se-badge>
     <div class="flex flex-col items-start justify-start">
-      <se-title size="text-[20px] tracking-tight" weight="font-medium" color="text-black">{{ name() }}</se-title>
-      <se-location-label [location]="location()"/>
+      <se-title size="text-[20px] tracking-tight" weight="font-medium" color="text-black">{{ greenhouse().name }}</se-title>
+      <se-location-label [location]="greenhouse().location"/>
     </div>
   </div>
-  <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover" [bgImage]="cover()"
+  <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover" [bgImage]="'assets/images/defaults/'+greenhouse().cover"
            (click)="back()"></se-card>
 </div>

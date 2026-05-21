@@ -41,12 +41,13 @@ export class CalendarComponent implements OnInit {
 
   readonly selectedDayTasks = computed(() => {
     const date = this.selectedDate();
-    return this.taskService.tasks().filter(t => this.isSameDay(new Date(t.date), date));
+    return this.taskService.tasks().filter(t => this.isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, date));
   });
 
-  readonly todayTasks = computed(() =>
-    this.taskService.tasks().filter(t => this.isSameDay(new Date(t.date), new Date()))
-  );
+  readonly todayTasks = computed(() => {
+    const today = new Date();
+    return this.taskService.tasks().filter(t => this.isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, today));
+  });
 
   readonly availableActions = computed(() => {
     const gh = this.taskService.greenhouses.find(g => g.id === this.form().device);
@@ -76,6 +77,7 @@ export class CalendarComponent implements OnInit {
     this.form.set({
       title: task.title,
       date: toLocalDateString(d),
+      endDate: task.endDate ? toLocalDateString(new Date(task.endDate)) : '',
       time: task.time,
       type: task.type,
       note: task.note ?? '',
@@ -104,7 +106,7 @@ export class CalendarComponent implements OnInit {
     this.form.update(f => ({...f, device: deviceId, action: ''}));
   }
 
-  async submitForm(): Promise<void> {
+async submitForm(): Promise<void> {
     const f = this.form();
     if (!f.title.trim()) return;
 
@@ -113,6 +115,7 @@ export class CalendarComponent implements OnInit {
       id: isEditing ? this.editingTask()!.id : crypto.randomUUID(),
       title: f.title.trim(),
       date: new Date(f.date),
+      endDate: f.endDate ? new Date(f.endDate) : undefined,
       time: f.time,
       type: f.type,
       note: f.note || undefined,
@@ -183,6 +186,14 @@ export class CalendarComponent implements OnInit {
       hash |= 0;
     }
     return Math.abs(hash);
+  }
+
+  private isInRange(start: Date, end: Date | undefined, target: Date): boolean {
+    const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const targetDay = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+    if (!end) return startDay.getTime() === targetDay.getTime();
+    const endDay = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    return targetDay >= startDay && targetDay <= endDay;
   }
 
   private isSameDay(a: Date, b: Date): boolean {

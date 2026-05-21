@@ -38,9 +38,6 @@ export class ModalService {
       for (const [key, value] of Object.entries(inputs)) {
         (modalRef.instance as { [key: string]: unknown })[key] = value;
       }
-
-      console.log(modalRef.instance)
-
     }
 
     this.applicationRef.attachView(modalRef.hostView);
@@ -48,7 +45,7 @@ export class ModalService {
     const element = (modalRef.hostView as EmbeddedViewRef<object>).rootNodes[0] as HTMLElement;
     this.modal = document.createElement('div');
     this.modal.className = this.modalStyle;
-    this.modal.style.zIndex = '9999';
+    this.modal.style.zIndex = '50';
     this.modal.appendChild(element);
     document.body.appendChild(this.modal);
 

@@ -12,11 +12,11 @@ export class AnimateOnClickDirective {
 
 
   @HostListener('click', ['$event'])
-  onClick(event: MouseEvent): void {  
+  onClick(event: MouseEvent): void {
 
     const el = this.elRef.nativeElement;
     let animationClass = null;
-    
+
     switch (this.behaviour) {
       case 'pulse':
         animationClass = 'animate-pulse';
@@ -44,13 +44,11 @@ export class AnimateOnClickDirective {
       setTimeout(() => {
         this.render.removeClass(el, animationClass);
       }, 500);
-    }  
+    }
   }
 
 
   private rippleEffect(el: HTMLElement, event: MouseEvent){
-    console.log('rippling');
-    
     const rippleEl = document.createElement('span');
     rippleEl.className = 'ripple absolute bg-gray-400 opacity-50 rounded-full transform scale-0';
 

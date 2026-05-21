@@ -1,9 +1,11 @@
-import {Component, input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
 import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
 import { AnimateOnClickDirective } from '../../directives/animateOnClick.directive';
+import {ModalService} from "../../services/modal.service";
+import {GreenhouseComponent} from "../../pages/greenhouse/greenhouse.component";
 
 @Component({
   selector: 'se-greenhouse-card',
@@ -20,8 +22,9 @@ import { AnimateOnClickDirective } from '../../directives/animateOnClick.directi
 export class SeGreenhouseCardComponent {
 
   greenhouseInfo = input.required<GreenhouseDto>();
+  private _modalService = inject(ModalService);
 
-  goToGreenhouse(ghid: number): void {
-    console.log('Open Greenhouse with id: ' + ghid);
+  goToGreenhouse(): void {
+    this._modalService.show(GreenhouseComponent, { greenhouse: this.greenhouseInfo });
   }
 }

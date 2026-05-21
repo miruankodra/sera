@@ -4,7 +4,6 @@ import {SeDateComponent} from "../../components/se-date/se-date.component";
 import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-greenhouse-card.component";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
 import {ModalService} from "../../services/modal.service";
-import {GreenhouseComponent} from "../greenhouse/greenhouse.component";
 
 @Component({
   selector: 'se-home',
@@ -60,14 +59,7 @@ export class HomeComponent {
     }
   ];
 
-
-  goToGreenhouse(greenhouse: GreenhouseDto): void {
-    console.log(greenhouse)
-    this._modalService.show(GreenhouseComponent);
-  }
-
   fadeIOHeader(event: any): void {
-    console.log(event.target.scrollTop);
     const el = event.target;
     const scrollTop = el.scrollTop;
     const fadeHeight = 100;

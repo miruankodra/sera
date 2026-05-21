@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@capacitor/action-sheet": "^8.1.1"
+  }
+}

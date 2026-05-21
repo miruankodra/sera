@@ -7,7 +7,7 @@
   <!-- <div class="relative z-50 w-full flex flex-col items-center justify-start gap-5 snap-mandatory snap-y"> -->
     @for (greenhouse of greenhouseCards; track greenhouse.id) {
       <div class="relative z-50 w-full snap-normal snap-center mb-5">
-        <se-greenhouse-card [greenhouseInfo]="greenhouse" (click)="goToGreenhouse(greenhouse)"/>
+        <se-greenhouse-card [greenhouseInfo]="greenhouse"/>
       </div>
     }
   <!-- </div> -->

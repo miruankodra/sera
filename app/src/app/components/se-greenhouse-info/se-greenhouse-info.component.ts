@@ -1,9 +1,10 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, inject, input, InputSignal} from '@angular/core';
 import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
 import {SeCardComponent} from "../shared/se-card/se-card.component";
 import {ModalService} from "../../services/modal.service";
+import {GreenhouseDto} from "../../models/greenhouse-dto";
 
 @Component({
   selector: 'se-greenhouse-info',
@@ -18,10 +19,7 @@ import {ModalService} from "../../services/modal.service";
   styleUrl: './se-greenhouse-info.component.scss'
 })
 export class SeGreenhouseInfoComponent {
-  name = input<string>('The Greenhouse I');
-  location = input<string>('Tirane, Albania');
-  plants = input<number>(0);
-  cover = input<string>('assets/images/defaults/greenhouse-cover.jpg');
+  greenhouse: InputSignal<GreenhouseDto> = input.required<GreenhouseDto>();
 
   _modalService = inject(ModalService)
 

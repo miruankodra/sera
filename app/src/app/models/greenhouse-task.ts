@@ -2,6 +2,7 @@ export interface GreenhouseTask {
   id: string;
   title: string;
   date: Date;
+  endDate?: Date;     // optional end of date range
   time: string; // "HH:mm"
   type: 'reminder' | 'system_command';
   note?: string;
@@ -17,6 +18,7 @@ export interface GreenhouseTask {
 export interface TaskForm {
   title: string;
   date: string;       // "YYYY-MM-DD"
+  endDate: string;    // "YYYY-MM-DD" or empty string (no end date)
   time: string;       // "HH:mm"
   type: 'reminder' | 'system_command';
   note: string;
@@ -36,6 +38,7 @@ export const toLocalDateString = (d: Date): string =>
 export const emptyTaskForm = (date: Date): TaskForm => ({
   title: '',
   date: toLocalDateString(date),
+  endDate: '',
   time: '08:00',
   type: 'reminder',
   note: '',

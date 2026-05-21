@@ -50,12 +50,22 @@ export class SeCalendarGridComponent {
 
   readonly dayTaskMap = computed((): Map<number, GreenhouseTask[]> => {
     const map = new Map<number, GreenhouseTask[]>();
+    const year = this.viewYear();
+    const month = this.viewMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
     this.tasks().forEach(task => {
-      const d = new Date(task.date);
-      if (d.getFullYear() === this.viewYear() && d.getMonth() === this.viewMonth()) {
-        const day = d.getDate();
-        if (!map.has(day)) map.set(day, []);
-        map.get(day)!.push(task);
+      const start = new Date(task.date);
+      const end = task.endDate ? new Date(task.endDate) : start;
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = new Date(year, month, day);
+        const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        const endDay = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+        if (cell >= startDay && cell <= endDay) {
+          if (!map.has(day)) map.set(day, []);
+          map.get(day)!.push(task);
+        }
       }
     });
     return map;
