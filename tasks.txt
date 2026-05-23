@@ -1,0 +1,66 @@
+Phase 1 — Foundation
+[x] Task 1: Fresh Laravel install + packages
+
+"Inside the api/ folder, create a fresh Laravel 11 project. Install all packages listed in CLAUDE.md under Required Packages, run the publish commands, and configure the .env file with the correct drivers (redis queue, redis cache, reverb broadcast, predis client). Do not create any application code yet."
+
+[x] Task 2: Docker Compose setup
+
+"Create the docker-compose.yml at the repo root with all 6 services defined in CLAUDE.md (app, nginx, mysql, redis, queue, reverb). Create the custom PHP 8.3-FPM Dockerfile for the app image. Create the nginx config. Make sure docker compose up -d starts cleanly and the Laravel welcome page is reachable."
+
+
+Phase 2 — Database
+[x] Task 3: Migrations
+
+"Create all migrations for the schema defined in CLAUDE.md. Use the exact column names, types, nullable flags, indexes, and foreign key constraints shown. Respect the order: users → greenhouses → sensors → sensor_readings → devices → device_commands → automation_rules → alerts → tasks. Run php artisan migrate and confirm all tables are created with no errors."
+
+[x] Task 4: Models, relationships, factories, seeders
+
+"Create Eloquent models for all 9 tables with correct relationships, $fillable arrays, casts (including tasks.payload as array, recorded_at as datetime), and soft deletes on greenhouses and automation_rules. Create factories with realistic faker data for each model. Create a main DatabaseSeeder that seeds 2 users, 3 greenhouses each, sensors, 30 days of sensor readings with a realistic diurnal pattern, devices, automation rules, alerts, and tasks. Run php artisan migrate:fresh --seed and confirm it completes without errors."
+
+
+Phase 3 — Authentication
+[x] Task 5: Auth endpoints
+
+"Implement POST /api/v1/auth/register, POST /api/v1/auth/login, and POST /api/v1/auth/logout using Laravel Sanctum. Use FormRequests for validation. Return the token on login. Protect logout with auth:sanctum. Write Pest feature tests covering: successful register, successful login, invalid credentials (422), logout invalidates token. All tests must pass."
+
+
+Phase 4 — Core API
+[x] Task 6: Greenhouses CRUD
+
+"Implement all greenhouse endpoints from CLAUDE.md. Create GreenhouseController, GreenhousePolicy (user can only access their own greenhouses), StoreGreenhouseRequest, UpdateGreenhouseRequest, and GreenhouseResource. Soft deletes must work. Write Pest feature tests covering: CRUD happy paths, 401 unauthenticated, 403 cross-user access. All tests must pass."
+
+[x] Task 7: Sensors + readings
+
+"Implement all sensor and sensor_reading endpoints. The POST /sensors/{id}/readings ingestion endpoint must fire a SensorReadingCreated event after saving (do not evaluate automation rules here — that happens in the queue). Add a composite index on (sensor_id, recorded_at). The GET readings endpoint must support ?from=&to= date range filtering. Write Pest tests. All tests must pass."
+
+[x] Task 8: Devices + commands
+
+"Implement all device endpoints plus POST /devices/{id}/command. The command endpoint must update devices.status and devices.last_commanded_at, create a row in device_commands with source = manual, and broadcast a DeviceStatusChanged event to the private greenhouse channel. Write Pest tests. All tests must pass."
+
+[x] Task 9: Automation rules
+
+"Implement automation rule endpoints. Create the AutomationEngine service class that accepts a SensorReading and evaluates all active rules for that greenhouse. Create the EvaluateAutomationRules job that calls AutomationEngine. Create the SensorReadingCreated event listener that dispatches this job to the Redis queue. When a rule triggers: create a device_command with source = automation, update device status, create an alert, and broadcast AutomationRuleTriggered and AlertFired events. Write Pest unit tests for AutomationEngine covering all operators (gt, lt, eq, gte, lte) and edge cases (no active rules, disabled device). All tests must pass."
+
+[x] Task 10: Alerts + tasks
+
+"Implement alert endpoints (GET /greenhouses/{id}/alerts, POST /alerts/{id}/read returns 204). Implement task endpoints (full CRUD). tasks.payload must be stored as JSON and cast to array on the model. Write Pest tests. All tests must pass."
+
+
+Phase 5 — Real-time
+[x] Task 11: Broadcasting
+
+"Configure Laravel Reverb. Define all 4 broadcast events from CLAUDE.md with their exact payloads. Define the GreenhouseChannel private channel in routes/channels.php — authorise only if the authenticated user owns the greenhouse. Confirm php artisan reverb:start runs without errors."
+
+
+Phase 6 — Quality
+[x] Task 12: Security hardening
+
+"Add throttle middleware: 5 attempts per minute on auth endpoints, 60 per minute on the sensor ingestion endpoint. Verify all controllers call $this->authorize() before any DB operation. Confirm no raw SQL anywhere — all queries use Eloquent or query builder with parameter binding. Add CORS configuration to allow only the Angular app origin."
+
+[ ] Task 13: API documentation
+
+"Add l5-swagger OpenAPI annotations to all controllers and resource classes. Run php artisan l5-swagger:generate and confirm the Swagger UI is accessible at /api/documentation with all endpoints documented."
+
+[ ] Task 14: CI pipeline
+
+"Create .github/workflows/ci.yml that runs on every push: sets up PHP 8.3, installs composer dependencies with cache, starts a MySQL 8 service container, runs migrations, executes the full Pest suite, and runs Laravel Pint. The pipeline must pass cleanly."
