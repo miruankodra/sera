@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\GreenhouseController;
 use App\Http\Controllers\Api\V1\SensorController;
 use App\Http\Controllers\Api\V1\SensorReadingController;
@@ -33,5 +34,12 @@ Route::prefix('v1')->group(function () {
         Route::delete('sensors/{sensor}', [SensorController::class, 'destroy']);
         Route::post('sensors/{sensor}/readings', [SensorReadingController::class, 'store']);
         Route::get('sensors/{sensor}/readings', [SensorReadingController::class, 'index']);
+
+        Route::get('greenhouses/{greenhouse}/devices', [DeviceController::class, 'index']);
+        Route::post('greenhouses/{greenhouse}/devices', [DeviceController::class, 'store']);
+        Route::get('devices/{device}', [DeviceController::class, 'show']);
+        Route::put('devices/{device}', [DeviceController::class, 'update']);
+        Route::delete('devices/{device}', [DeviceController::class, 'destroy']);
+        Route::post('devices/{device}/command', [DeviceController::class, 'command']);
     });
 });
