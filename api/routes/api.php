@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\GreenhouseController;
+use App\Http\Controllers\Api\V1\SensorController;
+use App\Http\Controllers\Api\V1\SensorReadingController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +26,12 @@ Route::prefix('v1')->group(function () {
         Route::get('greenhouses/{greenhouse}', [GreenhouseController::class, 'show']);
         Route::put('greenhouses/{greenhouse}', [GreenhouseController::class, 'update']);
         Route::delete('greenhouses/{greenhouse}', [GreenhouseController::class, 'destroy']);
+
+        Route::get('greenhouses/{greenhouse}/sensors', [SensorController::class, 'index']);
+        Route::post('greenhouses/{greenhouse}/sensors', [SensorController::class, 'store']);
+        Route::get('sensors/{sensor}', [SensorController::class, 'show']);
+        Route::delete('sensors/{sensor}', [SensorController::class, 'destroy']);
+        Route::post('sensors/{sensor}/readings', [SensorReadingController::class, 'store']);
+        Route::get('sensors/{sensor}/readings', [SensorReadingController::class, 'index']);
     });
 });
