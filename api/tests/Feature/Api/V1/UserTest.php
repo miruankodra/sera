@@ -6,6 +6,16 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+// ── helpers ──────────────────────────────────────────────────────────────────
+
+function actingAsUser(?array $overrides = []): User
+{
+    $user = User::factory()->create($overrides);
+    test()->actingAs($user, 'sanctum');
+
+    return $user;
+}
+
 // ── GET /api/v1/user ─────────────────────────────────────────────────────────
 
 describe('GET /api/v1/user', function () {

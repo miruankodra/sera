@@ -1,0 +1,14 @@
+<div class="relative w-full h-screen flex flex-col items-center overflow-scroll px-5 pt-40 pb-[80px] snap-mandatory snap-y" (scroll)="fadeIOHeader($event)">
+  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[400px] bg-se-green z-0"></div>
+  <div #header class="transition-all ease-linear fixed top-8 left-5 w-full h-[150px] flex flex-col items-start justify-start">
+    <se-welcome-header username="Fermer"/>
+    <se-date/>
+  </div>
+  <!-- <div class="relative z-50 w-full flex flex-col items-center justify-start gap-5 snap-mandatory snap-y"> -->
+    @for (greenhouse of greenhouseCards; track greenhouse.id) {
+      <div class="relative z-50 w-full snap-normal snap-center mb-5">
+        <se-greenhouse-card [greenhouseInfo]="greenhouse"/>
+      </div>
+    }
+  <!-- </div> -->
+</div>

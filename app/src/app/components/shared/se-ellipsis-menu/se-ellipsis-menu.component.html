@@ -1,0 +1,24 @@
+<div class="relative">
+    <se-button width="w-[50px]"
+           height="h-[50px]"
+           background="background-transparent"
+           border="border-gray border-[1px]"
+           radius="rounded-full"
+           padding="p-2"
+           clickAnimation="rotate"
+           (onClick)="toggleMenu()">
+           <img src="assets/images/icons/ellipsis.svg" alt="Menu"/>
+    </se-button>
+    <div class="transition-all duration-300 absolute top-14 right-0 {{ isToggled ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full' }}">
+        <se-card width="w-[150px]"
+                 height="h-auto"
+                 bgColor="bg-white"
+                 border="border-2 border-gray-100">
+            @for (item of menuItems(); track $index) {
+                <se-item [line]="$index !== menuItems().length - 1" lineColor="border-gray-100" (click)="menuItemClicked(item.id)">
+                    {{ item.value }}
+                </se-item>
+            }
+        </se-card>
+    </div>
+</div>

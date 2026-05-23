@@ -1,0 +1,33 @@
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Angular
+/.angular/cache
+
+# Miscellaneous
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# Capacitor / Android
+android/build/
+android/.gradle/
+android/app/release/
+android/app/.cxx/
+
+# Capacitor / iOS
+ios/App/Pods/
+ios/App/build/
+ios/DerivedData/
+ios/*.xcworkspace/xcuserdata/

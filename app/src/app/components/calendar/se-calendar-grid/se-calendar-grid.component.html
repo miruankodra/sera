@@ -1,0 +1,50 @@
+<div class="w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+  <!-- Month navigation header -->
+  <div class="flex items-center justify-between mb-4">
+    <button (click)="prevMonth()"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+      <lucide-icon [img]="ChevronLeftIcon" [size]="18" class="text-se-green"/>
+    </button>
+    <span class="font-semibold text-se-green text-sm">{{ monthName() }}</span>
+    <button (click)="nextMonth()"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+      <lucide-icon [img]="ChevronRightIcon" [size]="18" class="text-se-green"/>
+    </button>
+  </div>
+
+  <!-- Weekday headers -->
+  <div class="grid grid-cols-7 mb-2">
+    @for (day of weekDays; track day) {
+      <div class="text-center text-[11px] font-medium text-gray-400">{{ day }}</div>
+    }
+  </div>
+
+  <!-- Day grid -->
+  <div class="grid grid-cols-7 gap-y-1">
+    @for (day of calendarDays(); track $index) {
+      @if (day === null) {
+        <div></div>
+      } @else {
+        <div class="flex flex-col items-center cursor-pointer" (click)="selectDay(day)">
+          <div class="w-8 h-8 flex items-center justify-center rounded-full text-xs font-medium transition-colors
+                      {{ isSelected(day) ? 'bg-se-green text-white' : '' }}
+                      {{ isToday(day) && !isSelected(day) ? 'border-2 border-se-jungle text-se-green font-semibold' : '' }}
+                      {{ !isSelected(day) && !isToday(day) ? 'text-gray-700 hover:bg-gray-100' : '' }}">
+            {{ day }}
+          </div>
+          <!-- Task dot indicators -->
+          <div class="h-2 flex items-center justify-center gap-0.5 mt-0.5">
+            @if (getTasksForDay(day).length > 0 && getTasksForDay(day).length <= 3) {
+              @for (task of getTasksForDay(day); track task.id) {
+                <div class="w-1.5 h-1.5 rounded-full
+                            {{ task.type === 'reminder' ? 'bg-blue-400' : 'bg-se-jungle' }}"></div>
+              }
+            } @else if (getTasksForDay(day).length > 3) {
+              <span class="text-[9px] text-gray-400 leading-none">+{{ getTasksForDay(day).length }}</span>
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
