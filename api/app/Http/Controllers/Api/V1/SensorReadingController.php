@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\NewSensorReading;
 use App\Events\SensorReadingCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SensorReading\StoreSensorReadingRequest;
@@ -20,6 +21,7 @@ class SensorReadingController extends Controller
         $reading = $sensor->readings()->create($request->validated());
 
         SensorReadingCreated::dispatch($reading);
+        NewSensorReading::dispatch($reading);
 
         return response()->json(['data' => new SensorReadingResource($reading)], 201);
     }
