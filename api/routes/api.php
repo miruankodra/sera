@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\AutomationRuleController;
 use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\GreenhouseController;
 use App\Http\Controllers\Api\V1\SensorController;
@@ -41,5 +42,10 @@ Route::prefix('v1')->group(function () {
         Route::put('devices/{device}', [DeviceController::class, 'update']);
         Route::delete('devices/{device}', [DeviceController::class, 'destroy']);
         Route::post('devices/{device}/command', [DeviceController::class, 'command']);
+
+        Route::get('greenhouses/{greenhouse}/automation-rules', [AutomationRuleController::class, 'index']);
+        Route::post('greenhouses/{greenhouse}/automation-rules', [AutomationRuleController::class, 'store']);
+        Route::put('automation-rules/{automationRule}', [AutomationRuleController::class, 'update']);
+        Route::delete('automation-rules/{automationRule}', [AutomationRuleController::class, 'destroy']);
     });
 });
