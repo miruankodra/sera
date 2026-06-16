@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]:
+        - heading "Tjeta, Magnolia Raynor II" [level=1] [ref=e11]:
+          - text: Tjeta,
+          - heading "Magnolia Raynor II" [level=1] [ref=e13]
+        - heading "E Dielë, 24 Maj 2026" [level=1] [ref=e16]
+      - generic [ref=e19]:
+        - img "Serrë Hidroponi" [ref=e20]
+        - generic [ref=e22]:
+          - heading "Serrë Hidroponi" [level=1] [ref=e24]
+          - heading "Location Kavajë" [level=1] [ref=e27]:
+            - img "Location" [ref=e28]
+            - text: Kavajë
+      - generic [ref=e31]:
+        - img "Serrë e Kastravecit" [ref=e32]
+        - generic [ref=e34]:
+          - heading "Serrë e Kastravecit" [level=1] [ref=e36]
+          - heading "Location Elbasan" [level=1] [ref=e39]:
+            - img "Location" [ref=e40]
+            - text: Elbasan
+      - generic [ref=e43]:
+        - img "Serrë Eksperimentale" [ref=e44]
+        - generic [ref=e46]:
+          - heading "Serrë Eksperimentale" [level=1] [ref=e48]
+          - heading "Location Fier" [level=1] [ref=e51]:
+            - img "Location" [ref=e52]
+            - text: Fier
+    - generic [ref=e53]:
+      - img "Kreu" [ref=e55]
+      - img "Kalendari" [ref=e57]
+      - img "Raporte" [ref=e59]
+      - img "Profili" [ref=e61]
+  - generic [ref=e64]:
+    - generic [ref=e65]:
+      - generic [ref=e67]:
+        - button "Back" [ref=e70] [cursor=pointer]:
+          - img "Back" [ref=e71]
+        - generic [ref=e73]:
+          - button "Menu" [ref=e75] [cursor=pointer]:
+            - img "Menu" [ref=e76]
+          - generic [ref=e79]:
+            - generic [ref=e81]: Settings
+            - generic [ref=e83]: Mute Notifications
+            - generic [ref=e85]: Set Reminder
+      - generic [ref=e89]:
+        - heading "Serrë Hidroponi" [level=1] [ref=e91]
+        - heading "Location Kavajë" [level=1] [ref=e94]:
+          - img "Location" [ref=e95]
+          - text: Kavajë
+    - generic [ref=e98]:
+      - generic [ref=e102]:
+        - generic [ref=e104]:
+          - heading "Sensor Temperature" [level=1] [ref=e106]
+          - heading "77.7000 °C" [level=1] [ref=e108]
+        - generic [ref=e110]:
+          - heading "Sensor Lagështie" [level=1] [ref=e112]
+          - heading "52.2050 %" [level=1] [ref=e114]
+        - generic [ref=e116]:
+          - heading "Sensor Lagështie Toke" [level=1] [ref=e118]
+          - heading "87.3000 %" [level=1] [ref=e120]
+        - generic [ref=e122]:
+          - heading "Sensor Drite" [level=1] [ref=e124]
+          - heading "767.4633 lux" [level=1] [ref=e126]
+      - generic [ref=e128]:
+        - list [ref=e130]:
+          - listitem [ref=e131]: Manual Control
+          - listitem [ref=e132]: Smart Greenhouse
+          - listitem [ref=e133]: Alerts (21)
+        - generic "Manual Control" [ref=e134]:
+          - generic [ref=e136]:
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - img "Ventilator" [ref=e143]
+                - checkbox [checked] [ref=e146]
+              - generic [ref=e149]:
+                - heading "Ventilator" [level=1] [ref=e151]
+                - heading "fan" [level=1] [ref=e153]
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - img "Ngrohës" [ref=e160]
+                - checkbox [ref=e163]
+              - generic [ref=e166]:
+                - heading "Ngrohës" [level=1] [ref=e168]
+                - heading "heater" [level=1] [ref=e170]
+            - generic [ref=e174]:
+              - generic [ref=e175]:
+                - img "Sistem Ujitjeje" [ref=e177]
+                - checkbox [ref=e180]
+              - generic [ref=e183]:
+                - heading "Sistem Ujitjeje" [level=1] [ref=e185]
+                - heading "irrigation" [level=1] [ref=e187]
+            - generic [ref=e191]:
+              - generic [ref=e192]:
+                - img "Dritë Artificiale" [ref=e194]
+                - checkbox [ref=e197]
+              - generic [ref=e200]:
+                - heading "Dritë Artificiale" [level=1] [ref=e202]
+                - heading "light" [level=1] [ref=e204]
+        - generic "Smart Greenhouse"

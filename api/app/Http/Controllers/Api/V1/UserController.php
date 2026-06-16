@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\DeviceToken;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -177,5 +178,31 @@ class UserController extends Controller
         return response()->json([
             'data' => new UserResource($user->fresh()->loadCount('greenhouses')),
         ]);
+    }
+
+    public function storeDeviceToken(Request $request): Response
+    {
+        $request->validate([
+            'token' => ['required', 'string'],
+            'platform' => ['required', 'string', 'in:android,web'],
+        ]);
+
+        DeviceToken::updateOrCreate(
+            ['token' => $request->token],
+            ['user_id' => $request->user()->id, 'platform' => $request->platform]
+        );
+
+        return response()->noContent();
+    }
+
+    public function deleteDeviceToken(Request $request): Response
+    {
+        $request->validate(['token' => ['required', 'string']]);
+
+        DeviceToken::where('token', $request->token)
+            ->where('user_id', $request->user()->id)
+            ->delete();
+
+        return response()->noContent();
     }
 }

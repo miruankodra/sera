@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Events\AlertFired;
 use App\Events\AutomationRuleTriggered;
 use App\Models\AutomationRule;
+use App\Models\DeviceToken;
 use App\Models\SensorReading;
 
 class AutomationEngine
 {
+    public function __construct(private readonly FirebaseService $firebase) {}
+
     public function evaluate(SensorReading $reading): void
     {
         $sensor = $reading->sensor;
@@ -52,6 +55,8 @@ class AutomationEngine
 
             AutomationRuleTriggered::dispatch($rule);
             AlertFired::dispatch($alert);
+
+            $this->pushAlert($sensor->greenhouse->user_id, $alert->message);
         }
     }
 
@@ -67,16 +72,26 @@ class AutomationEngine
         };
     }
 
+    private function pushAlert(int $userId, string $body): void
+    {
+        $tokens = DeviceToken::where('user_id', $userId)->pluck('token');
+
+        foreach ($tokens as $token) {
+            $this->firebase->sendToToken($token, '⚠️ Greenhouse Alert', $body);
+        }
+    }
+
     private function buildMessage(string $sensorType, mixed $value, string $operator, mixed $threshold, string $unit): string
     {
         $labels = [
-            'gt' => 'tejkaloi', 'gte' => 'tejkaloi ose arriti',
-            'lt' => 'ra nën', 'lte' => 'ra nën ose arriti',
-            'eq' => 'arriti',
+            'gt' => 'exceeded', 'gte' => 'reached or exceeded',
+            'lt' => 'dropped below', 'lte' => 'dropped to or below',
+            'eq' => 'reached',
         ];
 
         $label = $labels[$operator] ?? $operator;
+        $name = ucfirst(str_replace('_', ' ', $sensorType));
 
-        return ucfirst($sensorType)." {$label} pragun: {$value}{$unit} (prag: {$threshold}{$unit}).";
+        return "{$name} {$label} threshold: {$value}{$unit} (threshold: {$threshold}{$unit}).";
     }
 }

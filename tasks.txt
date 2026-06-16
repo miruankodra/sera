@@ -57,10 +57,47 @@ Phase 6 — Quality
 
 "Add throttle middleware: 5 attempts per minute on auth endpoints, 60 per minute on the sensor ingestion endpoint. Verify all controllers call $this->authorize() before any DB operation. Confirm no raw SQL anywhere — all queries use Eloquent or query builder with parameter binding. Add CORS configuration to allow only the Angular app origin."
 
-[ ] Task 13: API documentation
+[x] Task 13: API documentation
 
 "Add l5-swagger OpenAPI annotations to all controllers and resource classes. Run php artisan l5-swagger:generate and confirm the Swagger UI is accessible at /api/documentation with all endpoints documented."
 
-[ ] Task 14: CI pipeline
+[x] Task 14: CI pipeline
 
 "Create .github/workflows/ci.yml that runs on every push: sets up PHP 8.3, installs composer dependencies with cache, starts a MySQL 8 service container, runs migrations, executes the full Pest suite, and runs Laravel Pint. The pipeline must pass cleanly."
+
+
+───────────────────────────────────────────────────────────
+Phase 7 — Frontend API Integration (Angular)
+───────────────────────────────────────────────────────────
+
+[x] F1: Authentication layer
+
+"Fix the login flow end-to-end: update API_URL in environment.ts to point at the real backend, replace mock HttpPaths with real auth endpoints (auth/login, auth/logout, auth/register), fix HttpService generics to separate request and response types and accept any 2xx status code. Update LoginDto to match the real API response shape { data: { token, user } }. Create AuthService with login(), logout(), and isAuthenticated() methods. Create a functional AuthGuard (CanActivateFn) that checks for a stored Sanctum token and redirects to /login if missing. Apply the guard to the tabs route. Update LoginComponent to use AuthService with a loading signal and Albanian error toast. Add a disabled input to SeButtonComponent. Wire logout in ProfileComponent."
+
+[ ] F2: Home page — real greenhouses
+
+"Replace all mock data in HomeComponent with real API calls. Call GET /api/v1/greenhouses to list the user's greenhouses. For each greenhouse, display a summary card with the latest sensor readings (GET /sensors/{id}/readings, last 1). Add a create greenhouse flow via POST /api/v1/greenhouses. Add delete via DELETE /api/v1/greenhouses/{id}. Add GreenhouseService to centralise all greenhouse API calls."
+
+[ ] F3: Greenhouse detail — sensors, devices, automation rules
+
+"Replace all mock data in GreenhouseComponent with real API calls. Load sensors via GET /greenhouses/{id}/sensors and latest reading per sensor via GET /sensors/{id}/readings. Load devices via GET /greenhouses/{id}/devices. Wire the device toggle to POST /devices/{id}/command (turn_on / turn_off). Load automation rules via GET /greenhouses/{id}/automation-rules. Support create/edit/delete of rules via POST/PUT/DELETE endpoints. Add SensorService and DeviceService."
+
+[ ] F4: WebSocket — real-time updates
+
+"Wire WebSocketService into GreenhouseComponent and HomeComponent. Subscribe to the private-greenhouse.{id} channel on entering a greenhouse view and unsubscribe on leave. Handle NewSensorReading → update sensor card value live. Handle DeviceStatusChanged → update device toggle state. Handle AlertFired → show a toast notification. Handle AutomationRuleTriggered → show an activity indicator."
+
+[ ] F5: Profile page — real user data
+
+"Replace hardcoded profile data with real API calls. Load user via GET /api/v1/user on page init. Wire an edit form to PUT /api/v1/user (name, email, timezone, locale, notification_preferences). Wire a password form to PUT /api/v1/user/password (current_password + new_password + confirmation). Implement avatar upload via POST /api/v1/user/avatar (multipart/form-data) and delete via DELETE /api/v1/user/avatar. Add UserService."
+
+[ ] F6: Alerts
+
+"Display real alerts for the active greenhouse. Call GET /greenhouses/{id}/alerts on load. Implement mark-as-read via POST /alerts/{id}/read (204). Show an unread alert badge/count in the greenhouse or home view. Real-time new alerts arrive via the WebSocket AlertFired event wired in F4. Add AlertService."
+
+[ ] F7: Calendar / tasks — backend sync
+
+"Sync CalendarComponent tasks with the backend instead of storing them only in Capacitor Preferences. On page init, load tasks from GET /greenhouses/{id}/tasks and merge with the local cache. On create, call POST /greenhouses/{id}/tasks in addition to saving locally. On complete, call PUT /tasks/{id} to sync is_completed. On delete, call DELETE /tasks/{id}. Resolve conflicts by treating the backend as the source of truth."
+
+[ ] F8: Reports page
+
+"Implement the Reports page (currently a stub). Fetch sensor readings over a date range via GET /sensors/{id}/readings?from=&to= and render trend charts. Show KPI summary cards (latest value per sensor type). Show a threshold breach log from GET /greenhouses/{id}/alerts filtered by date. Show automation activity derived from device commands. Show task completion stats from GET /greenhouses/{id}/tasks."

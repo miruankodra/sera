@@ -1,0 +1,209 @@
+- generic [ref=e1]:
+  - generic [ref=e23]:
+    - generic [ref=e25]:
+      - generic [ref=e27]:
+        - heading "Tjeta, Mr. Dallin Gleichner III" [level=1] [ref=e30]:
+          - text: Tjeta,
+          - heading "Mr. Dallin Gleichner III" [level=1] [ref=e32]
+        - heading "Monday, 25 May 2026" [level=1] [ref=e35]
+      - generic [ref=e38]:
+        - img "Serrë e Kastravecit" [ref=e39]
+        - generic [ref=e41]:
+          - heading "Serrë e Kastravecit" [level=1] [ref=e43]
+          - heading "Location Durrës" [level=1] [ref=e46]:
+            - img "Location" [ref=e47]
+            - text: Durrës
+      - generic [ref=e50]:
+        - img "Serrë Organike" [ref=e51]
+        - generic [ref=e53]:
+          - heading "Serrë Organike" [level=1] [ref=e55]
+          - heading "Location Shkodër" [level=1] [ref=e58]:
+            - img "Location" [ref=e59]
+            - text: Shkodër
+      - generic [ref=e62]:
+        - img "Serrë Eksperimentale" [ref=e63]
+        - generic [ref=e65]:
+          - heading "Serrë Eksperimentale" [level=1] [ref=e67]
+          - heading "Location Elbasan" [level=1] [ref=e70]:
+            - img "Location" [ref=e71]
+            - text: Elbasan
+    - generic [ref=e72]:
+      - img "Home" [ref=e74]
+      - img "Calendar" [ref=e76]
+      - img "Reports" [ref=e78]
+      - img "Profile" [ref=e80]
+  - generic [ref=e82]:
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e86]:
+          - button "Back" [ref=e89] [cursor=pointer]:
+            - img "Back" [ref=e90]
+          - generic [ref=e92]:
+            - button "Menu" [ref=e94] [cursor=pointer]:
+              - img "Menu" [ref=e95]
+            - generic [ref=e98]:
+              - generic [ref=e100]: Settings
+              - generic [ref=e102]: Mute Notifications
+              - generic [ref=e104]: Set Reminder
+        - generic [ref=e108]:
+          - heading "Serrë e Kastravecit" [level=1] [ref=e110]
+          - heading "Location Durrës" [level=1] [ref=e113]:
+            - img "Location" [ref=e114]
+            - text: Durrës
+      - generic [ref=e117]:
+        - generic [ref=e121]:
+          - generic [ref=e123]:
+            - heading "Sensor Temperature" [level=1] [ref=e125]
+            - heading "26.2951 °C" [level=1] [ref=e127]
+          - generic [ref=e129]:
+            - heading "Sensor Lagështie" [level=1] [ref=e131]
+            - heading "57.4755 %" [level=1] [ref=e133]
+          - generic [ref=e135]:
+            - heading "Sensor Lagështie Toke" [level=1] [ref=e137]
+            - heading "86.5000 %" [level=1] [ref=e139]
+          - generic [ref=e141]:
+            - heading "Sensor Drite" [level=1] [ref=e143]
+            - heading "502.7822 lux" [level=1] [ref=e145]
+        - generic [ref=e147]:
+          - list [ref=e149]:
+            - listitem [ref=e150]: Manual Control
+            - listitem [ref=e151]: Smart Greenhouse
+            - listitem [ref=e152]: Alerts (13)
+          - generic "Manual Control"
+          - generic "Smart Greenhouse" [ref=e224]:
+            - generic [ref=e226]:
+              - generic [ref=e227]:
+                - generic [ref=e229]:
+                  - generic [ref=e230]:
+                    - generic [ref=e231]: 🌡️
+                    - generic [ref=e232]:
+                      - paragraph [ref=e233]: Sensor Temperature
+                      - paragraph [ref=e234]: °C
+                  - generic [ref=e235]:
+                    - button [ref=e236] [cursor=pointer]
+                    - button [ref=e238] [cursor=pointer]:
+                      - img [ref=e239]
+                - generic [ref=e241]:
+                  - generic [ref=e242]:
+                    - generic [ref=e243]: IF
+                    - generic [ref=e244]: value > 28.0000 °C
+                  - generic [ref=e247]: then
+                  - generic [ref=e248]:
+                    - generic [ref=e249]: DO
+                    - generic [ref=e250]: 🌀 Turn On Ventilator
+              - generic [ref=e251]:
+                - generic [ref=e253]:
+                  - generic [ref=e254]:
+                    - generic [ref=e255]: 🌡️
+                    - generic [ref=e256]:
+                      - paragraph [ref=e257]: Sensor Temperature
+                      - paragraph [ref=e258]: °C
+                  - generic [ref=e259]:
+                    - button [ref=e260] [cursor=pointer]
+                    - button [ref=e262] [cursor=pointer]:
+                      - img [ref=e263]
+                - generic [ref=e265]:
+                  - generic [ref=e266]:
+                    - generic [ref=e267]: IF
+                    - generic [ref=e268]: value < 15.0000 °C
+                  - generic [ref=e271]: then
+                  - generic [ref=e272]:
+                    - generic [ref=e273]: DO
+                    - generic [ref=e274]: 🔥 Turn On Ngrohës
+              - generic [ref=e275]:
+                - generic [ref=e277]:
+                  - generic [ref=e278]:
+                    - generic [ref=e279]: 💧
+                    - generic [ref=e280]:
+                      - paragraph [ref=e281]: Sensor Lagështie
+                      - paragraph [ref=e282]: "%"
+                  - generic [ref=e283]:
+                    - button [ref=e284] [cursor=pointer]
+                    - button [ref=e286] [cursor=pointer]:
+                      - img [ref=e287]
+                - generic [ref=e289]:
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: IF
+                    - generic [ref=e292]: value > 85.0000 %
+                  - generic [ref=e295]: then
+                  - generic [ref=e296]:
+                    - generic [ref=e297]: DO
+                    - generic [ref=e298]: 🌀 Turn On Ventilator
+              - generic [ref=e299]:
+                - generic [ref=e301]:
+                  - generic [ref=e302]:
+                    - generic [ref=e303]: 🌱
+                    - generic [ref=e304]:
+                      - paragraph [ref=e305]: Sensor Lagështie Toke
+                      - paragraph [ref=e306]: "%"
+                  - generic [ref=e307]:
+                    - button [ref=e308] [cursor=pointer]
+                    - button [ref=e310] [cursor=pointer]:
+                      - img [ref=e311]
+                - generic [ref=e313]:
+                  - generic [ref=e314]:
+                    - generic [ref=e315]: IF
+                    - generic [ref=e316]: value < 35.0000 %
+                  - generic [ref=e319]: then
+                  - generic [ref=e320]:
+                    - generic [ref=e321]: DO
+                    - generic [ref=e322]: 💦 Turn On Sistem Ujitjeje
+              - generic [ref=e323]:
+                - generic [ref=e325]:
+                  - generic [ref=e326]:
+                    - generic [ref=e327]: ☀️
+                    - generic [ref=e328]:
+                      - paragraph [ref=e329]: Sensor Drite
+                      - paragraph [ref=e330]: lux
+                  - generic [ref=e331]:
+                    - button [ref=e332] [cursor=pointer]
+                    - button [ref=e334] [cursor=pointer]:
+                      - img [ref=e335]
+                - generic [ref=e337]:
+                  - generic [ref=e338]:
+                    - generic [ref=e339]: IF
+                    - generic [ref=e340]: value < 200.0000 lux
+                  - generic [ref=e343]: then
+                  - generic [ref=e344]:
+                    - generic [ref=e345]: DO
+                    - generic [ref=e346]: 💡 Turn On Dritë Artificiale
+              - button "Add Automation Rule" [active] [ref=e347] [cursor=pointer]:
+                - img [ref=e348]
+                - generic [ref=e350]: Add Automation Rule
+    - generic [ref=e352]:
+      - heading "Add Automation Rule" [level=3] [ref=e354]
+      - generic [ref=e355]:
+        - generic [ref=e356]:
+          - generic [ref=e357]: Trigger Sensor
+          - combobox [ref=e358]:
+            - option "Select a sensor…" [selected]
+            - option "🌡️ Sensor Temperature (°C)"
+            - option "💧 Sensor Lagështie (%)"
+            - option "🌱 Sensor Lagështie Toke (%)"
+            - option "☀️ Sensor Drite (lux)"
+        - generic [ref=e359]:
+          - generic [ref=e360]:
+            - generic [ref=e361]: Condition
+            - combobox [ref=e362]:
+              - option "> (greater than)" [selected]
+              - option "≥ (at least)"
+              - option "< (less than)"
+              - option "≤ (at most)"
+              - option "= (equal to)"
+          - generic [ref=e363]:
+            - generic [ref=e364]: Threshold
+            - spinbutton [ref=e365]
+        - generic [ref=e366]:
+          - generic [ref=e367]: Target Device
+          - combobox [ref=e368]:
+            - option "Select a device…" [selected]
+            - option "🌀 Ventilator"
+            - option "🔥 Ngrohës"
+            - option "💦 Sistem Ujitjeje"
+            - option "💡 Dritë Artificiale"
+        - generic [ref=e369]:
+          - generic [ref=e370]: Action
+          - generic [ref=e371]:
+            - button "⚡ Turn On" [ref=e372] [cursor=pointer]
+            - button "🌙 Turn Off" [ref=e373] [cursor=pointer]
+      - button "Create Rule" [disabled] [ref=e374]

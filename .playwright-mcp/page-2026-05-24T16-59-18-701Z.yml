@@ -1,0 +1,111 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - button [ref=e10] [cursor=pointer]:
+            - img [ref=e12]
+          - generic [ref=e14]: May 2026
+          - button [ref=e15] [cursor=pointer]:
+            - img [ref=e17]
+        - generic [ref=e19]:
+          - generic [ref=e20]: Mon
+          - generic [ref=e21]: Tue
+          - generic [ref=e22]: Wed
+          - generic [ref=e23]: Thu
+          - generic [ref=e24]: Fri
+          - generic [ref=e25]: Sat
+          - generic [ref=e26]: Sun
+        - generic [ref=e27]:
+          - generic [ref=e33] [cursor=pointer]: "1"
+          - generic [ref=e37] [cursor=pointer]: "2"
+          - generic [ref=e39] [cursor=pointer]: "3"
+          - generic [ref=e43] [cursor=pointer]: "4"
+          - generic [ref=e48] [cursor=pointer]: "5"
+          - generic [ref=e52] [cursor=pointer]: "6"
+          - generic [ref=e54] [cursor=pointer]: "7"
+          - generic [ref=e58] [cursor=pointer]: "8"
+          - generic [ref=e64] [cursor=pointer]: "9"
+          - generic [ref=e66] [cursor=pointer]: "10"
+          - generic [ref=e68] [cursor=pointer]: "11"
+          - generic [ref=e70] [cursor=pointer]: "12"
+          - generic [ref=e72] [cursor=pointer]: "13"
+          - generic [ref=e74] [cursor=pointer]: "14"
+          - generic [ref=e78] [cursor=pointer]: "15"
+          - generic [ref=e80] [cursor=pointer]: "16"
+          - generic [ref=e82] [cursor=pointer]: "17"
+          - generic [ref=e84] [cursor=pointer]: "18"
+          - generic [ref=e86] [cursor=pointer]: "19"
+          - generic [ref=e90] [cursor=pointer]: "20"
+          - generic [ref=e95] [cursor=pointer]: "21"
+          - generic [ref=e99] [cursor=pointer]: "22"
+          - generic [ref=e101] [cursor=pointer]: "23"
+          - generic [ref=e103] [cursor=pointer]: "24"
+          - generic [ref=e105] [cursor=pointer]: "25"
+          - generic [ref=e107] [cursor=pointer]: "26"
+          - generic [ref=e111] [cursor=pointer]: "27"
+          - generic [ref=e116] [cursor=pointer]: "28"
+          - generic [ref=e118] [cursor=pointer]: "29"
+          - generic [ref=e123] [cursor=pointer]: "30"
+          - generic [ref=e129] [cursor=pointer]: "31"
+      - generic [ref=e133]:
+        - paragraph [ref=e134]: Today
+        - generic [ref=e136]: No tasks today
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: Sunday, May 24
+        - paragraph [ref=e141]: No tasks for this day
+    - button [active] [ref=e142] [cursor=pointer]:
+      - img [ref=e144]
+    - generic [ref=e155]:
+      - generic [ref=e156]:
+        - paragraph [ref=e157]: New Task
+        - button [ref=e158] [cursor=pointer]:
+          - img [ref=e160]
+      - generic [ref=e163]:
+        - generic [ref=e164]:
+          - generic [ref=e165]: Title
+          - textbox "Task title" [ref=e166]
+        - generic [ref=e167]:
+          - generic [ref=e168]:
+            - generic [ref=e169]: Start Date
+            - textbox [ref=e170]: 2026-05-24
+          - generic [ref=e171]:
+            - generic [ref=e172]: Time
+            - textbox [ref=e173]: 08:00
+        - generic [ref=e174]:
+          - generic [ref=e175]: End Date (optional — leave empty for single day)
+          - textbox [ref=e176]
+        - generic [ref=e177]:
+          - generic [ref=e178]: Type
+          - generic [ref=e179]:
+            - button "Reminder" [ref=e180] [cursor=pointer]
+            - button "System Command" [ref=e181] [cursor=pointer]
+        - generic [ref=e182]:
+          - generic [ref=e183]: Greenhouse
+          - combobox [ref=e184]:
+            - option "Select greenhouse..."
+            - option "Serrë Hidroponi" [selected]
+            - option "Serrë e Kastravecit"
+            - option "Serrë Eksperimentale"
+        - generic [ref=e185]:
+          - generic [ref=e186]: Note
+          - textbox "Optional note..." [ref=e187]
+        - generic [ref=e188]:
+          - generic [ref=e189]: Enable notification
+          - checkbox [ref=e192]
+        - generic [ref=e195]:
+          - generic [ref=e196]: Zone / Crop (optional)
+          - textbox "e.g. Tomatoes - Row A" [ref=e197]
+        - generic [ref=e198]:
+          - generic [ref=e199]: Recurring
+          - combobox [ref=e200]:
+            - option "Once" [selected]
+            - option "Daily"
+            - option "Weekly"
+            - option "Every X days"
+      - button "Add Task" [disabled] [ref=e202]
+  - generic [ref=e145]:
+    - img "Kreu" [ref=e147]
+    - img "Kalendari" [ref=e149]
+    - img "Raporte" [ref=e151]
+    - img "Profili" [ref=e153]

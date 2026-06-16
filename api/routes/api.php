@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
-        Route::post('register', [AuthController::class, 'register'])->middleware('throttle:5,1');
-        Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+        Route::post('register', [AuthController::class, 'register'])->middleware('throttle:60,1');
+        Route::post('login', [AuthController::class, 'login'])->middleware('throttle:60,1');
         Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     });
 
@@ -24,6 +24,8 @@ Route::prefix('v1')->group(function () {
         Route::put('user/password', [UserController::class, 'updatePassword']);
         Route::post('user/avatar', [UserController::class, 'uploadAvatar']);
         Route::delete('user/avatar', [UserController::class, 'deleteAvatar']);
+        Route::post('user/device-token', [UserController::class, 'storeDeviceToken']);
+        Route::delete('user/device-token', [UserController::class, 'deleteDeviceToken']);
 
         Route::get('greenhouses', [GreenhouseController::class, 'index']);
         Route::post('greenhouses', [GreenhouseController::class, 'store']);

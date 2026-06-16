@@ -1,0 +1,276 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e8]:
+        - heading "Tjeta, Magnolia Raynor II" [level=1] [ref=e11]:
+          - text: Tjeta,
+          - heading "Magnolia Raynor II" [level=1] [ref=e13]
+        - heading "E Dielë, 24 Maj 2026" [level=1] [ref=e16]
+      - generic [ref=e19]:
+        - img "Serrë Hidroponi" [ref=e20]
+        - generic [ref=e22]:
+          - heading "Serrë Hidroponi" [level=1] [ref=e24]
+          - heading "Location Kavajë" [level=1] [ref=e27]:
+            - img "Location" [ref=e28]
+            - text: Kavajë
+      - generic [ref=e31]:
+        - img "Serrë e Kastravecit" [ref=e32]
+        - generic [ref=e34]:
+          - heading "Serrë e Kastravecit" [level=1] [ref=e36]
+          - heading "Location Elbasan" [level=1] [ref=e39]:
+            - img "Location" [ref=e40]
+            - text: Elbasan
+      - generic [ref=e43]:
+        - img "Serrë Eksperimentale" [ref=e44]
+        - generic [ref=e46]:
+          - heading "Serrë Eksperimentale" [level=1] [ref=e48]
+          - heading "Location Fier" [level=1] [ref=e51]:
+            - img "Location" [ref=e52]
+            - text: Fier
+    - generic [ref=e53]:
+      - img "Kreu" [ref=e55]
+      - img "Kalendari" [ref=e57]
+      - img "Raporte" [ref=e59]
+      - img "Profili" [ref=e61]
+  - generic [ref=e64]:
+    - generic [ref=e65]:
+      - generic [ref=e67]:
+        - button "Back" [ref=e70] [cursor=pointer]:
+          - img "Back" [ref=e71]
+        - generic [ref=e73]:
+          - button "Menu" [ref=e75] [cursor=pointer]:
+            - img "Menu" [ref=e76]
+          - generic [ref=e79]:
+            - generic [ref=e81]: Settings
+            - generic [ref=e83]: Mute Notifications
+            - generic [ref=e85]: Set Reminder
+      - generic [ref=e89]:
+        - heading "Serrë Hidroponi" [level=1] [ref=e91]
+        - heading "Location Kavajë" [level=1] [ref=e94]:
+          - img "Location" [ref=e95]
+          - text: Kavajë
+    - generic [ref=e98]:
+      - generic [ref=e102]:
+        - generic [ref=e104]:
+          - heading "Sensor Temperature" [level=1] [ref=e106]
+          - heading "77.7000 °C" [level=1] [ref=e108]
+        - generic [ref=e110]:
+          - heading "Sensor Lagështie" [level=1] [ref=e112]
+          - heading "52.2050 %" [level=1] [ref=e114]
+        - generic [ref=e116]:
+          - heading "Sensor Lagështie Toke" [level=1] [ref=e118]
+          - heading "87.3000 %" [level=1] [ref=e120]
+        - generic [ref=e122]:
+          - heading "Sensor Drite" [level=1] [ref=e124]
+          - heading "767.4633 lux" [level=1] [ref=e126]
+      - generic [ref=e128]:
+        - list [ref=e130]:
+          - listitem [ref=e131]: Manual Control
+          - listitem [ref=e132]: Smart Greenhouse
+          - listitem [ref=e133]: Alerts (20)
+        - generic "Manual Control"
+        - generic "Smart Greenhouse"
+        - generic [ref=e207]:
+          - generic [ref=e209] [cursor=pointer]:
+            - generic [ref=e210]: 🌡️
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - generic [ref=e213]: Temperature
+                - generic [ref=e214]: 47m ago
+              - paragraph [ref=e215]: "Temperature exceeded threshold: 77.7 °C (threshold: 28.0 °C)"
+          - generic [ref=e218] [cursor=pointer]:
+            - generic [ref=e219]: 🌡️
+            - generic [ref=e220]:
+              - generic [ref=e221]:
+                - generic [ref=e222]: Temperature
+                - generic [ref=e223]: 54m ago
+              - paragraph [ref=e224]: "Temperature exceeded threshold: 99.9 °C (threshold: 28.0 °C)"
+          - generic [ref=e227] [cursor=pointer]:
+            - generic [ref=e228]: 🌱
+            - generic [ref=e229]:
+              - generic [ref=e230]:
+                - generic [ref=e231]: Soil Moisture
+                - generic [ref=e232]: 14h ago
+              - paragraph [ref=e233]: "Soil Moisture dropped below threshold: 20.5 % (threshold: 30.0 %)"
+          - generic [ref=e236] [cursor=pointer]:
+            - generic [ref=e237]: 💧
+            - generic [ref=e238]:
+              - generic [ref=e239]:
+                - generic [ref=e240]: Humidity
+                - generic [ref=e241]: 19h ago
+              - paragraph [ref=e242]: "Humidity exceeded threshold: 90.6 % (threshold: 85.0 %)"
+          - generic [ref=e245] [cursor=pointer]:
+            - generic [ref=e246]: 💧
+            - generic [ref=e247]:
+              - generic [ref=e248]:
+                - generic [ref=e249]: Humidity
+                - generic [ref=e250]: 23h ago
+              - paragraph [ref=e251]: "Humidity exceeded threshold: 91.7 % (threshold: 85.0 %)"
+          - generic [ref=e254] [cursor=pointer]:
+            - generic [ref=e255]: 🌡️
+            - generic [ref=e256]:
+              - generic [ref=e257]:
+                - generic [ref=e258]: Temperature
+                - generic [ref=e259]: 3d ago
+              - paragraph [ref=e260]: "Temperature exceeded threshold: 35.1 °C (threshold: 30.0 °C)"
+          - generic [ref=e262] [cursor=pointer]:
+            - generic [ref=e263]: 💧
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - generic [ref=e266]: Humidity
+                - generic [ref=e267]: 3d ago
+              - paragraph [ref=e268]: "Humidity exceeded threshold: 93.0 % (threshold: 85.0 %)"
+          - generic [ref=e271] [cursor=pointer]:
+            - generic [ref=e272]: ☀️
+            - generic [ref=e273]:
+              - generic [ref=e274]:
+                - generic [ref=e275]: Light
+                - generic [ref=e276]: 3d ago
+              - paragraph [ref=e277]: "Light dropped below threshold: 152.4 lux (threshold: 200.0 lux)"
+          - generic [ref=e280] [cursor=pointer]:
+            - generic [ref=e281]: 🌡️
+            - generic [ref=e282]:
+              - generic [ref=e283]:
+                - generic [ref=e284]: Temperature
+                - generic [ref=e285]: 4d ago
+              - paragraph [ref=e286]: "Temperature exceeded threshold: 38.0 °C (threshold: 30.0 °C)"
+          - generic [ref=e289] [cursor=pointer]:
+            - generic [ref=e290]: 🌱
+            - generic [ref=e291]:
+              - generic [ref=e292]:
+                - generic [ref=e293]: Soil Moisture
+                - generic [ref=e294]: 6d ago
+              - paragraph [ref=e295]: "Soil Moisture dropped below threshold: 26.4 % (threshold: 30.0 %)"
+          - generic [ref=e297] [cursor=pointer]:
+            - generic [ref=e298]: 🌡️
+            - generic [ref=e299]:
+              - generic [ref=e300]:
+                - generic [ref=e301]: Temperature
+                - generic [ref=e302]: 6d ago
+              - paragraph [ref=e303]: "Temperature exceeded threshold: 37.3 °C (threshold: 30.0 °C)"
+          - generic [ref=e306] [cursor=pointer]:
+            - generic [ref=e307]: 💧
+            - generic [ref=e308]:
+              - generic [ref=e309]:
+                - generic [ref=e310]: Humidity
+                - generic [ref=e311]: 8d ago
+              - paragraph [ref=e312]: "Humidity exceeded threshold: 87.1 % (threshold: 85.0 %)"
+          - generic [ref=e314] [cursor=pointer]:
+            - generic [ref=e315]: 🌡️
+            - generic [ref=e316]:
+              - generic [ref=e317]:
+                - generic [ref=e318]: Temperature
+                - generic [ref=e319]: 9d ago
+              - paragraph [ref=e320]: "Temperature exceeded threshold: 32.5 °C (threshold: 30.0 °C)"
+          - generic [ref=e322] [cursor=pointer]:
+            - generic [ref=e323]: 💧
+            - generic [ref=e324]:
+              - generic [ref=e325]:
+                - generic [ref=e326]: Humidity
+                - generic [ref=e327]: 10d ago
+              - paragraph [ref=e328]: "Humidity exceeded threshold: 89.4 % (threshold: 85.0 %)"
+          - generic [ref=e331] [cursor=pointer]:
+            - generic [ref=e332]: ☀️
+            - generic [ref=e333]:
+              - generic [ref=e334]:
+                - generic [ref=e335]: Light
+                - generic [ref=e336]: 11d ago
+              - paragraph [ref=e337]: "Light dropped below threshold: 91.3 lux (threshold: 200.0 lux)"
+          - generic [ref=e339] [cursor=pointer]:
+            - generic [ref=e340]: 🌱
+            - generic [ref=e341]:
+              - generic [ref=e342]:
+                - generic [ref=e343]: Soil Moisture
+                - generic [ref=e344]: 11d ago
+              - paragraph [ref=e345]: "Soil Moisture dropped below threshold: 20.4 % (threshold: 30.0 %)"
+          - generic [ref=e348] [cursor=pointer]:
+            - generic [ref=e349]: ☀️
+            - generic [ref=e350]:
+              - generic [ref=e351]:
+                - generic [ref=e352]: Light
+                - generic [ref=e353]: 12d ago
+              - paragraph [ref=e354]: "Light dropped below threshold: 112.0 lux (threshold: 200.0 lux)"
+          - generic [ref=e357] [cursor=pointer]:
+            - generic [ref=e358]: 💧
+            - generic [ref=e359]:
+              - generic [ref=e360]:
+                - generic [ref=e361]: Humidity
+                - generic [ref=e362]: 12d ago
+              - paragraph [ref=e363]: "Humidity exceeded threshold: 90.8 % (threshold: 85.0 %)"
+          - generic [ref=e366] [cursor=pointer]:
+            - generic [ref=e367]: 🌱
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - generic [ref=e370]: Soil Moisture
+                - generic [ref=e371]: 13d ago
+              - paragraph [ref=e372]: "Soil Moisture dropped below threshold: 20.5 % (threshold: 30.0 %)"
+          - generic [ref=e375] [cursor=pointer]:
+            - generic [ref=e376]: 🌡️
+            - generic [ref=e377]:
+              - generic [ref=e378]:
+                - generic [ref=e379]: Temperature
+                - generic [ref=e380]: 14d ago
+              - paragraph [ref=e381]: "Temperature exceeded threshold: 36.8 °C (threshold: 30.0 °C)"
+          - generic [ref=e384] [cursor=pointer]:
+            - generic [ref=e385]: 💧
+            - generic [ref=e386]:
+              - generic [ref=e387]:
+                - generic [ref=e388]: Humidity
+                - generic [ref=e389]: 15d ago
+              - paragraph [ref=e390]: "Humidity exceeded threshold: 91.6 % (threshold: 85.0 %)"
+          - generic [ref=e392] [cursor=pointer]:
+            - generic [ref=e393]: 🌱
+            - generic [ref=e394]:
+              - generic [ref=e395]:
+                - generic [ref=e396]: Soil Moisture
+                - generic [ref=e397]: 15d ago
+              - paragraph [ref=e398]: "Soil Moisture dropped below threshold: 21.3 % (threshold: 30.0 %)"
+          - generic [ref=e401] [cursor=pointer]:
+            - generic [ref=e402]: 🌱
+            - generic [ref=e403]:
+              - generic [ref=e404]:
+                - generic [ref=e405]: Soil Moisture
+                - generic [ref=e406]: 22d ago
+              - paragraph [ref=e407]: "Soil Moisture dropped below threshold: 24.3 % (threshold: 30.0 %)"
+          - generic [ref=e410] [cursor=pointer]:
+            - generic [ref=e411]: 🌱
+            - generic [ref=e412]:
+              - generic [ref=e413]:
+                - generic [ref=e414]: Soil Moisture
+                - generic [ref=e415]: 23d ago
+              - paragraph [ref=e416]: "Soil Moisture dropped below threshold: 20.0 % (threshold: 30.0 %)"
+          - generic [ref=e419] [cursor=pointer]:
+            - generic [ref=e420]: 🌡️
+            - generic [ref=e421]:
+              - generic [ref=e422]:
+                - generic [ref=e423]: Temperature
+                - generic [ref=e424]: 24d ago
+              - paragraph [ref=e425]: "Temperature exceeded threshold: 35.7 °C (threshold: 30.0 °C)"
+          - generic [ref=e427] [cursor=pointer]:
+            - generic [ref=e428]: ☀️
+            - generic [ref=e429]:
+              - generic [ref=e430]:
+                - generic [ref=e431]: Light
+                - generic [ref=e432]: 25d ago
+              - paragraph [ref=e433]: "Light dropped below threshold: 189.7 lux (threshold: 200.0 lux)"
+          - generic [ref=e436] [cursor=pointer]:
+            - generic [ref=e437]: ☀️
+            - generic [ref=e438]:
+              - generic [ref=e439]:
+                - generic [ref=e440]: Light
+                - generic [ref=e441]: 26d ago
+              - paragraph [ref=e442]: "Light dropped below threshold: 52.0 lux (threshold: 200.0 lux)"
+          - generic [ref=e445] [cursor=pointer]:
+            - generic [ref=e446]: 🌡️
+            - generic [ref=e447]:
+              - generic [ref=e448]:
+                - generic [ref=e449]: Temperature
+                - generic [ref=e450]: 27d ago
+              - paragraph [ref=e451]: "Temperature exceeded threshold: 37.2 °C (threshold: 30.0 °C)"
+          - generic [ref=e453] [cursor=pointer]:
+            - generic [ref=e454]: ☀️
+            - generic [ref=e455]:
+              - generic [ref=e456]:
+                - generic [ref=e457]: Light
+                - generic [ref=e458]: 27d ago
+              - paragraph [ref=e459]: "Light dropped below threshold: 140.4 lux (threshold: 200.0 lux)"

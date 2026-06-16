@@ -64,6 +64,8 @@ services:
       - ./api:/var/www
     env_file:
       - ./api/.env
+    environment:
+      REVERB_HOST: reverb
     depends_on:
       app:
         condition: service_started
