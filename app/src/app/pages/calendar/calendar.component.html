@@ -100,6 +100,18 @@
           </div>
         </div>
 
+        <!-- Greenhouse picker (both types) -->
+        <div>
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">Greenhouse</label>
+          <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+                  [ngModel]="form().greenhouse_id" (ngModelChange)="onGreenhouseChange($event)">
+            <option value="">Select greenhouse...</option>
+            @for (gh of greenhouses(); track gh.id) {
+              <option [value]="gh.id">{{ gh.name }}</option>
+            }
+          </select>
+        </div>
+
         <!-- Reminder fields -->
         @if (form().type === 'reminder') {
           <div>
@@ -119,33 +131,38 @@
 
         <!-- System command fields -->
         @if (form().type === 'system_command') {
-          <div>
-            <label class="text-xs font-semibold text-gray-500 mb-1 block">Greenhouse / Device</label>
-            <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
-                    [ngModel]="form().device" (ngModelChange)="onDeviceChange($event)">
-              <option value="">Select greenhouse...</option>
-              @for (gh of greenhouses; track gh.id) {
-                <option [value]="gh.id">{{ gh.name }}</option>
+          @if (form().greenhouse_id) {
+            <div>
+              <label class="text-xs font-semibold text-gray-500 mb-1 block">Device</label>
+              @if (loadingDevices()) {
+                <p class="text-xs text-gray-400 py-2">Loading devices...</p>
+              } @else {
+                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+                        [ngModel]="form().device" (ngModelChange)="onDeviceChange($event)">
+                  <option value="">Select device...</option>
+                  @for (d of devicesForSelectedGreenhouse(); track d.id) {
+                    <option [value]="d.id">{{ d.name }} ({{ d.type }})</option>
+                  }
+                </select>
               }
-            </select>
-          </div>
-          @if (form().device) {
-            <div>
-              <label class="text-xs font-semibold text-gray-500 mb-1 block">Action</label>
-              <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
-                      [ngModel]="form().action" (ngModelChange)="updateForm('action', $event)">
-                <option value="">Select action...</option>
-                @for (action of availableActions(); track action.name) {
-                  <option [value]="action.name">{{ action.name }}</option>
-                }
-              </select>
             </div>
-            <div>
-              <label class="text-xs font-semibold text-gray-500 mb-1 block">Duration (minutes)</label>
-              <input type="number" min="1" placeholder="e.g. 15"
-                     class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
-                     [ngModel]="form().duration" (ngModelChange)="updateForm('duration', $event ? +$event : null)"/>
-            </div>
+            @if (form().device) {
+              <div>
+                <label class="text-xs font-semibold text-gray-500 mb-1 block">Action</label>
+                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+                        [ngModel]="form().action" (ngModelChange)="updateForm('action', $event)">
+                  <option value="">Select action...</option>
+                  <option value="turn_on">Turn On</option>
+                  <option value="turn_off">Turn Off</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-gray-500 mb-1 block">Duration (minutes)</label>
+                <input type="number" min="1" placeholder="e.g. 15"
+                       class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+                       [ngModel]="form().duration" (ngModelChange)="updateForm('duration', $event ? +$event : null)"/>
+              </div>
+            }
           }
         }
 
@@ -184,7 +201,7 @@
       <div class="px-5 pb-safe-or-8 pt-3 border-t border-gray-100 bg-white" style="padding-bottom: max(5.5rem, env(safe-area-inset-bottom))">
         <button
           class="w-full py-3 bg-se-green text-se-lime font-semibold rounded-2xl text-sm active:scale-95 transition-transform disabled:opacity-40"
-          [disabled]="!form().title.trim()"
+          [disabled]="!form().title.trim() || !form().greenhouse_id"
           (click)="submitForm()">
           {{ editingTask() ? 'Save Changes' : 'Add Task' }}
         </button>

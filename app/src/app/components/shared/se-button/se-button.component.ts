@@ -21,11 +21,14 @@ export class SeButtonComponent {
   text = input<string>('text-[18px] text-white font-semibold');
   container = input<string>('flex items-center justify-center');
   clickAnimation = input<string>('');
+  disabled = input<boolean>(false);
 
   onClick: OutputEmitterRef<void> = output<void>();
 
   onButtonClick(): void {
-    this.onClick.emit();
+    if (!this.disabled()) {
+      this.onClick.emit();
+    }
   }
 
 }

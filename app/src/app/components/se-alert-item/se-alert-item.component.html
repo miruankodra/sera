@@ -1,0 +1,25 @@
+<div appAnimateOnClick [behaviour]="'pulse'"
+     class="w-full flex flex-row items-start gap-3 p-4 rounded-[16px] mb-3 cursor-pointer transition-opacity"
+     [class.opacity-50]="alert().is_read"
+     [class.bg-white]="!alert().is_read"
+     [class.bg-gray-50]="alert().is_read"
+     (click)="markRead.emit()">
+
+  <div class="text-[28px] leading-none mt-0.5 flex-shrink-0">{{ sensorEmoji() }}</div>
+
+  <div class="flex-1 min-w-0">
+    <div class="flex flex-row items-center justify-between gap-2">
+      <span class="text-[14px] font-semibold text-gray-800 truncate">{{ sensorLabel() }}</span>
+      <span class="text-[11px] text-gray-400 flex-shrink-0">{{ timeAgo() }}</span>
+    </div>
+    <p class="text-[13px] text-gray-500 mt-0.5 leading-snug">
+      {{ sensorLabel() }} {{ operatorLabel() }} threshold:
+      <span class="font-semibold text-gray-700">{{ formattedValue() }}</span>
+      (threshold: {{ formattedThreshold() }})
+    </p>
+  </div>
+
+  @if (!alert().is_read) {
+    <div class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0 mt-1.5"></div>
+  }
+</div>

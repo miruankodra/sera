@@ -14,6 +14,7 @@ export class CoreHttpService {
   private _baseUrl = environment.API_URL;
   private _headers: HttpHeaders = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
     'User-Agent': environment.APP_AGENT,
     App: environment.APP_NAME
   };

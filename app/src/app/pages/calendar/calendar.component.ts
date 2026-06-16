@@ -5,6 +5,7 @@ import {Capacitor} from '@capacitor/core';
 import {LocalNotifications} from '@capacitor/local-notifications';
 import {TaskService} from '../../services/task.service';
 import {GreenhouseTask, TaskForm, emptyTaskForm, toLocalDateString} from '../../models/greenhouse-task';
+import {DeviceDto} from '../../models/device-dto';
 import {SeCalendarGridComponent} from '../../components/calendar/se-calendar-grid/se-calendar-grid.component';
 import {SeTodayStripComponent} from '../../components/calendar/se-today-strip/se-today-strip.component';
 import {SeTaskListComponent} from '../../components/calendar/se-task-list/se-task-list.component';
@@ -29,29 +30,30 @@ export class CalendarComponent implements OnInit {
   readonly XIcon = X;
 
   private readonly taskService = inject(TaskService);
-  readonly greenhouses = this.taskService.greenhouses;
 
+  readonly greenhouses = this.taskService.greenhouses;
   readonly today = new Date();
   readonly selectedDate = signal<Date>(new Date());
   readonly showSheet = signal(false);
   readonly editingTask = signal<GreenhouseTask | null>(null);
   readonly form = signal<TaskForm>(emptyTaskForm(new Date()));
+  readonly devicesForSelectedGreenhouse = signal<DeviceDto[]>([]);
+  readonly loadingDevices = signal(false);
 
   readonly allTasks = this.taskService.tasks;
 
   readonly selectedDayTasks = computed(() => {
     const date = this.selectedDate();
-    return this.taskService.tasks().filter(t => this.isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, date));
+    return this.taskService.tasks().filter(t =>
+      this._isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, date)
+    );
   });
 
   readonly todayTasks = computed(() => {
     const today = new Date();
-    return this.taskService.tasks().filter(t => this.isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, today));
-  });
-
-  readonly availableActions = computed(() => {
-    const gh = this.taskService.greenhouses.find(g => g.id === this.form().device);
-    return gh ? gh.actions : [];
+    return this.taskService.tasks().filter(t =>
+      this._isInRange(new Date(t.date), t.endDate ? new Date(t.endDate) : undefined, today)
+    );
   });
 
   async ngOnInit(): Promise<void> {
@@ -67,14 +69,18 @@ export class CalendarComponent implements OnInit {
   }
 
   openCreateSheet(): void {
-    this.form.set(emptyTaskForm(this.selectedDate()));
+    const defaultGh = this.greenhouses().length > 0 ? String(this.greenhouses()[0].id) : '';
+    this.form.set(emptyTaskForm(this.selectedDate(), defaultGh));
     this.editingTask.set(null);
+    this.devicesForSelectedGreenhouse.set([]);
     this.showSheet.set(true);
+    if (defaultGh) this._loadDevices(Number(defaultGh));
   }
 
   openEditSheet(task: GreenhouseTask): void {
     const d = new Date(task.date);
     this.form.set({
+      greenhouse_id: String(task.greenhouse_id),
       title: task.title,
       date: toLocalDateString(d),
       endDate: task.endDate ? toLocalDateString(new Date(task.endDate)) : '',
@@ -90,7 +96,9 @@ export class CalendarComponent implements OnInit {
       recurringIntervalDays: task.recurringIntervalDays ?? null,
     });
     this.editingTask.set(task);
+    this.devicesForSelectedGreenhouse.set([]);
     this.showSheet.set(true);
+    if (task.greenhouse_id) this._loadDevices(task.greenhouse_id);
   }
 
   closeSheet(): void {
@@ -102,17 +110,24 @@ export class CalendarComponent implements OnInit {
     this.form.update(f => ({...f, [key]: value}));
   }
 
+  onGreenhouseChange(id: string): void {
+    this.form.update(f => ({...f, greenhouse_id: id, device: '', action: ''}));
+    this.devicesForSelectedGreenhouse.set([]);
+    if (id) this._loadDevices(Number(id));
+  }
+
   onDeviceChange(deviceId: string): void {
     this.form.update(f => ({...f, device: deviceId, action: ''}));
   }
 
-async submitForm(): Promise<void> {
+  async submitForm(): Promise<void> {
     const f = this.form();
-    if (!f.title.trim()) return;
+    if (!f.title.trim() || !f.greenhouse_id) return;
 
     const isEditing = !!this.editingTask();
     const task: GreenhouseTask = {
-      id: isEditing ? this.editingTask()!.id : crypto.randomUUID(),
+      id: isEditing ? this.editingTask()!.id : '0',
+      greenhouse_id: Number(f.greenhouse_id),
       title: f.title.trim(),
       date: new Date(f.date),
       endDate: f.endDate ? new Date(f.endDate) : undefined,
@@ -130,8 +145,6 @@ async submitForm(): Promise<void> {
 
     if (isEditing) {
       await this.taskService.update(task);
-      // Cancel previous notification; re-scheduling happens below if still enabled.
-      // Note: cancelNotification is a no-op on web — notification management is native-only.
       await this.cancelNotification(task.id);
     } else {
       await this.taskService.add(task);
@@ -149,6 +162,16 @@ async submitForm(): Promise<void> {
     await this.taskService.remove(taskId);
   }
 
+  private async _loadDevices(greenhouseId: number): Promise<void> {
+    this.loadingDevices.set(true);
+    try {
+      const devices = await this.taskService.loadDevicesForGreenhouse(greenhouseId);
+      this.devicesForSelectedGreenhouse.set(devices);
+    } finally {
+      this.loadingDevices.set(false);
+    }
+  }
+
   private async scheduleNotification(task: GreenhouseTask): Promise<void> {
     if (!Capacitor.isNativePlatform()) return;
 
@@ -164,7 +187,7 @@ async submitForm(): Promise<void> {
 
     await LocalNotifications.schedule({
       notifications: [{
-        id: this.taskIdToNotificationId(task.id),
+        id: this._taskIdToNotificationId(task.id),
         title: task.title,
         body: task.note ?? 'Greenhouse reminder',
         schedule: {at},
@@ -175,11 +198,11 @@ async submitForm(): Promise<void> {
   private async cancelNotification(taskId: string): Promise<void> {
     if (!Capacitor.isNativePlatform()) return;
     await LocalNotifications.cancel({
-      notifications: [{id: this.taskIdToNotificationId(taskId)}],
+      notifications: [{id: this._taskIdToNotificationId(taskId)}],
     });
   }
 
-  private taskIdToNotificationId(id: string): number {
+  private _taskIdToNotificationId(id: string): number {
     let hash = 0;
     for (let i = 0; i < id.length; i++) {
       hash = ((hash << 5) - hash) + id.charCodeAt(i);
@@ -188,17 +211,11 @@ async submitForm(): Promise<void> {
     return Math.abs(hash);
   }
 
-  private isInRange(start: Date, end: Date | undefined, target: Date): boolean {
+  private _isInRange(start: Date, end: Date | undefined, target: Date): boolean {
     const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate());
     const targetDay = new Date(target.getFullYear(), target.getMonth(), target.getDate());
     if (!end) return startDay.getTime() === targetDay.getTime();
     const endDay = new Date(end.getFullYear(), end.getMonth(), end.getDate());
     return targetDay >= startDay && targetDay <= endDay;
-  }
-
-  private isSameDay(a: Date, b: Date): boolean {
-    return a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate();
   }
 }

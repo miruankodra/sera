@@ -1,4 +1,6 @@
-<button appAnimateOnClick [behaviour]="clickAnimation()" class="transition-all ease-linear relative {{ height() }} {{ width() }} {{ background() }} {{ border() }} {{ radius() }} {{ text() }} {{ padding() }} {{ margin() }} overflow-hidden"
+<button appAnimateOnClick [behaviour]="clickAnimation()"
+        [disabled]="disabled()"
+        class="transition-all ease-linear relative {{ height() }} {{ width() }} {{ background() }} {{ border() }} {{ radius() }} {{ text() }} {{ padding() }} {{ margin() }} overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
         (click)="onButtonClick()">
   <ng-content></ng-content>
 </button>

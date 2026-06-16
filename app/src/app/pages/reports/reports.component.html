@@ -1,1 +1,156 @@
-<p>reports works!</p>
+<div class="w-full min-h-full flex flex-col bg-gray-50 pb-8">
+
+  <!-- Header -->
+  <div class="bg-white px-5 pt-5 pb-4 shadow-sm sticky top-0 z-10">
+    <h1 class="text-xl font-bold text-gray-900 mb-4">Reports</h1>
+
+    <!-- Greenhouse selector -->
+    <select
+      class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-700 bg-white mb-3 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+      [value]="selectedGreenhouseId()"
+      (change)="onGreenhouseChangeEvent($event)">
+      @for (gh of greenhouses(); track gh.id) {
+        <option [value]="gh.id">{{ gh.name }}</option>
+      }
+    </select>
+
+    <!-- Period tabs -->
+    <div class="flex gap-2">
+      @for (p of [7, 14, 30]; track p) {
+        <button
+          class="flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors"
+          [class]="period() === p
+            ? 'bg-[#1A9E78] text-white'
+            : 'bg-gray-100 text-gray-600'"
+          (click)="onPeriodChange(p)">
+          {{ p }}d
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="flex-1 px-4 pt-5 space-y-5">
+
+    @if (loading()) {
+      <!-- Skeleton -->
+      <div class="animate-pulse space-y-4">
+        <div class="bg-white rounded-2xl h-[200px]"></div>
+        <div class="bg-white rounded-2xl h-[200px]"></div>
+        <div class="bg-white rounded-2xl h-[120px]"></div>
+      </div>
+    } @else if (greenhouses().length === 0) {
+      <p class="text-center text-gray-400 text-sm mt-20">No greenhouses found.</p>
+    } @else {
+
+      <!-- Sensor charts -->
+      @for (report of sensorReports(); track report.sensor.id) {
+        <div class="bg-white rounded-2xl p-4 shadow-sm">
+          <!-- Sensor header -->
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">{{ sensorEmoji(report.sensor.type) }}</span>
+            <div>
+              <p class="font-semibold text-gray-800 text-sm leading-tight">{{ report.sensor.name }}</p>
+              <p class="text-xs text-gray-400">{{ report.sensor.unit }}</p>
+            </div>
+            @if (report.current !== null) {
+              <span
+                class="ml-auto text-lg font-bold"
+                [style.color]="sensorColor(report.sensor.type)">
+                {{ report.current }}<span class="text-xs font-normal text-gray-400 ml-0.5">{{ report.sensor.unit }}</span>
+              </span>
+            }
+          </div>
+
+          <!-- KPI row -->
+          <div class="grid grid-cols-3 gap-2 mb-3">
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Avg</p>
+              <p class="font-semibold text-gray-700 text-sm">{{ report.avg }}</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Min</p>
+              <p class="font-semibold text-blue-500 text-sm">{{ report.min }}</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-2 text-center">
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Max</p>
+              <p class="font-semibold text-red-400 text-sm">{{ report.max }}</p>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          @if (report.readings.length > 0) {
+            <se-sensor-chart
+              [readings]="report.readings"
+              [unit]="report.sensor.unit"
+              [color]="sensorColor(report.sensor.type)"/>
+          } @else {
+            <p class="text-center text-gray-300 text-xs py-6">No readings in this period.</p>
+          }
+        </div>
+      }
+
+      @if (sensorReports().length === 0 && !loading()) {
+        <div class="bg-white rounded-2xl p-6 shadow-sm text-center">
+          <p class="text-gray-400 text-sm">No sensors registered for this greenhouse.</p>
+        </div>
+      }
+
+      <!-- Task completion -->
+      @if (taskSummary()) {
+        <div class="bg-white rounded-2xl p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold text-gray-800 text-sm">Task Completion</h2>
+            <span class="text-[#1A9E78] font-bold text-sm">{{ taskCompletionPct() }}%</span>
+          </div>
+          <!-- Progress bar -->
+          <div class="w-full bg-gray-100 rounded-full h-2.5 mb-2">
+            <div
+              class="bg-[#1A9E78] h-2.5 rounded-full transition-all duration-500"
+              [style.width.%]="taskCompletionPct()">
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">
+            {{ taskSummary()!.completed }} of {{ taskSummary()!.total }} tasks completed
+          </p>
+        </div>
+      }
+
+      <!-- Alerts summary -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-semibold text-gray-800 text-sm">Recent Alerts</h2>
+          @if (unreadAlerts() > 0) {
+            <span class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-0.5 rounded-full">
+              {{ unreadAlerts() }} unread
+            </span>
+          }
+        </div>
+
+        @if (recentAlerts().length === 0) {
+          <p class="text-gray-300 text-xs text-center py-4">No alerts in this period.</p>
+        } @else {
+          <div class="space-y-2">
+            @for (alert of recentAlerts(); track alert.id) {
+              <div
+                class="flex items-start gap-3 p-2.5 rounded-xl transition-colors"
+                [class]="alert.is_read ? 'bg-gray-50 opacity-60' : 'bg-red-50'">
+                <span class="text-base mt-0.5">{{ sensorEmoji(alert.sensor_type) }}</span>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-medium text-gray-800 leading-snug">{{ alert.message }}</p>
+                  <p class="text-[10px] text-gray-400 mt-0.5">
+                    {{ alert.sensor_type | titlecase }} {{ operatorLabel(alert.operator) }} {{ +alert.threshold | number:'1.0-0' }}
+                    &nbsp;·&nbsp;{{ timeAgo(alert.triggered_at) }}
+                  </p>
+                </div>
+                @if (!alert.is_read) {
+                  <span class="w-2 h-2 rounded-full bg-red-500 mt-1 flex-shrink-0"></span>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+    }
+  </div>
+</div>

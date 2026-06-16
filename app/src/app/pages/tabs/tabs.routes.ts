@@ -1,11 +1,13 @@
 import {Routes} from "@angular/router";
 import {TabsComponent} from "./tabs.component";
 import {RoutePaths} from "../../models/constants/route-paths";
+import {authGuard} from "../../guards/auth.guard";
 
 export const TabsRoutes: Routes = [
   {
     path: '',
     component: TabsComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: RoutePaths.home,

@@ -1,6 +1,7 @@
 import {
   ApplicationRef,
   ComponentFactoryResolver,
+  ComponentRef,
   EmbeddedViewRef,
   Injectable,
   Injector,
@@ -17,6 +18,7 @@ import {ModelOnCloseDto} from "../models/model-on-close-dto";
 export class ModalService {
 
   modal?: HTMLElement;
+  private activeRef?: ComponentRef<object>;
   modalStyle = Styles.modal;
 
   onClose: OutputEmitterRef<ModelOnCloseDto | undefined> = output<ModelOnCloseDto | undefined>();
@@ -41,6 +43,7 @@ export class ModalService {
     }
 
     this.applicationRef.attachView(modalRef.hostView);
+    this.activeRef = modalRef;
 
     const element = (modalRef.hostView as EmbeddedViewRef<object>).rootNodes[0] as HTMLElement;
     this.modal = document.createElement('div');
@@ -61,6 +64,8 @@ export class ModalService {
       this.modal.classList.add('translate-y-full', 'opacity-0');
       this.modal.addEventListener('transitionend', () => {
         document.body.removeChild(modal);
+        this.activeRef?.destroy();
+        this.activeRef = undefined;
         this.modal = undefined;
       }, {once: true});
     }

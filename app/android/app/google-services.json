@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087432820238",
+    "project_id": "sera-app-25bf5",
+    "storage_bucket": "sera-app-25bf5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087432820238:android:71fd9ea197752b21e31e5f",
+        "android_client_info": {
+          "package_name": "al.oneAcre.sera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUdE9OPQX1q2YJrEXESAyVcaxP2A_coq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

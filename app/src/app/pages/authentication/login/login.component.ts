@@ -1,14 +1,12 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {SeTitleComponent} from "../../../components/shared/se-title/se-title.component";
 import {environment} from "../../../../environments/environment";
 import {SeInputComponent} from "../../../components/shared/se-input/se-input.component";
 import {SeButtonComponent} from "../../../components/shared/se-button/se-button.component";
-import {HttpService} from "../../../services/http.service";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginValidationErrors} from "../../../models/errors/validation/login-validation-errors";
 import {ToastService} from "../../../services/toast.service";
-import {HttpPaths} from "../../../models/constants/http-paths";
-import {LoginDto} from "../../../models/login-dto";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'se-login',
@@ -23,24 +21,30 @@ import {LoginDto} from "../../../models/login-dto";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  appName = environment.APP_NAME;
+  loading = signal(false);
 
-  appName = environment.APP_NAME
-  private _httpService: HttpService = inject(HttpService);
-  private _toastService: ToastService = inject(ToastService)
-  private formBuilder = inject(FormBuilder);
-  loginForm: FormGroup;
+  private _authService = inject(AuthService);
+  private _toastService = inject(ToastService);
+  private _formBuilder = inject(FormBuilder);
 
-  constructor() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.min(8)]],
-    });
-  }
+  loginForm: FormGroup = this._formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+  });
 
   async login(): Promise<void> {
-    await this._httpService.post<LoginDto>(HttpPaths.LOGIN_ERR, this.loginForm.value).then((response: LoginDto) => {
-      console.log(response.message)
-    })
+    if (this.loginForm.invalid || this.loading()) return;
+
+    this.loading.set(true);
+    try {
+      const {email, password} = this.loginForm.value;
+      await this._authService.login(email, password);
+    } catch {
+      await this._toastService.fireToast('Incorrect email or password.');
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   protected readonly LoginValidationErrors = LoginValidationErrors;

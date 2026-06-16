@@ -1,6 +1,6 @@
 export enum LoginValidationErrors {
-  EMAIL_REQUIRED = 'E-mail është i detyrueshëm',
-  EMAIL_INVALID = 'Format i pavlefshëm i e-mail-it',
-  PASSWORD_REQUIRED = 'Fjalëkalimi është është i detyrueshëm',
-  PASSWORD_MIN_LENGTH = 'Fjalëkalimi duhet të ketë të paktën 8 karaktere'
+  EMAIL_REQUIRED = 'Email is required',
+  EMAIL_INVALID = 'Invalid email format',
+  PASSWORD_REQUIRED = 'Password is required',
+  PASSWORD_MIN_LENGTH = 'Password must be at least 8 characters'
 }

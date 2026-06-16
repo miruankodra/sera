@@ -1,5 +1,10 @@
 export interface LoginDto {
-  email: string;
-  password: string;
-  message: string;
+  data: {
+    token: string;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  };
 }

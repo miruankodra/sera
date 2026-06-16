@@ -5,25 +5,25 @@ export const Tabs: TabDto[] = [
   {
     iconActive: 'assets/images/icons/home.svg',
     iconInactive: 'assets/images/icons/home-outline.svg',
-    label: 'Kreu',
+    label: 'Home',
     path: RoutePaths.home
   },
   {
     iconActive: 'assets/images/icons/calendar.svg',
     iconInactive: 'assets/images/icons/calendar-outline.svg',
-    label: 'Kalendari',
+    label: 'Calendar',
     path: RoutePaths.calendar
   },
   {
     iconActive: 'assets/images/icons/clipboard.svg',
     iconInactive: 'assets/images/icons/clipboard-outline.svg',
-    label: 'Raporte',
+    label: 'Reports',
     path: RoutePaths.reports
   },
   {
     iconActive: 'assets/images/icons/person.svg',
     iconInactive: 'assets/images/icons/person-outline.svg',
-    label: 'Profili',
+    label: 'Profile',
     path: RoutePaths.profile
   },
 ]

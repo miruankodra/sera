@@ -23,7 +23,10 @@
                       [border]="this.loginForm.controls['password'].dirty && this.loginForm.controls['password'].invalid ? 'border-2 border-red-600' : ''"
                       formControlName="password"/>
         </form>
-        <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]" (onClick)="login()">Login
+        <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]"
+                   [disabled]="loading()"
+                   (onClick)="login()">
+          {{ loading() ? 'Duke u identifikuar...' : 'Login' }}
         </se-button>
     </div>
   </div>

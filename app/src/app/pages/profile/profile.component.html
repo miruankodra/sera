@@ -1,20 +1,209 @@
-<div class="relative w-full h-screen flex flex-col items-center overflow-scroll px-5 pt-36 pb-[80px] snap-mandatory snap-y">
-    <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[300px] bg-se-green z-0"></div>
-    <div class="relative w-full flex flex-col items-center justify-center z-50">
-      <div class="absolute z-10 size-[100px] bg-white opacity-45 rounded-full blur-3xl"></div>
-      <img src="https://ui-avatars.com/api/?name=Miruan+Kodra&background=C4FE33&color=0B3931" alt="username" class="size-[128px] rounded-full bg-cover bg-center z-50"/>
-      <se-title color="text-black" size="text-[24px]" weight="font-semibold">Miruan Kodra</se-title>
-      <se-title color="text-gray-300" size="text-[16px]" weight="font-medium">Admin</se-title>
+<div class="relative w-full min-h-screen flex flex-col items-center overflow-y-auto pb-[100px]">
+
+  <!-- Green arc header -->
+  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[300px] bg-se-green z-0"></div>
+
+  <!-- Avatar + name -->
+  @if (loading()) {
+    <div class="relative w-full flex flex-col items-center justify-center z-50 pt-36 animate-pulse">
+      <div class="size-[128px] rounded-full bg-white/20 mb-3"></div>
+      <div class="h-6 bg-white/20 rounded-full w-40 mb-2"></div>
+      <div class="h-4 bg-white/10 rounded-full w-24"></div>
     </div>
-    <div class="w-full px-5 mt-10">
-        <se-item lineColor="border-gray-100">
-            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Terms & Conditions</se-title>
-        </se-item>
-        <se-item lineColor="border-gray-100">
-            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Privacy Policy</se-title>
-        </se-item>
-        <se-item [line]="false">
-            <se-title color="text-gray-400" size="text-[16px]" weight="font-medium">Rate This App</se-title>
-        </se-item>
+  } @else {
+    <div class="relative w-full flex flex-col items-center z-10 pt-36 pb-6">
+      <div class="absolute w-[120px] h-[120px] bg-white/20 rounded-full blur-3xl"></div>
+      <img
+        [src]="avatarUrl()"
+        [alt]="user()?.name ?? 'User'"
+        class="size-[112px] rounded-full object-cover z-10 ring-4 ring-white/30 shadow-lg"/>
+      <p class="mt-3 text-[22px] font-bold text-white z-10">{{ user()?.name }}</p>
+      <p class="text-[14px] text-white/60 z-10">{{ user()?.email }}</p>
+
+      <!-- Greenhouses count badge -->
+      <div class="mt-3 px-4 py-1.5 bg-white/10 rounded-full z-10">
+        <p class="text-[12px] text-white/80 font-medium">
+          {{ user()?.greenhouses_count ?? 0 }} greenhouse{{ (user()?.greenhouses_count ?? 0) !== 1 ? 's' : '' }}
+        </p>
+      </div>
     </div>
+  }
+
+  <!-- Content cards -->
+  <div class="w-full px-5 space-y-4 z-10">
+
+    <!-- Account section -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Account</p>
+
+      <button
+        class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-100"
+        (click)="openEditSheet()">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-[#1A9E78]/10 flex items-center justify-center text-base">✏️</div>
+          <span class="text-[14px] font-medium text-gray-700">Edit Profile</span>
+        </div>
+        <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <button
+        class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
+        (click)="openPasswordSheet()">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center text-base">🔒</div>
+          <span class="text-[14px] font-medium text-gray-700">Change Password</span>
+        </div>
+        <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Notifications section -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Notifications</p>
+
+      @for (row of notifRows(); track row.key; let last = $last) {
+        <div class="flex items-center justify-between px-4 py-3.5 border-gray-100"
+             [class.border-b]="!last">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">{{ row.emoji }}</div>
+            <div>
+              <p class="text-[13px] font-medium text-gray-700 leading-tight">{{ row.label }}</p>
+              <p class="text-[11px] text-gray-400 leading-tight">{{ row.desc }}</p>
+            </div>
+          </div>
+          <button
+            class="w-11 h-6 rounded-full relative transition-colors duration-200 flex-shrink-0"
+            [class]="row.value ? 'bg-[#1A9E78]' : 'bg-gray-200'"
+            (click)="toggleNotif(row.key)">
+            <span
+              class="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
+              [class]="row.value ? 'translate-x-6' : 'translate-x-1'">
+            </span>
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- More section -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">More</p>
+      @for (item of [
+        {label: 'Terms & Conditions', emoji: '📄'},
+        {label: 'Privacy Policy',     emoji: '🛡️'},
+        {label: 'Rate This App',      emoji: '⭐'}
+      ]; track item.label; let last = $last) {
+        <button
+          class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
+          [class.border-b]="!last"
+          [class.border-gray-100]="!last">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">{{ item.emoji }}</div>
+            <span class="text-[14px] font-medium text-gray-500">{{ item.label }}</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      }
+    </div>
+
+    <!-- Log out -->
+    <button
+      class="w-full bg-white rounded-2xl shadow-sm py-4 flex items-center justify-center gap-2 text-red-500 font-semibold text-[14px]"
+      (click)="logout()">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+      </svg>
+      Log Out
+    </button>
+
+  </div>
 </div>
+
+<!-- ── Edit Profile Sheet ───────────────────────────────────────────────────── -->
+@if (showEditSheet()) {
+  <div class="fixed inset-0 bg-black/40 z-40" (click)="showEditSheet.set(false)"></div>
+  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+    <h3 class="text-[17px] font-bold text-gray-800 mb-5">Edit Profile</h3>
+
+    <div class="space-y-4">
+      <div>
+        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Full Name</label>
+        <input
+          type="text"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          [value]="editForm().name"
+          (input)="onEditName($event)"
+          placeholder="Your name"/>
+      </div>
+      <div>
+        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Email</label>
+        <input
+          type="email"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          [value]="editForm().email"
+          (input)="onEditEmail($event)"
+          placeholder="your@email.com"/>
+      </div>
+    </div>
+
+    <button
+      class="w-full mt-6 py-4 rounded-2xl text-[15px] font-bold transition-colors"
+      [class]="editFormValid() ? 'bg-[#1A9E78] text-white' : 'bg-gray-100 text-gray-400'"
+      [disabled]="!editFormValid() || saving()"
+      (click)="saveProfile()">
+      {{ saving() ? 'Saving…' : 'Save Changes' }}
+    </button>
+  </div>
+}
+
+<!-- ── Change Password Sheet ───────────────────────────────────────────────── -->
+@if (showPasswordSheet()) {
+  <div class="fixed inset-0 bg-black/40 z-40" (click)="showPasswordSheet.set(false)"></div>
+  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
+    <h3 class="text-[17px] font-bold text-gray-800 mb-5">Change Password</h3>
+
+    <div class="space-y-4">
+      <div>
+        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Current Password</label>
+        <input type="password" placeholder="········"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          (input)="onCurrentPassword($event)"/>
+      </div>
+      <div>
+        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">New Password</label>
+        <input type="password" placeholder="Min. 8 characters"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          (input)="onNewPassword($event)"/>
+      </div>
+      <div>
+        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Confirm New Password</label>
+        <input type="password" placeholder="Repeat new password"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          (input)="onConfirmPassword($event)"/>
+      </div>
+
+      @if (passwordError()) {
+        <p class="text-[13px] text-red-500 text-center">{{ passwordError() }}</p>
+      }
+
+      @if (passwordForm().password && passwordForm().password !== passwordForm().password_confirmation) {
+        <p class="text-[12px] text-orange-400 text-center">Passwords do not match</p>
+      }
+    </div>
+
+    <button
+      class="w-full mt-6 py-4 rounded-2xl text-[15px] font-bold transition-colors"
+      [class]="passwordFormValid() ? 'bg-[#1A9E78] text-white' : 'bg-gray-100 text-gray-400'"
+      [disabled]="!passwordFormValid() || saving()"
+      (click)="savePassword()">
+      {{ saving() ? 'Saving…' : 'Update Password' }}
+    </button>
+  </div>
+}

@@ -1,5 +1,4 @@
 import {Component, inject, input, InputSignal} from '@angular/core';
-import {SeBadgeComponent} from "../shared/se-badge/se-badge.component";
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
 import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-label.component";
 import {SeCardComponent} from "../shared/se-card/se-card.component";
@@ -10,7 +9,6 @@ import {GreenhouseDto} from "../../models/greenhouse-dto";
   selector: 'se-greenhouse-info',
   standalone: true,
   imports: [
-    SeBadgeComponent,
     SeTitleComponent,
     SeLocationLabelComponent,
     SeCardComponent

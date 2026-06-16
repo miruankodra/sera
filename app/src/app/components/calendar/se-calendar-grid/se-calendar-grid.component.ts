@@ -30,7 +30,7 @@ export class SeCalendarGridComponent {
       const d = this.selectedDate();
       this.viewMonth.set(d.getMonth());
       this.viewYear.set(d.getFullYear());
-    });
+    }, {allowSignalWrites: true});
   }
 
   readonly monthName = computed(() =>
