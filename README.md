@@ -109,7 +109,3 @@ Brings up the API, Nginx, MySQL, Redis, a queue worker, and Reverb together.
 cd api && php artisan test   # Pest suite: auth, CRUD, policies, throttling
 cd app && npm test           # Karma/Jasmine unit tests
 ```
-
-## CI/CD
-
-GitHub Actions runs the Pest suite and Laravel Pint style checks on every push, and deploys `main` to a Docker host via GHCR on merge.
