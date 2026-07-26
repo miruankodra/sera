@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
+import {TranslationService} from "../../services/translation.service";
+
+const INTL_LOCALE: Record<string, string> = {en: 'en-US', sq: 'sq-AL'};
 
 @Component({
   selector: 'se-date',
@@ -10,13 +13,13 @@ import {SeTitleComponent} from "../shared/se-title/se-title.component";
   templateUrl: './se-date.component.html',
   styleUrl: './se-date.component.scss'
 })
-export class SeDateComponent implements OnInit {
-  date = new Date();
-  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  currentDate: string = '';
+export class SeDateComponent {
+  private _translation = inject(TranslationService);
+  private _date = new Date();
 
-  ngOnInit(): void {
-    this.currentDate = `${this.days[this.date.getDay()]}, ${this.date.getDate()} ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}`;
-  }
+  readonly currentDate = computed(() => {
+    const locale = INTL_LOCALE[this._translation.locale()] ?? 'en-US';
+    const formatted = new Intl.DateTimeFormat(locale, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}).format(this._date);
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  });
 }

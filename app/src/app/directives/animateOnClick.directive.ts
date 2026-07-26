@@ -72,15 +72,6 @@ export class AnimateOnClickDirective {
 
   private rotateEffect(el: HTMLElement): void {
     el.classList.toggle('rotate-90');
-    // const isRotated = el.classList.contains('rotate-90');
-
-    // if (isRotated) {
-    //   el.classList.remove('rotate-90');
-    //   el.classList.add('rotate-0');
-    // } else {
-    //   el.classList.remove('rotate-0');
-    //   el.classList.add('rotate-90');
-    // }
   }
 
 }

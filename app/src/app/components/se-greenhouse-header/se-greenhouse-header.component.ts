@@ -17,7 +17,6 @@ import { Item } from '../../models/core/item';
 export class SeGreenhouseHeaderComponent {
   showBackButton = input<boolean>(true);
   showMenuButton = input<boolean>(true);
-  // styles = input<string>();
 
   private _modalService: ModalService = inject(ModalService);
 

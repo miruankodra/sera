@@ -1,21 +1,22 @@
-<div class="w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+<div class="w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-100
+            lg:shadow-none lg:border-dash-border-soft lg:p-5">
   <!-- Month navigation header -->
   <div class="flex items-center justify-between mb-4">
     <button (click)="prevMonth()"
             class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-      <lucide-icon [img]="ChevronLeftIcon" [size]="18" class="text-se-green"/>
+      <lucide-icon [img]="ChevronLeftIcon" [size]="18" class="text-se-green lg:text-dash-text"/>
     </button>
-    <span class="font-semibold text-se-green text-sm">{{ monthName() }}</span>
+    <span class="font-semibold text-se-green lg:text-dash-text text-sm lg:text-[16px]">{{ monthName() }}</span>
     <button (click)="nextMonth()"
             class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-      <lucide-icon [img]="ChevronRightIcon" [size]="18" class="text-se-green"/>
+      <lucide-icon [img]="ChevronRightIcon" [size]="18" class="text-se-green lg:text-dash-text"/>
     </button>
   </div>
 
   <!-- Weekday headers -->
   <div class="grid grid-cols-7 mb-2">
-    @for (day of weekDays; track day) {
-      <div class="text-center text-[11px] font-medium text-gray-400">{{ day }}</div>
+    @for (day of weekDays(); track day) {
+      <div class="text-center text-[11px] font-medium text-gray-400 lg:text-dash-muted">{{ day }}</div>
     }
   </div>
 
@@ -27,9 +28,9 @@
       } @else {
         <div class="flex flex-col items-center cursor-pointer" (click)="selectDay(day)">
           <div class="w-8 h-8 flex items-center justify-center rounded-full text-xs font-medium transition-colors
-                      {{ isSelected(day) ? 'bg-se-green text-white' : '' }}
-                      {{ isToday(day) && !isSelected(day) ? 'border-2 border-se-jungle text-se-green font-semibold' : '' }}
-                      {{ !isSelected(day) && !isToday(day) ? 'text-gray-700 hover:bg-gray-100' : '' }}">
+                      {{ isSelected(day) ? 'bg-se-green lg:bg-dash-green text-white' : '' }}
+                      {{ isToday(day) && !isSelected(day) ? 'border-2 border-se-jungle lg:border-dash-green text-se-green lg:text-dash-text font-semibold' : '' }}
+                      {{ !isSelected(day) && !isToday(day) ? 'text-gray-700 lg:text-dash-text2 hover:bg-gray-100' : '' }}">
             {{ day }}
           </div>
           <!-- Task dot indicators -->
@@ -37,10 +38,10 @@
             @if (getTasksForDay(day).length > 0 && getTasksForDay(day).length <= 3) {
               @for (task of getTasksForDay(day); track task.id) {
                 <div class="w-1.5 h-1.5 rounded-full
-                            {{ task.type === 'reminder' ? 'bg-blue-400' : 'bg-se-jungle' }}"></div>
+                            {{ task.type === 'reminder' ? 'bg-blue-400' : 'bg-se-jungle lg:bg-dash-green' }}"></div>
               }
             } @else if (getTasksForDay(day).length > 3) {
-              <span class="text-[9px] text-gray-400 leading-none">+{{ getTasksForDay(day).length }}</span>
+              <span class="text-[9px] text-gray-400 lg:text-dash-muted leading-none">+{{ getTasksForDay(day).length }}</span>
             }
           </div>
         </div>

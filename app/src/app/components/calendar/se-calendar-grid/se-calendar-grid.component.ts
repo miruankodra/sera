@@ -1,6 +1,9 @@
-import {Component, computed, effect, input, output, signal} from '@angular/core';
+import {Component, computed, effect, inject, input, output, signal} from '@angular/core';
 import {LucideAngularModule, ChevronLeft, ChevronRight} from 'lucide-angular';
 import {GreenhouseTask} from '../../../models/greenhouse-task';
+import {TranslationService} from '../../../services/translation.service';
+
+const INTL_LOCALE: Record<string, string> = {en: 'en-US', sq: 'sq-AL'};
 
 @Component({
   selector: 'se-calendar-grid',
@@ -10,6 +13,8 @@ import {GreenhouseTask} from '../../../models/greenhouse-task';
   styleUrl: './se-calendar-grid.component.scss',
 })
 export class SeCalendarGridComponent {
+  private _translation = inject(TranslationService);
+
   readonly ChevronLeftIcon = ChevronLeft;
   readonly ChevronRightIcon = ChevronRight;
 
@@ -19,13 +24,20 @@ export class SeCalendarGridComponent {
 
   daySelected = output<Date>();
 
-  readonly weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  readonly weekDays = computed(() => {
+    const locale = INTL_LOCALE[this._translation.locale()] ?? 'en-US';
+    const monday = new Date(2024, 0, 1); // a known Monday
+    return Array.from({length: 7}, (_, i) => {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      return new Intl.DateTimeFormat(locale, {weekday: 'short'}).format(d);
+    });
+  });
 
   readonly viewMonth = signal(new Date().getMonth());
   readonly viewYear = signal(new Date().getFullYear());
 
   constructor() {
-    // Keep displayed month in sync with selectedDate (e.g. when parent navigates to a different date)
     effect(() => {
       const d = this.selectedDate();
       this.viewMonth.set(d.getMonth());
@@ -33,9 +45,11 @@ export class SeCalendarGridComponent {
     }, {allowSignalWrites: true});
   }
 
-  readonly monthName = computed(() =>
-    new Date(this.viewYear(), this.viewMonth()).toLocaleDateString('en-US', {month: 'long', year: 'numeric'})
-  );
+  readonly monthName = computed(() => {
+    const locale = INTL_LOCALE[this._translation.locale()] ?? 'en-US';
+    const formatted = new Date(this.viewYear(), this.viewMonth()).toLocaleDateString(locale, {month: 'long', year: 'numeric'});
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  });
 
   readonly calendarDays = computed((): (number | null)[] => {
     const firstDay = new Date(this.viewYear(), this.viewMonth(), 1).getDay();

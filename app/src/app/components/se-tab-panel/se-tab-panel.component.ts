@@ -1,7 +1,6 @@
 import { AfterContentInit, Component, ContentChildren, QueryList } from '@angular/core';
 import { SeControlCardComponent } from "../se-control-card/se-control-card.component";
 import { SePanelTabComponent } from '../se-panel-tab/se-panel-tab.component';
-// import { PanelTabs } from '../../models/panel-tabs';
 
 @Component({
   selector: 'se-tab-panel',

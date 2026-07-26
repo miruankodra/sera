@@ -1,45 +1,48 @@
 <!-- Page scroll container -->
-<div class="relative w-full h-full overflow-y-auto px-4 pt-4 pb-28 flex flex-col gap-4">
+<div class="relative w-full h-full overflow-y-auto lg:bg-dash-bg">
+  <div class="px-4 pt-4 pb-28 flex flex-col gap-4
+              lg:max-w-3xl lg:mx-auto lg:px-8 lg:pt-8 lg:pb-16">
 
-  <!-- 1. Monthly calendar grid -->
-  <se-calendar-grid
-    [tasks]="allTasks()"
-    [selectedDate]="selectedDate()"
-    [today]="today"
-    (daySelected)="onDaySelected($event)"/>
+    <!-- 1. Monthly calendar grid -->
+    <se-calendar-grid
+      [tasks]="allTasks()"
+      [selectedDate]="selectedDate()"
+      [today]="today"
+      (daySelected)="onDaySelected($event)"/>
 
-  <!-- 2. Today strip -->
-  <se-today-strip
-    [tasks]="todayTasks()"
-    (taskSelected)="onTodayChipSelected($event)"/>
+    <!-- 2. Today strip -->
+    <se-today-strip
+      [tasks]="todayTasks()"
+      (taskSelected)="onTodayChipSelected($event)"/>
 
-  <!-- 3. Task list for selected day -->
-  <se-task-list
-    [tasks]="selectedDayTasks()"
-    [selectedDate]="selectedDate()"
-    (editTask)="openEditSheet($event)"
-    (deleteTask)="deleteTask($event)"/>
+    <!-- 3. Task list for selected day -->
+    <se-task-list
+      [tasks]="selectedDayTasks()"
+      [selectedDate]="selectedDate()"
+      (editTask)="openEditSheet($event)"
+      (deleteTask)="deleteTask($event)"/>
 
+  </div>
 </div>
 
 <!-- FAB -->
 <button
-  class="fixed bottom-24 right-5 w-14 h-14 bg-se-green rounded-full flex items-center justify-center shadow-lg z-30 active:scale-95 transition-transform"
+  class="fixed bottom-24 right-5 lg:bottom-8 lg:right-8 w-14 h-14 bg-se-green lg:bg-dash-green rounded-full flex items-center justify-center shadow-lg z-30 active:scale-95 transition-transform"
   (click)="openCreateSheet()">
-  <lucide-icon [img]="PlusIcon" [size]="24" class="text-se-lime"/>
+  <lucide-icon [img]="PlusIcon" [size]="24" class="text-se-lime lg:text-white"/>
 </button>
 
 <!-- Bottom sheet overlay -->
 @if (showSheet()) {
-  <div class="fixed inset-0 z-40 flex items-end justify-center bg-black/40"
+  <div class="fixed inset-0 z-40 flex items-end lg:items-center justify-center bg-black/40"
        (click)="closeSheet()">
-    <div class="bg-white w-full max-w-lg rounded-t-3xl shadow-2xl max-h-[90vh] flex flex-col"
+    <div class="bg-white w-full max-w-lg rounded-t-3xl lg:rounded-3xl shadow-2xl max-h-[90vh] lg:max-h-[85vh] flex flex-col"
          (click)="$event.stopPropagation()">
 
       <!-- Sheet header -->
       <div class="flex items-center justify-between px-5 pt-5 pb-3 border-b border-gray-100">
-        <p class="font-bold text-se-green text-base">
-          {{ editingTask() ? 'Edit Task' : 'New Task' }}
+        <p class="font-bold text-se-green lg:text-dash-text text-base">
+          {{ editingTask() ? ('calendar.editTask' | translate) : ('calendar.newTask' | translate) }}
         </p>
         <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                 (click)="closeSheet()">
@@ -52,60 +55,60 @@
 
         <!-- Title -->
         <div>
-          <label class="text-xs font-semibold text-gray-500 mb-1 block">Title</label>
-          <input type="text" placeholder="Task title"
-                 class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.title' | translate }}</label>
+          <input type="text" [placeholder]="'calendar.titlePlaceholder' | translate"
+                 class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                  [ngModel]="form().title" (ngModelChange)="updateForm('title', $event)"/>
         </div>
 
         <!-- Date range + Time -->
         <div class="flex gap-3">
           <div class="flex-1">
-            <label class="text-xs font-semibold text-gray-500 mb-1 block">Start Date</label>
+            <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.startDate' | translate }}</label>
             <input type="date"
-                   class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+                   class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                    [ngModel]="form().date" (ngModelChange)="updateForm('date', $event)"/>
           </div>
           <div class="flex-1">
-            <label class="text-xs font-semibold text-gray-500 mb-1 block">Time</label>
+            <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.time' | translate }}</label>
             <input type="time"
-                   class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+                   class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                    [ngModel]="form().time" (ngModelChange)="updateForm('time', $event)"/>
           </div>
         </div>
         <div>
           <label class="text-xs font-semibold text-gray-500 mb-1 block">
-            End Date <span class="text-gray-300 font-normal">(optional — leave empty for single day)</span>
+            {{ 'calendar.endDate' | translate }} <span class="text-gray-300 font-normal">{{ 'calendar.endDateOptional' | translate }}</span>
           </label>
           <input type="date"
-                 class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+                 class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                  [ngModel]="form().endDate" (ngModelChange)="updateForm('endDate', $event)"
                  [min]="form().date"/>
         </div>
 
         <!-- Type selector -->
         <div>
-          <label class="text-xs font-semibold text-gray-500 mb-1 block">Type</label>
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.type' | translate }}</label>
           <div class="flex rounded-xl border border-gray-200 overflow-hidden">
             <button class="flex-1 py-2.5 text-sm font-medium transition-colors
-                           {{ form().type === 'reminder' ? 'bg-se-green text-white' : 'text-gray-500 hover:bg-gray-50' }}"
+                           {{ form().type === 'reminder' ? 'bg-se-green lg:bg-dash-green text-white' : 'text-gray-500 hover:bg-gray-50' }}"
                     (click)="updateForm('type', 'reminder')">
-              Reminder
+              {{ 'calendar.reminder' | translate }}
             </button>
             <button class="flex-1 py-2.5 text-sm font-medium transition-colors
-                           {{ form().type === 'system_command' ? 'bg-se-green text-white' : 'text-gray-500 hover:bg-gray-50' }}"
+                           {{ form().type === 'system_command' ? 'bg-se-green lg:bg-dash-green text-white' : 'text-gray-500 hover:bg-gray-50' }}"
                     (click)="updateForm('type', 'system_command')">
-              System Command
+              {{ 'calendar.systemCommand' | translate }}
             </button>
           </div>
         </div>
 
         <!-- Greenhouse picker (both types) -->
         <div>
-          <label class="text-xs font-semibold text-gray-500 mb-1 block">Greenhouse</label>
-          <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.greenhouse' | translate }}</label>
+          <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green bg-white"
                   [ngModel]="form().greenhouse_id" (ngModelChange)="onGreenhouseChange($event)">
-            <option value="">Select greenhouse...</option>
+            <option value="">{{ 'calendar.selectGreenhouse' | translate }}</option>
             @for (gh of greenhouses(); track gh.id) {
               <option [value]="gh.id">{{ gh.name }}</option>
             }
@@ -115,16 +118,16 @@
         <!-- Reminder fields -->
         @if (form().type === 'reminder') {
           <div>
-            <label class="text-xs font-semibold text-gray-500 mb-1 block">Note</label>
-            <textarea rows="2" placeholder="Optional note..."
-                      class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle resize-none"
+            <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.note' | translate }}</label>
+            <textarea rows="2" [placeholder]="'calendar.notePlaceholder' | translate"
+                      class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green resize-none"
                       [ngModel]="form().note" (ngModelChange)="updateForm('note', $event)"></textarea>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm font-medium text-se-green">Enable notification</span>
+            <span class="text-sm font-medium text-se-green lg:text-dash-text">{{ 'calendar.enableNotification' | translate }}</span>
             <se-switch
               [initState]="form().notificationEnabled"
-              labelColor="text-se-green"
+              labelColor="text-se-green lg:text-dash-text"
               (onToggle)="updateForm('notificationEnabled', $event)"/>
           </div>
         }
@@ -133,33 +136,33 @@
         @if (form().type === 'system_command') {
           @if (form().greenhouse_id) {
             <div>
-              <label class="text-xs font-semibold text-gray-500 mb-1 block">Device</label>
+              <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.device' | translate }}</label>
               @if (loadingDevices()) {
-                <p class="text-xs text-gray-400 py-2">Loading devices...</p>
+                <p class="text-xs text-gray-400 py-2">{{ 'calendar.loadingDevices' | translate }}</p>
               } @else {
-                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green bg-white"
                         [ngModel]="form().device" (ngModelChange)="onDeviceChange($event)">
-                  <option value="">Select device...</option>
+                  <option value="">{{ 'calendar.selectDevice' | translate }}</option>
                   @for (d of devicesForSelectedGreenhouse(); track d.id) {
-                    <option [value]="d.id">{{ d.name }} ({{ d.type }})</option>
+                    <option [value]="d.id">{{ d.name }} ({{ deviceTypeLabel(d.type) }})</option>
                   }
                 </select>
               }
             </div>
             @if (form().device) {
               <div>
-                <label class="text-xs font-semibold text-gray-500 mb-1 block">Action</label>
-                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+                <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.action' | translate }}</label>
+                <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green bg-white"
                         [ngModel]="form().action" (ngModelChange)="updateForm('action', $event)">
-                  <option value="">Select action...</option>
-                  <option value="turn_on">Turn On</option>
-                  <option value="turn_off">Turn Off</option>
+                  <option value="">{{ 'calendar.selectAction' | translate }}</option>
+                  <option value="turn_on">{{ 'greenhouse.turnOn' | translate }}</option>
+                  <option value="turn_off">{{ 'greenhouse.turnOff' | translate }}</option>
                 </select>
               </div>
               <div>
-                <label class="text-xs font-semibold text-gray-500 mb-1 block">Duration (minutes)</label>
-                <input type="number" min="1" placeholder="e.g. 15"
-                       class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+                <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.duration' | translate }}</label>
+                <input type="number" min="1" [placeholder]="'calendar.durationPlaceholder' | translate"
+                       class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                        [ngModel]="form().duration" (ngModelChange)="updateForm('duration', $event ? +$event : null)"/>
               </div>
             }
@@ -168,28 +171,28 @@
 
         <!-- Zone / Crop (optional) -->
         <div>
-          <label class="text-xs font-semibold text-gray-500 mb-1 block">Zone / Crop <span class="text-gray-300 font-normal">(optional)</span></label>
-          <input type="text" placeholder="e.g. Tomatoes - Row A"
-                 class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.zone' | translate }} <span class="text-gray-300 font-normal">{{ 'common.optional' | translate }}</span></label>
+          <input type="text" [placeholder]="'calendar.zonePlaceholder' | translate"
+                 class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                  [ngModel]="form().zone" (ngModelChange)="updateForm('zone', $event)"/>
         </div>
 
         <!-- Recurring -->
         <div>
-          <label class="text-xs font-semibold text-gray-500 mb-1 block">Recurring</label>
-          <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle bg-white"
+          <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.recurring' | translate }}</label>
+          <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green bg-white"
                   [ngModel]="form().recurring" (ngModelChange)="updateForm('recurring', $event)">
-            <option value="none">Once</option>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="custom">Every X days</option>
+            <option value="none">{{ 'calendar.once' | translate }}</option>
+            <option value="daily">{{ 'calendar.daily' | translate }}</option>
+            <option value="weekly">{{ 'calendar.weekly' | translate }}</option>
+            <option value="custom">{{ 'calendar.everyXDays' | translate }}</option>
           </select>
         </div>
         @if (form().recurring === 'custom') {
           <div>
-            <label class="text-xs font-semibold text-gray-500 mb-1 block">Repeat every (days)</label>
-            <input type="number" min="1" placeholder="e.g. 3"
-                   class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green outline-none focus:border-se-jungle"
+            <label class="text-xs font-semibold text-gray-500 mb-1 block">{{ 'calendar.repeatEvery' | translate }}</label>
+            <input type="number" min="1" [placeholder]="'calendar.repeatEveryPlaceholder' | translate"
+                   class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-se-green lg:text-dash-text outline-none focus:border-se-jungle lg:focus:border-dash-green"
                    [ngModel]="form().recurringIntervalDays"
                    (ngModelChange)="updateForm('recurringIntervalDays', $event ? +$event : null)"/>
           </div>
@@ -200,10 +203,10 @@
       <!-- Submit button — always visible at bottom -->
       <div class="px-5 pb-safe-or-8 pt-3 border-t border-gray-100 bg-white" style="padding-bottom: max(5.5rem, env(safe-area-inset-bottom))">
         <button
-          class="w-full py-3 bg-se-green text-se-lime font-semibold rounded-2xl text-sm active:scale-95 transition-transform disabled:opacity-40"
+          class="w-full py-3 bg-se-green lg:bg-dash-green text-se-lime lg:text-white font-semibold rounded-2xl text-sm active:scale-95 transition-transform disabled:opacity-40"
           [disabled]="!form().title.trim() || !form().greenhouse_id"
           (click)="submitForm()">
-          {{ editingTask() ? 'Save Changes' : 'Add Task' }}
+          {{ editingTask() ? ('calendar.saveChanges' | translate) : ('calendar.addTask' | translate) }}
         </button>
       </div>
     </div>

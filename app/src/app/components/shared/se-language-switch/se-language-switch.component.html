@@ -1,0 +1,16 @@
+<div class="inline-flex items-center rounded-full p-1 {{ dark() ? 'bg-white/10' : 'bg-gray-100 lg:bg-dash-border-soft' }}">
+  <button type="button" (click)="select('sq')"
+          class="px-3 py-1 rounded-full text-xs font-semibold transition-colors"
+          [class]="locale() === 'sq'
+            ? (dark() ? 'bg-white text-se-green' : 'bg-white shadow-sm lg:text-dash-text')
+            : (dark() ? 'text-white/60 hover:text-white' : 'text-gray-500 lg:text-dash-text2')">
+    SQ
+  </button>
+  <button type="button" (click)="select('en')"
+          class="px-3 py-1 rounded-full text-xs font-semibold transition-colors"
+          [class]="locale() === 'en'
+            ? (dark() ? 'bg-white text-se-green' : 'bg-white shadow-sm lg:text-dash-text')
+            : (dark() ? 'text-white/60 hover:text-white' : 'text-gray-500 lg:text-dash-text2')">
+    EN
+  </button>
+</div>

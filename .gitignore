@@ -22,3 +22,13 @@ Thumbs.db
 # NX (if ever used)
 .nx/cache
 .nx/workspace-data
+
+# AI assistant tooling (not part of the product)
+.claude/
+.junie/
+.mcp.json
+.superpowers/
+superpowers/
+CLAUDE.md
+AGENTS.md
+.playwright-mcp/

@@ -48,7 +48,6 @@ export class TaskService {
         const response = await this._http.get<ApiTaskListResponse>(`greenhouses/${gh.id}/tasks`);
         allTasks.push(...response.data.map(t => this._fromApi(t)));
       } catch {
-        // skip greenhouse if tasks can't be loaded
       }
     }));
 

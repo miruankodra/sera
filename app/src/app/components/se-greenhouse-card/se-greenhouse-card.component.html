@@ -1,10 +1,13 @@
-<div appAnimateOnClick [behaviour]="'pulse'" class="w-full bg-white p-5 flex flex-col rounded-[20px] box-shadow" (click)="goToGreenhouse()">
+<div appAnimateOnClick [behaviour]="'pulse'"
+     class="w-full bg-white p-5 flex flex-col rounded-[20px] box-shadow
+            lg:rounded-2xl lg:border lg:border-dash-border-soft lg:p-4 lg:hover:shadow-sm lg:transition-shadow lg:cursor-pointer"
+     (click)="goToGreenhouse()">
   <img src="assets/images/defaults/greenhouse-cover.jpg" [alt]="greenhouseInfo().name"
-       class="w-full h-[150px] object-cover rounded-[20px] mb-5"/>
+       class="w-full h-[150px] object-cover rounded-[20px] mb-5 lg:rounded-xl lg:h-[140px] lg:mb-4"/>
   <div class="flex flex-row items-center justify-between">
     <div class="flex flex-col items-start">
-      <se-title size="text-[20px] tracking-tight" weight="font-medium" color="text-black">{{ greenhouseInfo().name }}</se-title>
-      <se-location-label [location]="greenhouseInfo().location ?? 'Pa vendndodhje'"/>
+      <se-title size="text-[20px] tracking-tight lg:text-[16px]" weight="font-medium" color="text-black lg:text-dash-text">{{ greenhouseInfo().name }}</se-title>
+      <se-location-label [location]="greenhouseInfo().location ?? ('common.noLocation' | translate)"/>
     </div>
   </div>
 </div>

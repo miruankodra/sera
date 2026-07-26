@@ -5,6 +5,8 @@ import {SeGreenhouseCardComponent} from "../../components/se-greenhouse-card/se-
 import {GreenhouseDto} from "../../models/greenhouse-dto";
 import {GreenhouseService} from "../../services/greenhouse.service";
 import {AuthService} from "../../services/auth.service";
+import {TranslationService} from "../../services/translation.service";
+import {TranslatePipe} from "../../pipes/translate.pipe";
 
 @Component({
   selector: 'se-home',
@@ -12,7 +14,8 @@ import {AuthService} from "../../services/auth.service";
   imports: [
     SeWelcomeHeaderComponent,
     SeDateComponent,
-    SeGreenhouseCardComponent
+    SeGreenhouseCardComponent,
+    TranslatePipe,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -22,12 +25,14 @@ export class HomeComponent implements OnInit {
 
   private _greenhouseService = inject(GreenhouseService);
   private _authService = inject(AuthService);
+  private _translation = inject(TranslationService);
 
   greenhouses = signal<GreenhouseDto[]>([]);
-  username = signal<string>('Fermer');
+  username = signal<string>('');
   loading = signal(true);
 
   async ngOnInit(): Promise<void> {
+    this.username.set(this._translation.translate('common.farmer'));
     const user = await this._authService.getUser();
     if (user) {
       this.username.set(user.name);
@@ -42,6 +47,11 @@ export class HomeComponent implements OnInit {
   }
 
   fadeIOHeader(event: any): void {
+    if (window.innerWidth >= 1024) {
+      this.header.nativeElement.style.opacity = '';
+      this.header.nativeElement.style.transform = '';
+      return;
+    }
     const el = event.target;
     const scrollTop = el.scrollTop;
     const fadeHeight = 100;

@@ -1,33 +1,41 @@
-<div class="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center">
-  <img src="assets/images/defaults/greenhouse.jpg" alt="Greenhouse" class="w-full top-[-100px] absolute">
+<div class="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center lg:flex-row lg:bg-se-green">
+  <img src="assets/images/defaults/greenhouse.jpg" alt="Greenhouse"
+       class="w-full top-[-100px] absolute lg:static lg:top-0 lg:w-1/2 lg:h-full lg:object-cover lg:order-1">
+
   <div
-    class="w-full h-2/3 bg-se-green absolute bottom-0 inset-x-0 flex flex-col items-center justify-center px-5 curved-top z-20">
-    <!--  TODO:  Add Logo on top of page -->
-    <se-title size="text-[32px]" color="text-white" weight="font-bold">Login</se-title>
-    <se-title size="text-[16px]" color="text-se-dimWhite" weight="font-normal">in {{ appName }}</se-title>
+    class="w-full h-2/3 bg-se-green absolute bottom-0 inset-x-0 flex flex-col items-center justify-center px-5 curved-top z-20
+           lg:static lg:w-1/2 lg:h-full lg:px-16 lg:order-2">
+    <div class="w-full lg:max-w-sm">
+      <div class="mb-6">
+        <se-language-switch [dark]="true"/>
+      </div>
+      <!--  TODO:  Add Logo on top of page -->
+      <se-title size="text-[32px] lg:text-[40px]" color="text-white" weight="font-bold">{{ 'auth.login' | translate }}</se-title>
+      <se-title size="text-[16px]" color="text-se-dimWhite" weight="font-normal">{{ 'auth.loginIn' | translate:{app: appName} }}</se-title>
 
-    <div class="w-full mt-10">
-        <form [formGroup]="loginForm">
-            <se-input type="text"
-                      fontStyle="text-[18px] text-white font-medium"
-                      bgColor="bg-se-jungle bg-opacity-20 mb-5"
-                      radius="rounded-[10px]"
-                      [border]="this.loginForm.controls['email'].dirty && this.loginForm.controls['email'].invalid ? 'border-2 border-red-600' : ''"
-                      placeholder="Email"
-                      formControlName="email"/>
+      <div class="w-full mt-10">
+          <form [formGroup]="loginForm">
+              <se-input type="text"
+                        fontStyle="text-[18px] text-white font-medium"
+                        bgColor="bg-se-jungle bg-opacity-20 mb-5"
+                        radius="rounded-[10px]"
+                        [border]="this.loginForm.controls['email'].dirty && this.loginForm.controls['email'].invalid ? 'border-2 border-red-600' : ''"
+                        [placeholder]="'auth.email' | translate"
+                        formControlName="email"/>
 
-            <se-input type="password"
-                      fontStyle="text-[18px] text-white font-medium"
-                      bgColor="bg-se-jungle bg-opacity-20 mb-12"
-                      radius="rounded-[10px]" placeholder="Password"
-                      [border]="this.loginForm.controls['password'].dirty && this.loginForm.controls['password'].invalid ? 'border-2 border-red-600' : ''"
-                      formControlName="password"/>
-        </form>
-        <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]"
-                   [disabled]="loading()"
-                   (onClick)="login()">
-          {{ loading() ? 'Duke u identifikuar...' : 'Login' }}
-        </se-button>
+              <se-input type="password"
+                        fontStyle="text-[18px] text-white font-medium"
+                        bgColor="bg-se-jungle bg-opacity-20 mb-12"
+                        radius="rounded-[10px]" [placeholder]="'auth.password' | translate"
+                        [border]="this.loginForm.controls['password'].dirty && this.loginForm.controls['password'].invalid ? 'border-2 border-red-600' : ''"
+                        formControlName="password"/>
+          </form>
+          <se-button text="text-white text-[18px] font-medium" radius="rounded-[15px]"
+                     [disabled]="loading()"
+                     (onClick)="login()">
+            {{ loading() ? ('auth.loggingIn' | translate) : ('auth.login' | translate) }}
+          </se-button>
+      </div>
     </div>
   </div>
 </div>

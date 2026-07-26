@@ -1,11 +1,27 @@
-<div class="relative w-screen h-screen overflow-auto">
-  <router-outlet></router-outlet>
-  <div class="bg-white fixed h-[64px] inset-x-0 bottom-0 bar-shadow z-50 flex flex-row items-center justify-around">
+<div class="relative w-screen h-screen overflow-hidden lg:flex lg:flex-row">
+
+  <!-- Desktop sidebar nav -->
+  <aside class="hidden lg:flex lg:flex-col lg:items-center lg:w-[96px] lg:h-screen lg:shrink-0 lg:bg-white lg:border-r lg:border-dash-border lg:py-8 lg:gap-3">
+    <div class="w-11 h-11 rounded-2xl bg-se-green flex items-center justify-center text-se-lime font-bold text-lg mb-6 select-none">S</div>
     @for (tab of Tabs; track tab.label) {
-      <div class="h-full flex flex-col items-center justify-center" (click)="goToTab(tab)">
-        <img appAnimateOnClick behaviour="bounce" [src]=" tab.label === (activeTab$ | async) ? tab.iconActive : tab.iconInactive " [alt]="tab.label"
-             class="h-[32px]">
-      </div>
+      <button
+        class="w-14 h-14 rounded-2xl flex items-center justify-center transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-dash-green"
+        [class]="tab.label === (activeTab$ | async) ? 'bg-dash-green-bg' : 'hover:bg-gray-100'"
+        (click)="goToTab(tab)">
+        <img [src]="tab.label === (activeTab$ | async) ? tab.iconActive : tab.iconInactive" [alt]="tab.label" class="h-[26px]">
+      </button>
     }
+  </aside>
+
+  <div class="relative w-full h-screen overflow-auto lg:flex-1">
+    <router-outlet></router-outlet>
+    <div class="bg-white fixed h-[64px] inset-x-0 bottom-0 bar-shadow z-50 flex flex-row items-center justify-around lg:hidden">
+      @for (tab of Tabs; track tab.label) {
+        <div class="h-full flex flex-col items-center justify-center" (click)="goToTab(tab)">
+          <img appAnimateOnClick behaviour="bounce" [src]=" tab.label === (activeTab$ | async) ? tab.iconActive : tab.iconInactive " [alt]="tab.label"
+               class="h-[32px]">
+        </div>
+      }
+    </div>
   </div>
 </div>

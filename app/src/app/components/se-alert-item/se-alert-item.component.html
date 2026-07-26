@@ -13,9 +13,9 @@
       <span class="text-[11px] text-gray-400 flex-shrink-0">{{ timeAgo() }}</span>
     </div>
     <p class="text-[13px] text-gray-500 mt-0.5 leading-snug">
-      {{ sensorLabel() }} {{ operatorLabel() }} threshold:
+      {{ sensorLabel() }} {{ operatorLabel() }} {{ 'greenhouse.threshold' | translate }}:
       <span class="font-semibold text-gray-700">{{ formattedValue() }}</span>
-      (threshold: {{ formattedThreshold() }})
+      ({{ 'greenhouse.threshold' | translate }}: {{ formattedThreshold() }})
     </p>
   </div>
 

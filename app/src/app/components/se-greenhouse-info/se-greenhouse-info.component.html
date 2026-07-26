@@ -2,7 +2,7 @@
   <div class="h-full flex flex-col items-start justify-between">
     <div class="flex flex-col items-start justify-start">
       <se-title size="text-[20px] tracking-tight" weight="font-medium" color="text-black">{{ greenhouse().name }}</se-title>
-      <se-location-label [location]="greenhouse().location ?? 'Pa vendndodhje'"/>
+      <se-location-label [location]="greenhouse().location ?? ('common.noLocation' | translate)"/>
     </div>
   </div>
   <se-card height="h-full aspect-square" width="w-[120px]" bgColor="bg-cover"

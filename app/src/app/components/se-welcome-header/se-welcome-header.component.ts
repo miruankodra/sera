@@ -1,11 +1,13 @@
 import {Component, input} from '@angular/core';
 import {SeTitleComponent} from "../shared/se-title/se-title.component";
+import {TranslatePipe} from "../../pipes/translate.pipe";
 
 @Component({
   selector: 'se-welcome-header',
   standalone: true,
   imports: [
-    SeTitleComponent
+    SeTitleComponent,
+    TranslatePipe,
   ],
   templateUrl: './se-welcome-header.component.html',
   styleUrl: './se-welcome-header.component.scss'

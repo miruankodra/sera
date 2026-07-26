@@ -1,29 +1,35 @@
-<div class="relative w-full h-screen flex flex-col items-center overflow-scroll px-5 pt-40 pb-[80px] snap-mandatory snap-y" (scroll)="fadeIOHeader($event)">
-  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[400px] bg-se-green z-0"></div>
-  <div #header class="transition-all ease-linear fixed top-8 left-5 w-full h-[150px] flex flex-col items-start justify-start">
+<div class="relative w-full h-screen flex flex-col items-center overflow-scroll px-5 pt-40 pb-[80px] snap-mandatory snap-y
+            lg:items-stretch lg:snap-none lg:pt-0 lg:pb-16 lg:px-0 lg:bg-dash-bg" (scroll)="fadeIOHeader($event)">
+  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[400px] bg-se-green z-0 lg:hidden"></div>
+  <div #header class="transition-all ease-linear fixed top-8 left-5 w-full h-[150px] flex flex-col items-start justify-start z-10
+              lg:relative lg:top-0 lg:left-0 lg:h-auto lg:px-10 lg:pt-8 lg:pb-4 lg:mb-4 lg:border-b lg:border-dash-border">
     <se-welcome-header [username]="username()"/>
     <se-date/>
   </div>
 
   @if (loading()) {
-    @for (i of [1,2,3]; track i) {
-      <div class="relative z-50 w-full snap-normal snap-center mb-5">
-        <div class="w-full bg-white p-5 rounded-[20px] animate-pulse">
-          <div class="w-full h-[150px] bg-gray-200 rounded-[20px] mb-5"></div>
-          <div class="h-5 bg-gray-200 rounded w-2/3 mb-2"></div>
-          <div class="h-4 bg-gray-100 rounded w-1/3"></div>
+    <div class="w-full lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6 lg:px-10 lg:relative lg:z-10">
+      @for (i of [1,2,3]; track i) {
+        <div class="relative z-50 w-full snap-normal snap-center mb-5 lg:mb-0">
+          <div class="w-full bg-white p-5 rounded-[20px] animate-pulse">
+            <div class="w-full h-[150px] bg-gray-200 rounded-[20px] mb-5"></div>
+            <div class="h-5 bg-gray-200 rounded w-2/3 mb-2"></div>
+            <div class="h-4 bg-gray-100 rounded w-1/3"></div>
+          </div>
         </div>
-      </div>
-    }
+      }
+    </div>
   } @else {
-    @for (greenhouse of greenhouses(); track greenhouse.id) {
-      <div class="relative z-50 w-full snap-normal snap-center mb-5">
-        <se-greenhouse-card [greenhouseInfo]="greenhouse"/>
-      </div>
-    }
+    <div class="w-full lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-6 lg:px-10 lg:relative lg:z-10">
+      @for (greenhouse of greenhouses(); track greenhouse.id) {
+        <div class="relative z-50 w-full snap-normal snap-center mb-5 lg:mb-0">
+          <se-greenhouse-card [greenhouseInfo]="greenhouse"/>
+        </div>
+      }
+    </div>
     @if (greenhouses().length === 0) {
       <div class="relative z-50 w-full flex flex-col items-center justify-center mt-10">
-        <p class="text-gray-400 text-[16px]">You have no greenhouses yet.</p>
+        <p class="text-gray-400 lg:text-dash-muted text-[16px] lg:text-[14px]">{{ 'home.noGreenhouses' | translate }}</p>
       </div>
     }
   }

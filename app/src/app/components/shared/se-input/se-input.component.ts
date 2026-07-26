@@ -47,8 +47,6 @@ export class SeInputComponent {
     this.onTouched = fn;
   }
 
-  // setDisabledState?(isDisabled: boolean): void {}
-
   onInputChange(event: Event): void {
     const inputValue = (event.target as HTMLInputElement).value;
     this.onInput.emit(inputValue);

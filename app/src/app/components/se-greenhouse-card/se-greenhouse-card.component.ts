@@ -5,6 +5,7 @@ import {GreenhouseDto} from "../../models/greenhouse-dto";
 import { AnimateOnClickDirective } from '../../directives/animateOnClick.directive';
 import {ModalService} from "../../services/modal.service";
 import {GreenhouseComponent} from "../../pages/greenhouse/greenhouse.component";
+import {TranslatePipe} from "../../pipes/translate.pipe";
 
 @Component({
   selector: 'se-greenhouse-card',
@@ -12,7 +13,8 @@ import {GreenhouseComponent} from "../../pages/greenhouse/greenhouse.component";
   imports: [
     SeTitleComponent,
     SeLocationLabelComponent,
-    AnimateOnClickDirective
+    AnimateOnClickDirective,
+    TranslatePipe,
   ],
   templateUrl: './se-greenhouse-card.component.html',
   styleUrl: './se-greenhouse-card.component.scss'

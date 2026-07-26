@@ -13,6 +13,19 @@
   border-top-right-radius: 500% 80%;
 }
 
+@media (min-width: 1024px) {
+  .curved-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
 .box-shadow {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 1024px) {
+  .box-shadow {
+    box-shadow: none;
+  }
 }

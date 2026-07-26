@@ -18,7 +18,26 @@ import {AlertService} from '../../services/alert.service';
 import {AutomationRuleService} from '../../services/automation-rule.service';
 import {WebSocketService} from '../../services/web-socket.service';
 import {ToastService} from '../../services/toast.service';
+import {HttpService} from '../../services/http.service';
+import {ModalService} from '../../services/modal.service';
+import {TranslationService} from '../../services/translation.service';
+import {TranslatePipe} from '../../pipes/translate.pipe';
 import {Subscription} from 'rxjs';
+
+type ChartRange = '24h' | '7d' | '30d';
+
+interface ScheduleEntry {
+  title: string;
+  recurring: 'daily' | 'weekly' | 'custom' | 'once';
+  time: string;
+}
+
+interface ApiTaskLike {
+  title: string;
+  type: string;
+  payload: Record<string, unknown>;
+  scheduled_at: string;
+}
 
 interface RuleForm {
   sensor_id: number | null;
@@ -54,6 +73,7 @@ const DEVICE_EMOJIS: Record<string, string> = {
     SePanelTabComponent,
     SeControlCardComponent,
     SeAlertItemComponent,
+    TranslatePipe,
   ],
   templateUrl: './greenhouse.component.html',
   styleUrl: './greenhouse.component.scss',
@@ -67,6 +87,9 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
   private _ruleService      = inject(AutomationRuleService);
   private _wsService        = inject(WebSocketService);
   private _toastService     = inject(ToastService);
+  private _httpService      = inject(HttpService);
+  private _modalService     = inject(ModalService);
+  private _translation      = inject(TranslationService);
   private _subs: Subscription[] = [];
 
   stats   = signal<GhStatisticsDto[]>([]);
@@ -83,8 +106,39 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
     sensor_id: null, operator: 'gt', threshold: '', device_id: null, action: 'turn_on',
   });
 
+  // Desktop dashboard state
+  readonly chartRanges: ChartRange[] = ['24h', '7d', '30d'];
+  alertFilter   = signal<'all' | 'critical'>('all');
+  chartRange    = signal<ChartRange>('7d');
+  sensorValues  = signal<Record<number, number>>({});
+  sensorTrends  = signal<Record<number, number[]>>({});
+  lastSyncedAt  = signal<string | null>(null);
+  scheduleEntries = signal<ScheduleEntry[]>([]);
+  private _deviceModeOverrides = signal<Record<number, 'auto' | 'manual'>>({});
+
   readonly sensorMap = computed(() => new Map(this.sensors().map(s => [s.id, s])));
   readonly deviceMap = computed(() => new Map(this.devices().map(d => [d.id, d])));
+
+  readonly isOnline = computed(() => this.sensors().some(s => s.is_active));
+
+  readonly uptimePct = computed(() => {
+    const total = this.sensors().length;
+    if (total === 0) return 100;
+    return Math.round((this.sensors().filter(s => s.is_active).length / total) * 100);
+  });
+
+  readonly filteredAlerts = computed(() =>
+    this.alertFilter() === 'critical'
+      ? this.alerts().filter(a => this.alertSeverity(a) === 'critical')
+      : this.alerts()
+  );
+
+  private readonly SENSOR_DEFAULTS: Record<string, { threshold: number; direction: 'over' | 'under' }> = {
+    temperature:   { threshold: 28,  direction: 'over' },
+    humidity:      { threshold: 85,  direction: 'over' },
+    soil_moisture: { threshold: 35,  direction: 'under' },
+    light:         { threshold: 500, direction: 'under' },
+  };
 
   readonly selectedSensorUnit = computed(() => {
     const id = this.ruleForm().sensor_id;
@@ -113,7 +167,11 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
     this.devices.set(devices);
     this.alerts.set(alerts);
     this.rules.set(rules);
-    await this._buildStats(sensors);
+    await Promise.all([
+      this._buildStats(sensors),
+      this._loadSensorTrends(),
+      this._loadSchedule(id),
+    ]);
     this.loading.set(false);
 
     await this._wsService.subscribe(id);
@@ -125,7 +183,9 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
     this._subs.forEach(s => s.unsubscribe());
   }
 
-  // ── Device control ──────────────────────────────────────────────────────────
+  goBack(): void {
+    this._modalService.close();
+  }
 
   async sendCommand(device: DeviceDto, isOn: boolean): Promise<void> {
     this.devices.update(list => list.map(d => d.id === device.id ? {...d, status: isOn} : d));
@@ -134,11 +194,9 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
       this.devices.update(list => list.map(d => d.id === updated.id ? updated : d));
     } catch {
       this.devices.update(list => list.map(d => d.id === device.id ? {...d, status: !isOn} : d));
-      await this._toastService.fireToast('Command could not be sent. Please try again.');
+      await this._toastService.fireToast(this._translation.translate('greenhouse.commandFailed'));
     }
   }
-
-  // ── Alerts ──────────────────────────────────────────────────────────────────
 
   async markAlertRead(alert: AlertDto): Promise<void> {
     if (alert.is_read) return;
@@ -152,7 +210,10 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
     return this.alerts().filter(a => !a.is_read).length;
   }
 
-  // ── Automation rules ─────────────────────────────────────────────────────────
+  alertsTabTitle(): string {
+    const label = this._translation.translate('greenhouse.alerts');
+    return this.unreadCount() > 0 ? `${label} (${this.unreadCount()})` : label;
+  }
 
   openRuleSheet(): void {
     this.ruleForm.set({sensor_id: null, operator: 'gt', threshold: '', device_id: null, action: 'turn_on'});
@@ -202,7 +263,7 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
       this.rules.update(list => [...list, rule]);
       this.closeRuleSheet();
     } catch {
-      await this._toastService.fireToast('Could not create rule. Please try again.');
+      await this._toastService.fireToast(this._translation.translate('greenhouse.ruleFailed'));
     } finally {
       this.savingRule.set(false);
     }
@@ -227,10 +288,20 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ── Display helpers ──────────────────────────────────────────────────────────
-
   sensorEmoji(type: string): string {
     return SENSOR_EMOJIS[type] ?? '📊';
+  }
+
+  sensorTypeLabel(type: string): string {
+    return this._translation.translate(`sensorTypes.${type}`);
+  }
+
+  deviceTypeLabel(type: string): string {
+    return this._translation.translate(`deviceTypes.${type}`);
+  }
+
+  frequencyLabel(recurring: ScheduleEntry['recurring']): string {
+    return this._translation.translate(`greenhouse.frequency.${recurring}`);
   }
 
   sensorColors(type: string): { bg: string; text: string; pill: string } {
@@ -247,14 +318,123 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
   }
 
   actionLabel(action: string): string {
-    return action === 'turn_on' ? 'Turn On' : 'Turn Off';
+    return this._translation.translate(action === 'turn_on' ? 'greenhouse.turnOn' : 'greenhouse.turnOff');
   }
 
   deviceIcon(type: string, isOn: boolean): string {
     return isOn ? 'bulb.svg' : 'bulb-outline.svg';
   }
 
-  // ── Private ──────────────────────────────────────────────────────────────────
+  // --- Desktop dashboard: alerts ---
+
+  alertSeverity(alert: AlertDto): 'critical' | 'warning' {
+    return alert.sensor_type === 'temperature' || alert.sensor_type === 'humidity' ? 'critical' : 'warning';
+  }
+
+  setAlertFilter(filter: 'all' | 'critical'): void {
+    this.alertFilter.set(filter);
+  }
+
+  // --- Desktop dashboard: sensors ---
+
+  sensorThreshold(sensor: SensorDto): { threshold: number; direction: 'over' | 'under' } {
+    const rule = this.rules().find(r => r.trigger_sensor_id === sensor.id);
+    if (rule) {
+      return {
+        threshold: Number(rule.threshold),
+        direction: (rule.operator === 'gt' || rule.operator === 'gte') ? 'over' : 'under',
+      };
+    }
+    return this.SENSOR_DEFAULTS[sensor.type] ?? {threshold: 0, direction: 'over'};
+  }
+
+  sensorValueDisplay(sensor: SensorDto): string {
+    const value = this.sensorValues()[sensor.id];
+    return value === undefined ? '—' : (Math.round(value * 10) / 10).toString();
+  }
+
+  sensorIsCritical(sensor: SensorDto): boolean {
+    const value = this.sensorValues()[sensor.id];
+    if (value === undefined) return false;
+    const t = this.sensorThreshold(sensor);
+    return t.direction === 'over' ? value > t.threshold : value < t.threshold;
+  }
+
+  sensorDeltaLabel(sensor: SensorDto): string {
+    const value = this.sensorValues()[sensor.id];
+    if (value === undefined) return '';
+    const t = this.sensorThreshold(sensor);
+    const diff = value - t.threshold;
+    const sign = diff > 0 ? '+' : '';
+    return this._translation.translate('greenhouse.vsThreshold', {
+      diff: `${sign}${diff.toFixed(1)}${sensor.unit}`,
+      value: `${t.threshold}${sensor.unit}`,
+    });
+  }
+
+  sparklinePoints(sensorId: number): string {
+    const values = this.sensorTrends()[sensorId] ?? [];
+    if (values.length === 0) return '';
+    const min = Math.min(...values), max = Math.max(...values);
+    const range = max - min || 1;
+    const w = 160, h = 36, step = w / (values.length - 1 || 1);
+    return values.map((v, i) => `${(i * step).toFixed(1)},${(h - ((v - min) / range) * h).toFixed(1)}`).join(' ');
+  }
+
+  async setChartRange(range: ChartRange): Promise<void> {
+    this.chartRange.set(range);
+    await this._loadSensorTrends();
+  }
+
+  // --- Desktop dashboard: manual control ---
+
+  deviceModeFor(device: DeviceDto): 'auto' | 'manual' {
+    const overrides = this._deviceModeOverrides();
+    if (device.id in overrides) return overrides[device.id];
+    return this.rules().some(r => r.is_active && r.action_device_id === device.id) ? 'auto' : 'manual';
+  }
+
+  toggleDeviceMode(device: DeviceDto): void {
+    const next = this.deviceModeFor(device) === 'auto' ? 'manual' : 'auto';
+    this._deviceModeOverrides.update(m => ({...m, [device.id]: next}));
+  }
+
+  deviceRuntimeText(device: DeviceDto): string {
+    if (!device.last_commanded_at) {
+      return device.status ? this._translation.translate('greenhouse.running') : this._translation.translate('common.off');
+    }
+    const mins = Math.max(0, Math.floor((Date.now() - new Date(device.last_commanded_at).getTime()) / 60000));
+    const h = Math.floor(mins / 60), m = mins % 60;
+    const dur = h > 0 ? `${h}h ${m}m` : `${m}m`;
+    return device.status
+      ? this._translation.translate('greenhouse.runningFor', {duration: dur})
+      : this._translation.translate('greenhouse.offIdle', {duration: dur});
+  }
+
+  // --- Desktop dashboard: misc ---
+
+  timeAgo(dateStr: string): string {
+    const mins = Math.floor((Date.now() - new Date(dateStr).getTime()) / 60000);
+    if (mins < 1) return this._translation.translate('common.justNow');
+    if (mins < 60) return this._translation.translate('common.minutesAgo', {count: mins});
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return this._translation.translate('common.hoursAgo', {count: hours});
+    return this._translation.translate('common.daysAgo', {count: Math.floor(hours / 24)});
+  }
+
+  activeAlertsLabel(): string {
+    const count = this.unreadCount();
+    const key = count === 1 ? 'greenhouse.activeAlertOne' : 'greenhouse.activeAlertOther';
+    return `${count} ${this._translation.translate(key)}`;
+  }
+
+  sensorsDevicesSummary(): string {
+    const sensorCount = this.sensors().length;
+    const deviceCount = this.devices().length;
+    const sensorWord = this._translation.translate(sensorCount === 1 ? 'greenhouse.sensorOne' : 'greenhouse.sensorOther');
+    const deviceWord = this._translation.translate(deviceCount === 1 ? 'greenhouse.deviceOne' : 'greenhouse.deviceOther');
+    return `${sensorCount} ${sensorWord} · ${deviceCount} ${deviceWord}`;
+  }
 
   private async _buildStats(sensors: SensorDto[]): Promise<void> {
     this._sensorMeta.clear();
@@ -269,6 +449,55 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
         value: reading ? `${Math.round(Number(reading.value))} ${sensor.unit}` : '—',
       };
     }));
+
+    const values: Record<number, number> = {};
+    let latestTs: string | null = null;
+    for (const {sensor, reading} of withReadings) {
+      if (!reading) continue;
+      values[sensor.id] = Number(reading.value);
+      if (!latestTs || new Date(reading.recorded_at) > new Date(latestTs)) latestTs = reading.recorded_at;
+    }
+    this.sensorValues.set(values);
+    this.lastSyncedAt.set(latestTs);
+  }
+
+  private async _loadSensorTrends(): Promise<void> {
+    const days = this.chartRange() === '24h' ? 1 : this.chartRange() === '7d' ? 7 : 30;
+    const to = new Date();
+    const from = new Date(to.getTime() - days * 24 * 60 * 60 * 1000);
+
+    const entries = await Promise.all(
+      this.sensors().map(async sensor => {
+        const readings = await this._sensorService.getReadings(sensor.id, from, to);
+        return [sensor.id, this._downsample(readings.map(r => Number(r.value)), 8)] as const;
+      })
+    );
+    this.sensorTrends.set(Object.fromEntries(entries));
+  }
+
+  private _downsample(values: number[], points: number): number[] {
+    if (values.length <= points) return values;
+    const step = values.length / points;
+    return Array.from({length: points}, (_, i) => values[Math.floor(i * step)]);
+  }
+
+  private async _loadSchedule(greenhouseId: number): Promise<void> {
+    try {
+      const response = await this._httpService.get<{ data: ApiTaskLike[] }>(`greenhouses/${greenhouseId}/tasks`);
+      const entries = response.data
+        .filter(t => t.type === 'system_command')
+        .map(t => {
+          const d = new Date(t.scheduled_at);
+          const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+          const recurringRaw = t.payload?.['recurring'] as string | undefined;
+          const recurring: ScheduleEntry['recurring'] =
+            recurringRaw === 'daily' || recurringRaw === 'weekly' || recurringRaw === 'custom' ? recurringRaw : 'once';
+          return {title: t.title, recurring, time};
+        });
+      this.scheduleEntries.set(entries);
+    } catch {
+      this.scheduleEntries.set([]);
+    }
   }
 
   private _bindWsEvents(): void {
@@ -300,7 +529,7 @@ export class GreenhouseComponent implements OnInit, OnDestroy {
           created_at: new Date().toISOString(),
         };
         this.alerts.update(list => [newAlert, ...list]);
-        await this._toastService.fireToast(`⚠️ Alert: ${event.sensor_type} threshold breached`);
+        await this._toastService.fireToast(this._translation.translate('greenhouse.alertToast', {type: event.sensor_type}));
       }),
     );
   }

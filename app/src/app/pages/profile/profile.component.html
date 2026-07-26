@@ -1,108 +1,112 @@
-<div class="relative w-full min-h-screen flex flex-col items-center overflow-y-auto pb-[100px]">
+<div class="relative w-full min-h-screen flex flex-col items-center overflow-y-auto pb-[100px] lg:pb-16 lg:bg-dash-bg">
 
-  <!-- Green arc header -->
-  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[300px] bg-se-green z-0"></div>
+  <!-- Mobile decorative backdrop -->
+  <div class="fixed top-[-100px] w-[100vh] rounded-[100%] h-[500px] bg-se-green z-0 lg:hidden"></div>
 
-  <!-- Avatar + name -->
+  <!-- Desktop banner -->
+  <div class="hidden lg:block lg:absolute lg:inset-x-0 lg:top-0 lg:h-96 lg:bg-se-green lg:rounded-b-[48px] lg:z-0"></div>
+
   @if (loading()) {
-    <div class="relative w-full flex flex-col items-center justify-center z-50 pt-36 animate-pulse">
+    <div class="relative w-full flex flex-col items-center justify-center z-50 pt-36 lg:pt-20 animate-pulse">
       <div class="size-[128px] rounded-full bg-white/20 mb-3"></div>
       <div class="h-6 bg-white/20 rounded-full w-40 mb-2"></div>
       <div class="h-4 bg-white/10 rounded-full w-24"></div>
     </div>
   } @else {
-    <div class="relative w-full flex flex-col items-center z-10 pt-36 pb-6">
+    <div class="relative w-full flex flex-col items-center z-10 pt-36 pb-6 lg:pt-20 lg:pb-10">
       <div class="absolute w-[120px] h-[120px] bg-white/20 rounded-full blur-3xl"></div>
       <img
         [src]="avatarUrl()"
-        [alt]="user()?.name ?? 'User'"
+        [alt]="user()?.name ?? ('profile.defaultUserName' | translate)"
         class="size-[112px] rounded-full object-cover z-10 ring-4 ring-white/30 shadow-lg"/>
       <p class="mt-3 text-[22px] font-bold text-white z-10">{{ user()?.name }}</p>
       <p class="text-[14px] text-white/60 z-10">{{ user()?.email }}</p>
 
-      <!-- Greenhouses count badge -->
       <div class="mt-3 px-4 py-1.5 bg-white/10 rounded-full z-10">
         <p class="text-[12px] text-white/80 font-medium">
-          {{ user()?.greenhouses_count ?? 0 }} greenhouse{{ (user()?.greenhouses_count ?? 0) !== 1 ? 's' : '' }}
+          {{ user()?.greenhouses_count ?? 0 }} {{ (user()?.greenhouses_count ?? 0) === 1 ? ('profile.greenhouseOne' | translate) : ('profile.greenhouseOther' | translate) }}
         </p>
       </div>
     </div>
   }
 
-  <!-- Content cards -->
-  <div class="w-full px-5 space-y-4 z-10">
+  <div class="w-full px-5 space-y-4 z-10 lg:max-w-4xl lg:mx-auto">
 
-    <!-- Account section -->
-    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Account</p>
+    <div class="lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start space-y-4 lg:space-y-0">
 
-      <button
-        class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-100"
-        (click)="openEditSheet()">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-[#1A9E78]/10 flex items-center justify-center text-base">✏️</div>
-          <span class="text-[14px] font-medium text-gray-700">Edit Profile</span>
-        </div>
-        <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-        </svg>
-      </button>
+      <div class="bg-white rounded-2xl shadow-sm overflow-hidden lg:shadow-none lg:border lg:border-dash-border-soft">
+        <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 lg:text-dash-muted uppercase tracking-wider">{{ 'profile.account' | translate }}</p>
 
-      <button
-        class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
-        (click)="openPasswordSheet()">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center text-base">🔒</div>
-          <span class="text-[14px] font-medium text-gray-700">Change Password</span>
-        </div>
-        <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Notifications section -->
-    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Notifications</p>
-
-      @for (row of notifRows(); track row.key; let last = $last) {
-        <div class="flex items-center justify-between px-4 py-3.5 border-gray-100"
-             [class.border-b]="!last">
+        <button
+          class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-100 lg:border-dash-border-soft"
+          (click)="openEditSheet()">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">{{ row.emoji }}</div>
-            <div>
-              <p class="text-[13px] font-medium text-gray-700 leading-tight">{{ row.label }}</p>
-              <p class="text-[11px] text-gray-400 leading-tight">{{ row.desc }}</p>
-            </div>
+            <div class="w-8 h-8 rounded-xl bg-[#1A9E78]/10 lg:bg-dash-green-bg flex items-center justify-center text-base">✏️</div>
+            <span class="text-[14px] font-medium text-gray-700 lg:text-dash-text">{{ 'profile.editProfile' | translate }}</span>
           </div>
-          <button
-            class="w-11 h-6 rounded-full relative transition-colors duration-200 flex-shrink-0"
-            [class]="row.value ? 'bg-[#1A9E78]' : 'bg-gray-200'"
-            (click)="toggleNotif(row.key)">
-            <span
-              class="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
-              [class]="row.value ? 'translate-x-6' : 'translate-x-1'">
-            </span>
-          </button>
+          <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <button
+          class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-100 lg:border-dash-border-soft"
+          (click)="openPasswordSheet()">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center text-base">🔒</div>
+            <span class="text-[14px] font-medium text-gray-700 lg:text-dash-text">{{ 'profile.changePassword' | translate }}</span>
+          </div>
+          <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <div class="w-full flex items-center justify-between px-4 py-3.5">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">🌐</div>
+            <span class="text-[14px] font-medium text-gray-700 lg:text-dash-text">{{ 'profile.language' | translate }}</span>
+          </div>
+          <se-language-switch (localeChanged)="onLanguageChanged($event)"/>
         </div>
-      }
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm overflow-hidden lg:shadow-none lg:border lg:border-dash-border-soft">
+        <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 lg:text-dash-muted uppercase tracking-wider">{{ 'profile.notifications' | translate }}</p>
+
+        @for (row of notifRows(); track row.key; let last = $last) {
+          <div class="flex items-center justify-between px-4 py-3.5 border-gray-100 lg:border-dash-border-soft"
+               [class.border-b]="!last">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">{{ row.emoji }}</div>
+              <div>
+                <p class="text-[13px] font-medium text-gray-700 lg:text-dash-text leading-tight">{{ row.label }}</p>
+                <p class="text-[11px] text-gray-400 lg:text-dash-muted leading-tight">{{ row.desc }}</p>
+              </div>
+            </div>
+            <button
+              class="w-11 h-6 rounded-full relative transition-colors duration-200 flex-shrink-0"
+              [class]="row.value ? 'bg-[#1A9E78] lg:bg-dash-green' : 'bg-gray-200'"
+              (click)="toggleNotif(row.key)">
+              <span
+                class="absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
+                [class]="row.value ? 'translate-x-6' : 'translate-x-1'">
+              </span>
+            </button>
+          </div>
+        }
+      </div>
+
     </div>
 
-    <!-- More section -->
-    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">More</p>
-      @for (item of [
-        {label: 'Terms & Conditions', emoji: '📄'},
-        {label: 'Privacy Policy',     emoji: '🛡️'},
-        {label: 'Rate This App',      emoji: '⭐'}
-      ]; track item.label; let last = $last) {
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden lg:shadow-none lg:border lg:border-dash-border-soft">
+      <p class="px-4 pt-4 pb-2 text-[11px] font-bold text-gray-400 lg:text-dash-muted uppercase tracking-wider">{{ 'profile.more' | translate }}</p>
+      @for (item of moreItems(); track item.label; let last = $last) {
         <button
           class="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
-          [class.border-b]="!last"
-          [class.border-gray-100]="!last">
+          [class]="!last ? 'border-b border-gray-100 lg:border-dash-border-soft' : ''">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base">{{ item.emoji }}</div>
-            <span class="text-[14px] font-medium text-gray-500">{{ item.label }}</span>
+            <span class="text-[14px] font-medium text-gray-500 lg:text-dash-text2">{{ item.label }}</span>
           </div>
           <svg class="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
@@ -111,81 +115,82 @@
       }
     </div>
 
-    <!-- Log out -->
     <button
-      class="w-full bg-white rounded-2xl shadow-sm py-4 flex items-center justify-center gap-2 text-red-500 font-semibold text-[14px]"
+      class="w-full bg-white rounded-2xl shadow-sm py-4 flex items-center justify-center gap-2 text-red-500 lg:text-dash-red font-semibold text-[14px]"
       (click)="logout()">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
       </svg>
-      Log Out
+      {{ 'profile.logOut' | translate }}
     </button>
 
   </div>
 </div>
 
-<!-- ── Edit Profile Sheet ───────────────────────────────────────────────────── -->
 @if (showEditSheet()) {
   <div class="fixed inset-0 bg-black/40 z-40" (click)="showEditSheet.set(false)"></div>
-  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl">
-    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
-    <h3 class="text-[17px] font-bold text-gray-800 mb-5">Edit Profile</h3>
+  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl
+              lg:bottom-auto lg:right-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2
+              lg:w-full lg:max-w-md lg:rounded-3xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5 lg:hidden"></div>
+    <h3 class="text-[17px] font-bold text-gray-800 lg:text-dash-text mb-5">{{ 'profile.editProfile' | translate }}</h3>
 
     <div class="space-y-4">
       <div>
-        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Full Name</label>
+        <label class="text-[11px] font-semibold text-gray-400 lg:text-dash-muted uppercase tracking-wider block mb-1.5">{{ 'profile.fullName' | translate }}</label>
         <input
           type="text"
-          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 lg:text-dash-text focus:outline-none focus:ring-2 focus:ring-[#1A9E78] lg:focus:ring-dash-green"
           [value]="editForm().name"
           (input)="onEditName($event)"
-          placeholder="Your name"/>
+          [placeholder]="'profile.fullNamePlaceholder' | translate"/>
       </div>
       <div>
-        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Email</label>
+        <label class="text-[11px] font-semibold text-gray-400 lg:text-dash-muted uppercase tracking-wider block mb-1.5">{{ 'profile.email' | translate }}</label>
         <input
           type="email"
-          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 lg:text-dash-text focus:outline-none focus:ring-2 focus:ring-[#1A9E78] lg:focus:ring-dash-green"
           [value]="editForm().email"
           (input)="onEditEmail($event)"
-          placeholder="your@email.com"/>
+          [placeholder]="'profile.emailPlaceholder' | translate"/>
       </div>
     </div>
 
     <button
       class="w-full mt-6 py-4 rounded-2xl text-[15px] font-bold transition-colors"
-      [class]="editFormValid() ? 'bg-[#1A9E78] text-white' : 'bg-gray-100 text-gray-400'"
+      [class]="editFormValid() ? 'bg-[#1A9E78] text-white lg:bg-dash-green' : 'bg-gray-100 text-gray-400'"
       [disabled]="!editFormValid() || saving()"
       (click)="saveProfile()">
-      {{ saving() ? 'Saving…' : 'Save Changes' }}
+      {{ saving() ? ('common.saving' | translate) : ('profile.saveChanges' | translate) }}
     </button>
   </div>
 }
 
-<!-- ── Change Password Sheet ───────────────────────────────────────────────── -->
 @if (showPasswordSheet()) {
   <div class="fixed inset-0 bg-black/40 z-40" (click)="showPasswordSheet.set(false)"></div>
-  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl">
-    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5"></div>
-    <h3 class="text-[17px] font-bold text-gray-800 mb-5">Change Password</h3>
+  <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 px-5 pt-4 pb-8 shadow-2xl
+              lg:bottom-auto lg:right-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2
+              lg:w-full lg:max-w-md lg:rounded-3xl">
+    <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5 lg:hidden"></div>
+    <h3 class="text-[17px] font-bold text-gray-800 lg:text-dash-text mb-5">{{ 'profile.changePassword' | translate }}</h3>
 
     <div class="space-y-4">
       <div>
-        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Current Password</label>
+        <label class="text-[11px] font-semibold text-gray-400 lg:text-dash-muted uppercase tracking-wider block mb-1.5">{{ 'profile.currentPassword' | translate }}</label>
         <input type="password" placeholder="········"
-          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 lg:text-dash-text focus:outline-none focus:ring-2 focus:ring-[#1A9E78] lg:focus:ring-dash-green"
           (input)="onCurrentPassword($event)"/>
       </div>
       <div>
-        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">New Password</label>
-        <input type="password" placeholder="Min. 8 characters"
-          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+        <label class="text-[11px] font-semibold text-gray-400 lg:text-dash-muted uppercase tracking-wider block mb-1.5">{{ 'profile.newPassword' | translate }}</label>
+        <input type="password" [placeholder]="'profile.passwordMinChars' | translate"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 lg:text-dash-text focus:outline-none focus:ring-2 focus:ring-[#1A9E78] lg:focus:ring-dash-green"
           (input)="onNewPassword($event)"/>
       </div>
       <div>
-        <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Confirm New Password</label>
-        <input type="password" placeholder="Repeat new password"
-          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#1A9E78]"
+        <label class="text-[11px] font-semibold text-gray-400 lg:text-dash-muted uppercase tracking-wider block mb-1.5">{{ 'profile.confirmNewPassword' | translate }}</label>
+        <input type="password" [placeholder]="'profile.repeatNewPassword' | translate"
+          class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-gray-700 lg:text-dash-text focus:outline-none focus:ring-2 focus:ring-[#1A9E78] lg:focus:ring-dash-green"
           (input)="onConfirmPassword($event)"/>
       </div>
 
@@ -194,16 +199,16 @@
       }
 
       @if (passwordForm().password && passwordForm().password !== passwordForm().password_confirmation) {
-        <p class="text-[12px] text-orange-400 text-center">Passwords do not match</p>
+        <p class="text-[12px] text-orange-400 text-center">{{ 'profile.passwordsDontMatch' | translate }}</p>
       }
     </div>
 
     <button
       class="w-full mt-6 py-4 rounded-2xl text-[15px] font-bold transition-colors"
-      [class]="passwordFormValid() ? 'bg-[#1A9E78] text-white' : 'bg-gray-100 text-gray-400'"
+      [class]="passwordFormValid() ? 'bg-[#1A9E78] text-white lg:bg-dash-green' : 'bg-gray-100 text-gray-400'"
       [disabled]="!passwordFormValid() || saving()"
       (click)="savePassword()">
-      {{ saving() ? 'Saving…' : 'Update Password' }}
+      {{ saving() ? ('common.saving' | translate) : ('profile.updatePassword' | translate) }}
     </button>
   </div>
 }

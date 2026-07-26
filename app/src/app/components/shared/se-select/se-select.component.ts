@@ -21,8 +21,6 @@ export class SeSelectComponent {
   optionColor = input<string>('text-white')
   linesColor = input<string>('border-white')
 
-  // options = input.required<SelectOptionsDto[]>();
-
   @Input() options: SelectOptionsDto[] = [];
 
   onSelect: OutputEmitterRef<string> = output<string>();

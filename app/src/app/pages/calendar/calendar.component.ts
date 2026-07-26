@@ -10,6 +10,8 @@ import {SeCalendarGridComponent} from '../../components/calendar/se-calendar-gri
 import {SeTodayStripComponent} from '../../components/calendar/se-today-strip/se-today-strip.component';
 import {SeTaskListComponent} from '../../components/calendar/se-task-list/se-task-list.component';
 import {SeSwitchComponent} from '../../components/shared/se-switch/se-switch.component';
+import {TranslationService} from '../../services/translation.service';
+import {TranslatePipe} from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-calendar',
@@ -21,6 +23,7 @@ import {SeSwitchComponent} from '../../components/shared/se-switch/se-switch.com
     SeTodayStripComponent,
     SeTaskListComponent,
     SeSwitchComponent,
+    TranslatePipe,
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
@@ -30,6 +33,7 @@ export class CalendarComponent implements OnInit {
   readonly XIcon = X;
 
   private readonly taskService = inject(TaskService);
+  private readonly _translation = inject(TranslationService);
 
   readonly greenhouses = this.taskService.greenhouses;
   readonly today = new Date();
@@ -58,6 +62,10 @@ export class CalendarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.taskService.loadTasks();
+  }
+
+  deviceTypeLabel(type: string): string {
+    return this._translation.translate(`deviceTypes.${type}`);
   }
 
   onDaySelected(date: Date): void {
@@ -189,7 +197,7 @@ export class CalendarComponent implements OnInit {
       notifications: [{
         id: this._taskIdToNotificationId(task.id),
         title: task.title,
-        body: task.note ?? 'Greenhouse reminder',
+        body: task.note ?? this._translation.translate('calendar.greenhouseReminder'),
         schedule: {at},
       }],
     });

@@ -1,5 +1,5 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
-import {DecimalPipe, TitleCasePipe} from '@angular/common';
+import {DecimalPipe} from '@angular/common';
 import {GreenhouseService} from '../../services/greenhouse.service';
 import {SensorService} from '../../services/sensor.service';
 import {AlertService} from '../../services/alert.service';
@@ -8,6 +8,8 @@ import {SensorDto, SensorReadingDto} from '../../models/sensor-dto';
 import {AlertDto} from '../../models/alert-dto';
 import {SeSensorChartComponent} from '../../components/se-sensor-chart/se-sensor-chart.component';
 import {HttpService} from '../../services/http.service';
+import {TranslationService} from '../../services/translation.service';
+import {TranslatePipe} from '../../pipes/translate.pipe';
 
 interface SensorReport {
   sensor: SensorDto;
@@ -37,7 +39,7 @@ const SENSOR_COLORS: Record<string, string> = {
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [SeSensorChartComponent, TitleCasePipe, DecimalPipe],
+  imports: [SeSensorChartComponent, DecimalPipe, TranslatePipe],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',
 })
@@ -46,6 +48,7 @@ export class ReportsComponent implements OnInit {
   private readonly _sensorService = inject(SensorService);
   private readonly _alertService = inject(AlertService);
   private readonly _http = inject(HttpService);
+  private readonly _translation = inject(TranslationService);
 
   readonly greenhouses = signal<GreenhouseDto[]>([]);
   readonly selectedGreenhouseId = signal<number | null>(null);
@@ -103,13 +106,18 @@ export class ReportsComponent implements OnInit {
     return map[op] ?? op;
   }
 
+  sensorTypeLabel(type: string): string {
+    return this._translation.translate(`sensorTypes.${type}`);
+  }
+
   timeAgo(iso: string): string {
     const diff = Date.now() - new Date(iso).getTime();
     const mins = Math.floor(diff / 60000);
-    if (mins < 60) return `${mins}m ago`;
+    if (mins < 1) return this._translation.translate('common.justNow');
+    if (mins < 60) return this._translation.translate('common.minutesAgo', {count: mins});
     const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h ago`;
-    return `${Math.floor(hrs / 24)}d ago`;
+    if (hrs < 24) return this._translation.translate('common.hoursAgo', {count: hrs});
+    return this._translation.translate('common.daysAgo', {count: Math.floor(hrs / 24)});
   }
 
   private async _loadReport(): Promise<void> {

@@ -4,6 +4,7 @@ import {SeLocationLabelComponent} from "../shared/se-location-label/se-location-
 import {SeCardComponent} from "../shared/se-card/se-card.component";
 import {ModalService} from "../../services/modal.service";
 import {GreenhouseDto} from "../../models/greenhouse-dto";
+import {TranslatePipe} from "../../pipes/translate.pipe";
 
 @Component({
   selector: 'se-greenhouse-info',
@@ -11,7 +12,8 @@ import {GreenhouseDto} from "../../models/greenhouse-dto";
   imports: [
     SeTitleComponent,
     SeLocationLabelComponent,
-    SeCardComponent
+    SeCardComponent,
+    TranslatePipe,
   ],
   templateUrl: './se-greenhouse-info.component.html',
   styleUrl: './se-greenhouse-info.component.scss'
